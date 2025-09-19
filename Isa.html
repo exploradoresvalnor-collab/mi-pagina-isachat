@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IsaChat | La Nueva Era de las Ventas</title>
+    
+    <!-- SEO y Meta Tags -->
+    <meta name="description" content="Automatiza tus ventas en WhatsApp con IsaChat, el asistente de IA que trabaja 24/7. Configuración rápida, fácil de usar y diseñado para convertir conversaciones en ventas.">
+    
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://isachat.com/">
+    <meta property="og:title" content="IsaChat | La Nueva Era de las Ventas en WhatsApp">
+    <meta property="og:description" content="Automatiza tus ventas en WhatsApp con IsaChat, el asistente de IA que trabaja 24/7.">
+    <meta property="og:image" content="https://i.ibb.co/HTvSqStw/Texto-Tu-historia.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://isachat.com/">
+    <meta property="twitter:title" content="IsaChat | La Nueva Era de las Ventas en WhatsApp">
+    <meta property="twitter:description" content="Automatiza tus ventas en WhatsApp con IsaChat, el asistente de IA que trabaja 24/7.">
+    <meta property="twitter:image" content="https://i.ibb.co/HTvSqStw/Texto-Tu-historia.png">
+
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        script-src 'self' 'unsafe-inline'; 
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
+        font-src 'self' https://fonts.gstatic.com;
+        img-src 'self' https: data: i.imgur.com i.ibb.co;
+        connect-src 'self' https://formspree.io;
+    ">
+    
+    <link rel="stylesheet" href="isa.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Schema.org para SEO Avanzado (Preguntas Frecuentes) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿Qué es IsaChat y qué planes ofrece?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "IsaChat es un agente social de inteligencia artificial que trabaja 24/7 en tu WhatsApp para automatizar ventas y atención al cliente. Ofrecemos planes Iniciador (hasta 10 productos), Escalador (hasta 25 productos) y Elite (hasta 50 productos)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Por qué se usan dos números de teléfono diferentes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Se usan para separar la operación de la administración. Un número es la línea pública para clientes y el otro es tu número privado (Admin) que funciona como control remoto para gestionar tu agente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Mi Agente ISA no responde, ¿qué hago?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Normalmente es por inactividad. En tu Dashboard, sigue la secuencia: Verificar Conexión, Reinicio Básico, y como última opción, Reinicio Completo."
+          }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="navbar container">
+            <a href="#hero" class="nav-logo">
+                <img src="IsaChatlogo.svg" alt="IsaChat Logo">
+            </a>
+            <nav class="nav-menu" id="nav-menu">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#clases" class="nav-link">Clases</a></li>
+                    <li class="nav-item"><a href="#faq" class="nav-link">Preguntas Frecuentes</a></li>
+                    <li class="nav-item"><a href="#prompt-base" class="nav-link">Aprende Prompt</a></li>
+                    <li class="nav-item-cta nav-item-cta-mobile"><a href="https://isachat.com/register" class="btn btn-solid" target="_blank" rel="noopener noreferrer">Registro</a></li>
+                </ul>
+            </nav>
+            <div class="nav-item-cta nav-item-cta-desktop">
+                <a href="https://isachat.com/register" class="btn btn-solid" target="_blank" rel="noopener noreferrer">Registro</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero" class="hero section">
+            <div class="hero-container container">
+                <div class="hero-text">
+                    <h1 class="hero-title">Centro de Recursos IsaChat</h1>
+                    <p class="hero-subtitle">Tu espacio de aprendizaje y soporte.</p>
+                    <p class="hero-description">Aquí encontrarás todas las clases grabadas, respuestas a preguntas frecuentes y la información que necesitas para dominar IsaChat.</p>
+                    <a href="#recursos" class="btn btn-hero">Explorar Recursos</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="recursos" class="section bg-light">
+            <div class="container">
+                <h2 class="section-title">Recursos Adicionales</h2>
+                <p class="section-subtitle dark-text">Accede a todas las grabaciones de las clases y encuentra respuestas a las preguntas más comunes para sacar el máximo provecho a IsaChat.</p>
+                <div class="resources-container">
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" data-tab="clases">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                            Clases grabadas Reto 7 en 1
+                        </button>
+                        <button class="tab-btn" data-tab="faq">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                            Preguntas Frecuentes
+                        </button>
+                    </div>
+                    <div class="tabs-content">
+                        <div class="tab-pane active" id="clases">
+                            <div class="accordion">
+                                <details class="accordion-item"><summary>Módulo 1: Fundamentos y Configuración (Clases 2-4)<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><ul class="accordion-content"><li><a href="https://drive.google.com/file/d/1Qb4UBfZtJFj0qLQjHe1v5ljIJzZFkBKT/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 2: Introducción y Configuración Inicial</a></li><li><a href="https://drive.google.com/file/d/1Xzr6RDfT5NKXgcc8oElYVhrM4q6Mt_NZ/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Clase 3: Estructura de Productos</a></li><li><a href="https://drive.google.com/file/d/1S4_WXV1EOdeKeXiEaS2mE9HnLu7BaXxn/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 4: Técnicas de Prompts</a></li></ul></details>
+                                <details class="accordion-item"><summary>Módulo 2: Estrategia de Ventas (Clases 5-8)<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><ul class="accordion-content"><li><a href="https://drive.google.com/file/d/1ok2Y1kFqIQCQtffCq7SMroKnjsHz188s/view" target="_blank" rel="noopener noreferrer">Clase 5: Optimización de Conversaciones</a></li><li><a href="https://drive.google.com/file/d/15gqHKL9lOmh56ZN4bQPOnQQclDpdfg9J/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 6: Integración con Isa Lab</a></li><li><a href="https://drive.google.com/file/d/1wvdZ-QVqjXkw1Tti2G4DnEXdHvUmKAbC/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 7: Análisis de Métricas</a></li><li><a href="https://drive.google.com/file/d/1PBAKXRqsI4JkEBsjl79YH-RSJyaKx02S/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 8: Soporte y Resolución de Problemas</a></li></ul></details>
+                                <details class="accordion-item"><summary>Módulo 3: Crecimiento y Expansión (Clases 9-12)<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><ul class="accordion-content"><li><a href="https://drive.google.com/file/d/1GsiV8JvTZzVJSt5tw95G5DQs4q_8uL3W/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Clase 9: Estrategias de Marketing</a></li><li><a href="https://drive.google.com/file/d/1T-Y8t6uLoW2JkVdhvJvYqu0P8kiga1zp/view?usp=drivesdk" target="_blank" rel="noopener noreferrer">Clase 10: Automatizaciones Avanzadas</a></li><li><a href="https://drive.google.com/file/d/1XJgfRt7OJ3OKVS5u6CFtNDrshvtz9L-f/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 11: Conviértete en Implementador</a></li><li><a href="https://drive.google.com/file/d/1mRRBOyn9f7gExLvlCk_OJoMKZh1QDBhu/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 12: Sesión Final de Q&A</a></li></ul></details>
+                                <details class="accordion-item"><summary>Módulo 4: Contenido Adicional (Clases 13-15)<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><ul class="accordion-content"><li><a href="https://drive.google.com/file/d/1-vQR5Bga4nImFXM_iwBLjFlIQGIfg75X/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 13: Novedades y Futuras Funciones</a></li><li><a href="https://drive.google.com/file/d/1Iiw5sgGmoW4-hJsKJqVNH9edlKA647D8/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 14: Casos de Éxito</a></li><li><a href="https://drive.google.com/file/d/1JIZ7LaZmKaAZOrSQtPkLEV0fdH9AtTjv/view?usp=sharing" target="_blank" rel="noopener noreferrer">Clase 15: Estrategia para Creación de Contenido e Instagram Ads</a></li></ul></details>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="faq">
+                            <div class="accordion">
+                                <h3 class="accordion-category">🚀 Introducción y Planes</h3>
+                                <details class="accordion-item"><summary>¿Qué es IsaChat y qué planes ofrece?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">IsaChat es un agente social de inteligencia artificial que trabaja 24/7 en tu WhatsApp para automatizar ventas y atención al cliente. Al registrarte, puedes elegir entre tres planes según la cantidad de productos que necesites gestionar:<br>🟢 <strong>Iniciador:</strong> Hasta 10 productos.<br>🔵 <strong>Escalador:</strong> Hasta 25 productos.<br>🟣 <strong>Elite:</strong> Hasta 50 productos.</p></details>
+                                <details class="accordion-item"><summary>¿Por qué el costo por token varía entre los planes?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">El costo cambia porque un mayor número de productos significa que tu Agente ISA debe gestionar más información y recursos, incluyendo hasta 15 imágenes por producto.</p></details>
+                                <details class="accordion-item"><summary>¿Qué datos necesito para registrarme?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">El registro es muy simple. Solo necesitas:<br>📧 Email<br>👤 Nombre de Usuario<br>📱 Número de Teléfono<br>🔑 Contraseña<br>⚠️ <strong>Importante:</strong> La única web oficial de IsaChat es 👉 <a href="https://isachat.com/" target="_blank" rel="noopener noreferrer">https://isachat.com/</a>.</p></details>
+                                <h3 class="accordion-category">⚙️ Configuración Inicial</h3>
+                                <details class="accordion-item"><summary>¿Por qué se usan dos números de teléfono diferentes?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">Se usan para separar operación y administración:<br>📲 <strong>Número conectado con el QR:</strong> Es la línea pública que tu Agente ISA usa para hablar con clientes.<br>🔒 <strong>Número Admin:</strong> Es tu número privado, que funciona como control remoto para gestionar tu agente.</p></details>
+                                <details class="accordion-item"><summary>¿Cómo controlo mi Agente ISA desde WhatsApp?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">Desde el WhatsApp de tu número Admin, envía el comando <code>/isa</code> al número de tu agente. Esto abrirá un menú de opciones.<br>👉 Para seleccionar, solo envía el número de la opción.</p></details>
+                                <details class="accordion-item"><summary>¿Cuáles son los primeros pasos de configuración?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">En la pestaña <strong>Configuración</strong> debes:<br>1. Ingresar tu número Admin.<br>2. Definir el Mensaje de Inicio (bienvenida).<br>3. Entrenar a tu ISA con el prompt principal (personalidad del agente).<br>4. Conectar tu WhatsApp escaneando el código QR y seguir la guía de verificación.</p></details>
+                                <h3 class="accordion-category">🛍️ Gestión de Productos e Isa Lab</h3>
+                                <details class="accordion-item"><summary>¿Cómo subo mis propios productos?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">En la pestaña <strong>Productos</strong>, haz clic en <strong>Crear Producto</strong>. Allí podrás subir hasta 15 imágenes, definir nombre/costo y escribir una descripción detallada. 👉 No olvides seleccionar Proveedor de Productos → IsaChat.</p></details>
+                                <details class="accordion-item"><summary>¿Qué es Isa Lab si no tengo productos propios?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">Isa Lab es el marketplace de IsaChat donde puedes vender productos en tendencia sin inventario. Tú vendes y el sistema se encarga del resto.</p></details>
+                                <h3 class="accordion-category">💰 Ventas, Tokens y Recargas</h3>
+                                <details class="accordion-item"><summary>¿Dónde puedo ver mis ventas?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">En la pestaña <strong>Ventas</strong> de tu Dashboard verás un resumen de ventas (pagadas, pendientes, totales) y una lista de “Últimas Ventas” con todos los detalles.</p></details>
+                                <details class="accordion-item"><summary>¿El Agente ISA pide los datos de envío automáticamente?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">✅ Sí. Está entrenado para solicitar toda la información necesaria para un envío de manera automática.</p></details>
+                                <details class="accordion-item"><summary>¿Qué métodos de pago y recargas existen?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">Puedes pagar con 💳 Tarjeta de Crédito (USD) o 🇨🇴 Medios Colombianos (Nequi, Bancolombia, PSE – COP). Ofrecemos paquetes de tokens desde $10 USD.</p></details>
+                                <h3 class="accordion-category">🛠️ Conexión y Solución de Problemas</h3>
+                                <details class="accordion-item"><summary>Mi Agente ISA no responde, ¿qué hago?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><p class="accordion-content">Suele ser por inactividad. Sigue la secuencia en el Dashboard: 🔎 Verificar Conexión, 🔄 Reinicio Básico, y como última opción, 🛠️ Reinicio Completo.</p></details>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prompt-base" class="section bg-dark">
+            <div class="container">
+                <h2 class="section-title">Copia y Desglosa tu Prompt Base</h2>
+                <p class="section-subtitle">Usa este prompt como punto de partida y aprende a estructurar el cerebro de tu asistente de IA para maximizar las ventas.</p>
+        
+                <div class="prompt-layout">
+                    <!-- Contenedor del Prompt para Copiar -->
+                    <div class="prompt-container">
+                        <div class="prompt-container-header">
+                            <span class="prompt-container-title">Prompt de Ejemplo: Asesora de Nutrición</span>
+                            <button class="copy-btn" id="copy-prompt-btn">Copiar Prompt</button>
+                        </div>
+                        <pre><code id="prompt-text">
+Eres La asesora del Dr Carlos Especialista en Nutricion funcional, tu objetivo es persuadir al cliente para que pida nuestro Turkesterona Anabolicos naturales, al principio de la conversacion saluda amablemente y luego dale las opciones al cliente
+
+usa respuestas cortas para no abrumar al cliente
+
+inicio de la conversacion, asegurate de obtener fluidez en la conversacion importante preguntarle en que ciudad se encuentra a fin de indicarle que tenemos cobertura y que puede pagar al recibir se lo mas humana posible entendiendo al cliente y manejando lenguaje profesional pero no usando terminos complejos
+
+si el cliente pregunta por mas informacion antes de la compra usa lo siguiente segun la pregunta del cliente
+
+ ¿Cuáles son los beneficios reales de esta Turkesterona?
+🔥 ¿Por qué la eligen tantos hombres que entrenan y quieren más potencia?
+
+✅ Estimula el crecimiento muscular sin efectos hormonales
+✅ Aumenta la fuerza, la resistencia y la recuperación física
+✅ Apoya el desarrollo magro: más músculo, menos grasa
+✅ Mejora el rendimiento sexual: firmeza, deseo y vitalidad
+✅ No retiene líquidos ni altera tus niveles hormonales
+✅ Fórmula 100% natural con extracto de alta concentración (Ajuga turkestanica)
+✅ Ideal para hombres que entrenan o quieren recuperar su potencia al 100%
+
+Es como un anabólico natural, sin químicos ni riesgos 💪🔥
+¿Quieres que te ayude a alcanzar ese cuerpo y energía que te propones?
+
+¿Cómo se toma para ver resultados rápidos?
+Sencillo y práctico:
+
+🧪 Toma 2 cápsulas al día, una en la mañana y otra antes de entrenar o actividad intensa si lo vas a usar en actividad sexual toma 1 capsula media hora antes.
+📅 Úsalo todos los días, incluso si no entrenas, para mantener los niveles de energía y recuperación
+💧 Acompáñalo con buena hidratación y alimentación balanceada
+
+Constancia = resultados visibles en 15 días o menos
+
+
+si el cliente pregunta por el precio dale la siguiente informacion Precio + Promo TURK POWER
+🔥 PROMO ACTUAL:
+
+🦍 1 frasco (120 cápsulas) → $89.900 COP
+🦍🦍 2 frascos → $139.900 COP (mejor oferta)
+🦍🦍🦍 3 frascos → $179.900 COP
+
+🚚 Envío GRATIS a toda Colombia
+💸 Pago contraentrega (pagas solo cuando te llegue)
+
+💬 Lo que dicen los hombres:
+“Bro, en 2 semanas ya estaba entrenando más fuerte y durando más también en la cama 🔥💯. ¡Ya pedí la segunda botella!” – Sebastián, Cali
+
+si el cliente quiere pedirla es importante decirle
+Perfecto. Estoy aquí para ayudarte a transformar tu cuerpo y tu energía 🔥
+
+Si el cliente quiere hacer un pedido, dile: "Perfecto, dinos la ciudad donde estás ubicado.
+
+Método de pago (solo pagas cuando llegue: contraentrega)
+
+si el cliente desea pagar por adelantado dale el siguiente link segun la promo que escoja:
+
+para 1 frasco x $89.900 + envio gratis: https://mpago.li/1sk24pK
+para 2 frascos x $139.900 + envio gratis: https://mpago.li/2mzCVj2
+para 3 frascos x $179.900 + envio gratis: https://mpago.li/2vHY1CH
+
+una vez el cliente reciba el link de pago debes indicarle que te debe enviar el comprobante por este medio para proceder con la toma de los datos y hacer el respectivo envio.
+
+Preguntas frecuentes:
+
+Tiene Invima?
+El producto al ser importado cuenta con FDA
+
+Cuanto demora el envio?
+Los envios se demoran de 2 a 3 dias a ciudades principales y a poblaciones retiradas 5 a 7 dias
+
+Puedo reclamar en una oficina de interrapidisimo?
+Si es posible solo debes indicarnoslo en la direccion de entrega, para entrega en oficina asegurate que si vayas a reclamar una vez este el producto puesto que la transportadora no guarda el producto mucho tiempo en oficina y lo devuelven por tanto nos cobran el envio a nosotros.
+
+Por donde lo envian? 
+por la transportadora de tu preferencia, tenemos Envía, Interrapidisimo, Coordinadora
+
+si el cliente pregunta donde estamos ubicados indicale que enviamos desde bogota a toda colombia
+si el cliente indica que lo necesita hoy mismo indicale amablemente que nos encantaria pero que debido a la alta cantidad de pedidos vamos despachando en orden de llegada por lo que los pedidos se entregan en los tiempos establecidos
+
+si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda naturista naturezza y que estamos para asesorarlo profesionalmente en todo lo que requiera para que alcance el resultado esperado.
+                        </code></pre>
+                    </div>
+            
+                    <!-- Desglose del Prompt -->
+                    <div class="prompt-breakdown">
+                        <h3 class="breakdown-title">La Anatomía de un Prompt Vendedor</h3>
+                        <p class="breakdown-intro">Un buen prompt es como el ADN de tu vendedor de IA. Se divide en partes lógicas que le dicen qué hacer, cómo hablar y qué responder. Así se estructura:</p>
+                        <div class="breakdown-grid">
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Rol y Objetivo Principal</h4><p><strong>¿Quién eres y qué buscas?</strong> Es lo primero que debes definir. Dale una identidad y una meta clara. Ej: "Eres una asesora experta... tu objetivo es persuadir al cliente para que pida...".</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Personalidad y Tono</h4><p><strong>¿Cómo te comunicas?</strong> Define el estilo de la conversación. ¿Amigable, formal, directo? Esto humaniza al bot. Ej: "Usa respuestas cortas... sé lo más humana posible... lenguaje profesional pero no complejo".</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Flujo de Conversación</h4><p><strong>¿Cuál es el guion?</strong> Marca los pasos clave de la charla. Desde el saludo, la calificación del cliente (preguntar la ciudad), hasta la oferta. Esto le da una estructura lógica a la venta.</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.73 18.99a9 9 0 1 1-9.73-9.73"></path><path d="M12 22v-5"></path><path d="M2 12H7"></path><path d="M12 2v5"></path><path d="M22 12h-5"></path><path d="M17 17l-5-5"></path><path d="M7 7l5 5"></path></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Gatillos de Información (Triggers)</h4><p><strong>¿Qué respondes si...?</strong> Prepara respuestas para las preguntas más comunes (beneficios, precio, uso). Usa "si el cliente pregunta por X, responde Y". Esto te da control total sobre la información clave.</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Proceso de Cierre (¡Importante!)</h4><p><strong>Explicación (el porqué no se piden los datos en el prompt):</strong> No coloques en el prompt la solicitud de todos los datos. El objetivo es solo guiar al agente a ese punto, ya que nuestra inteligencia artificial está entrenada para hacer esa petición por su cuenta. Si lo especificas en el prompt, el agente puede confundirse, hacer una doble solicitud y molestar al cliente.</p>
+                                </div>
+                            </div>
+                            <div class="breakdown-card">
+                                <div class="breakdown-card-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                </div>
+                                <div class="breakdown-card-content">
+                                    <h4>Manejo de Objeciones y FAQ</h4><p><strong>¿Y si tienen más dudas?</strong> Anticípate a las preguntas frecuentes (envíos, garantías, ubicación). Tener estas respuestas listas genera confianza y demuestra profesionalismo. Ej: "¿Tiene Invima?", "¿Cuánto demora el envío?".</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="actualizaciones" class="section bg-dark">
+            <div class="container">
+                <h2 class="section-title">ISA SE ESTA ACTUALIZANDO</h2>
+                <p class="section-subtitle">Actualización del 15 de Septiembre 2025. Descubre tus nuevas herramientas para vender más y gestionar de forma eficiente.</p>
+                <div class="updates-grid">
+                    <!-- Update Card 1 -->
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        </div>
+                        <div class="update-content">
+                            <h3 class="update-title">Integración con MasterShop</h3>
+                            <p class="update-description">Obtén información de productos y crea pedidos automáticamente en MasterShop.</p>
+                        </div>
+                    </div>
+                    <!-- Update Card 2 -->
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                        </div>
+                        <div class="update-content">
+                            <h3 class="update-title">Mejor seguimiento para campañas</h3>
+                            <p class="update-description">IsaChat ahora reconoce el primer mensaje de un nuevo chat, permitiéndote medir la efectividad de tus campañas.</p>
+                        </div>
+                    </div>
+                    <!-- Update Card 3 -->
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                        </div>
+                        <div class="update-content">
+                            <h3 class="update-title">Control total sobre tu bienvenida</h3>
+                            <p class="update-description">Activa, desactiva y personaliza tu mensaje de inicio con imágenes para hacerlo más atractivo.</p>
+                        </div>
+                    </div>
+                    <!-- Update Card 4 -->
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+                        </div>
+                        <div class="update-content">
+                            <h3 class="update-title">Gestión de usuarios más sencilla</h3>
+                            <p class="update-description">Configura la desactivación automática tras una compra y usa comandos rápidos para desactivar usuarios al instante.</p>
+                        </div>
+                    </div>
+                    <!-- Update Card 5 -->
+                    <div class="update-card">
+                        <div class="update-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </div>
+                        <div class="update-content">
+                            <h3 class="update-title">Comunicación más fluida</h3>
+                            <p class="update-description">Isa ahora entiende perfectamente los mensajes de texto e imágenes que han sido reenviados.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-main">
+                <a href="#hero" class="footer-logo">
+                    <img src="IsaChatlogo.svg" alt="IsaChat Logo">
+                </a>
+                <p>Copyright © 2025 ISA CHAT rights reserved. Optimiza la gestión de tu negocio con nuestra solución de automatización de ventas. Configuración sencilla, integración con plataformas de envíos y un asistente multitarea que gestiona citas, pedidos y consultas. Impulsa tus ventas online y personaliza la experiencia de tus clientes con ISA.</p>
+            </div>
+            <div class="footer-contact">
+                <p><a href="mailto:soporteisachat@gmail.com">soporteisachat@gmail.com</a></p>
+                <p><a href="tel:+573143732283">3143732283</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="isa.js"></script>
+</body>
+</html>
