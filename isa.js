@@ -41,6 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
+            // Lógica para cambiar de pestaña desde la navegación
+            const tabTarget = link.dataset.tabTarget;
+            if (tabTarget) {
+                const tabButtonToClick = document.querySelector(`.tab-btn[data-tab="${tabTarget}"]`);
+                if (tabButtonToClick) {
+                    tabButtonToClick.click();
+                }
+            }
+
             if (navMenu.classList.contains('active')) {
                 closeMenu();
             }
