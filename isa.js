@@ -1,3 +1,14 @@
+window.addEventListener('load', () => {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        // Espera un poco para que la animación de carga se vea al menos un instante
+        // y dure 4 segundos como solicitado.
+        setTimeout(() => {
+            preloader.classList.add('loaded');
+        }, 4000);
+    }
+});
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA EL MENÚ DE HAMBURGUESA ---
@@ -162,4 +173,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- LÓGICA PARA EFECTO 3D EN MASCOTA DEL HERO ---
+    // Cambiamos el objetivo al contenedor de la imagen para un efecto más directo y notorio
+    const mascotContainer = document.querySelector('.hero-image');
+    const mascotImage = document.querySelector('.hero-image img');
+
+    if (mascotContainer && mascotImage) {
+        const maxRotate = 15; // Aumentamos la rotación para que sea más evidente
+
+        mascotContainer.addEventListener('mousemove', (e) => {
+            const rect = mascotContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left; // Posición X del cursor dentro del elemento
+            const y = e.clientY - rect.top;  // Posición Y del cursor dentro del elemento
+
+            const { width, height } = rect;
+
+            // Calcular la posición del cursor de -0.5 a 0.5
+            const xPercent = (x / width) - 0.5;
+            const yPercent = (y / height) - 0.5;
+
+            // Calcular rotación. Invertimos 'y' para un movimiento natural.
+            const rotateY = xPercent * maxRotate * 2;
+            const rotateX = yPercent * -maxRotate * 2;
+
+            mascotImage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            mascotImage.style.animationPlayState = 'paused';
+        });
+
+        mascotContainer.addEventListener('mouseleave', () => {
+            mascotImage.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            mascotImage.style.animationPlayState = 'running';
+        });
+    }
+
+    // --- LÓGICA PARA MASCOTA STICKY Y BURBUJAS DE CHAT ---
+    const stickyMascot = document.getElementById('sticky-mascot');
+    const heroSectionForMascot = document.getElementById('hero');
+    const bubbleContainer = document.getElementById('chat-bubble-container');
+    let isJiggling = false; // Para evitar múltiples animaciones a la vez
+    let bubbleTimeout; // Para limpiar timeouts anteriores
+
+    if (stickyMascot && heroSectionForMascot && bubbleContainer) {
+        
+        // --- Visibilidad al hacer scroll ---
+        const mascotScrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // Muestra la mascota cuando la sección 'hero' ya no está en la pantalla
+                const isVisible = !entry.isIntersecting && window.scrollY > 200;
+                stickyMascot.classList.toggle('visible', isVisible);
+            });
+        }, { threshold: 0.01 }); // Se activa cuando casi toda la sección ha salido
+
+        mascotScrollObserver.observe(heroSectionForMascot);
+
+        // --- Lógica de clic para mostrar burbujas ---
+        const messages = [
+            "¡Soy Isa! Y haré que tu negocio llegue a otro nivel. 🚀",
+            "¿Sabías que puedo trabajar 24/7 en tu WhatsApp para automatizar ventas?",
+            "Puedo gestionar hasta 50 productos con el plan Elite. ¡Imagina las posibilidades!",
+            "Conéctame a tu WhatsApp escaneando un QR. ¡Es así de simple!",
+            "Si un cliente pregunta si soy un robot, le diré que soy tu asesora profesional. 😉"
+        ];
+        let messageIndex = 0;
+
+        stickyMascot.addEventListener('click', () => {
+            // 1. Añadir efecto de "jiggle" al hacer clic
+            if (!isJiggling) {
+                isJiggling = true;
+                stickyMascot.classList.add('jiggle');
+                
+                // Limpiar la clase después de que termine la animación
+                setTimeout(() => {
+                    stickyMascot.classList.remove('jiggle');
+                    isJiggling = false;
+                }, 500); // Debe coincidir con la duración de la animación en CSS
+            }
+
+            // 2. Lógica de la burbuja de chat (sin cambios)
+            clearTimeout(bubbleTimeout);
+            bubbleContainer.innerHTML = '';
+
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble';
+            bubble.textContent = messages[messageIndex];
+            bubbleContainer.appendChild(bubble);
+
+            messageIndex = (messageIndex + 1) % messages.length;
+
+            bubbleTimeout = setTimeout(() => {
+                bubbleContainer.innerHTML = '';
+            }, 6000); // La burbuja desaparece después de 6 segundos
+        });
+    }
 });

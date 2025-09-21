@@ -43,6 +43,66 @@ img { max-width: 100%; height: auto; display: block; }
 ul { list-style: none; }
 a { text-decoration: none; color: var(--color-primario); }
 
+/* --- Estilos de Foco para Accesibilidad --- */
+a:focus-visible,
+button:focus-visible,
+details > summary:focus-visible {
+    outline: 3px solid var(--color-primario);
+    outline-offset: 3px;
+    border-radius: 4px; /* Ayuda a que el outline se vea mejor en elementos redondeados */
+}
+/* ==========================================================================
+   2.1. PRELOADER (PANTALLA DE CARGA)
+   ========================================================================== */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--color-fondo-dark) url("fondohero.png") center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    visibility: visible;
+    opacity: 1;
+}
+
+#preloader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Hacemos el selector más específico con #preloader para asegurar que se aplique */
+#preloader .preloader-mascot {
+    width: clamp(120px, 30vw, 180px); /* Tamaño base responsivo */
+    animation: preloader-grow 4s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+}
+
+/* Animación de crecimiento ajustada para ser responsiva */
+@keyframes preloader-grow {
+    from { transform: scale(1); opacity: 0.8; }
+    to { transform: scale(2.5); opacity: 1; }
+}
+
+.preloader-dots div {
+    width: 12px;
+    height: 12px;
+    background-color: var(--color-primario);
+    border-radius: 50%;
+    display: inline-block;
+    animation: dots-bounce 1.4s infinite ease-in-out both;
+}
+.preloader-dots div:nth-child(2) { animation-delay: -0.16s; }
+.preloader-dots div:nth-child(3) { animation-delay: -0.32s; }
+
+@keyframes dots-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
 /* ==========================================================================
    3. LAYOUT Y CONTENEDORES
    ========================================================================== */
@@ -62,23 +122,45 @@ a { text-decoration: none; color: var(--color-primario); }
 .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
 
 /* --- Nuevo Estilo de Botones (Blanco y Púrpura) --- */
-.btn-solid, .btn-hero {
+.btn-hero {
     background-color: #fff;
     color: var(--color-acento-purpura);
     border: 2px solid var(--color-acento-purpura);
     box-shadow: none;
     text-shadow: none;
 }
-.btn-solid:hover, .btn-hero:hover {
+.btn-hero:hover {
     background-color: var(--color-acento-purpura);
     color: #fff;
     box-shadow: 0 7px 25px rgba(126, 87, 194, 0.25);
 }
-.btn-solid:active, .btn-hero:active {
+.btn-hero:active {
     background-color: #5a349a;
     border-color: #5a349a;
     box-shadow: 0 2px 10px rgba(126, 87, 194, 0.2);
     transform: translateY(1px);
+}
+
+/* Nuevo estilo con degradado para el botón de Registro (.btn-solid) */
+.btn-solid {
+    background: linear-gradient(105deg, var(--color-acento-purpura), #5a349a); /* Degradado con colores de la paleta */
+    color: white;
+    text-shadow: none;
+    border: 2px solid transparent; /* Asegura el espacio para el borde en hover */
+}
+.btn-solid:hover {
+    /* Se convierte en un botón "outline" al pasar el cursor, como el de "Explorar Recursos" */
+    background: #fff;
+    color: var(--color-acento-purpura);
+    border: 2px solid var(--color-acento-purpura);
+    box-shadow: 0 7px 25px rgba(126, 87, 194, 0.25);
+}
+.btn-solid:active {
+    transform: translateY(1px);
+    background: #f8f9fa; /* Un blanco ligeramente más oscuro al hacer clic */
+    border-color: #5a349a;
+    color: #5a349a;
+    box-shadow: 0 2px 10px rgba(126, 87, 194, 0.2);
 }
 
 /* --- Estilos específicos para cada botón --- */
@@ -220,13 +302,15 @@ a { text-decoration: none; color: var(--color-primario); }
     max-width: 420px; /* Agrandada un poco */
     margin-inline: auto;
     margin-top: 2rem;
+    perspective: 1000px; /* Perspectiva para el efecto 3D, un valor más bajo lo hace más notorio */
+    transform-style: preserve-3d; /* Buena práctica para contextos 3D */
 }
 
 .hero-image img {
     animation: float 4s ease-in-out infinite;
-    /* Efecto de luz/resplandor para que resalte */
     filter: drop-shadow(0 0 25px rgba(126, 87, 194, 0.5));
-    transition: transform 0.3s ease, filter 0.3s ease;
+    /* Transición más suave para el reseteo del efecto 3D y el filtro */
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), filter 0.3s ease;
 }
 
 @keyframes float {
@@ -234,11 +318,8 @@ a { text-decoration: none; color: var(--color-primario); }
 	50% { transform: translateY(-20px); }
 	100% { transform: translateY(0px); }
 }
-
+/* El JS se encarga de la transformación, aquí solo cambiamos el resplandor */
 .hero-image img:hover {
-    animation-play-state: paused; /* Pausa la animación de flote */
-    transform: scale(1.03); /* Agranda ligeramente la imagen */
-    /* Cambia el resplandor a un color más vibrante de la marca */
     filter: drop-shadow(0 0 35px rgba(0, 224, 184, 0.6));
 }
 
@@ -594,6 +675,7 @@ ul.accordion-content a:hover {
     display: grid;
     gap: 1.5rem;
     align-items: start; /* Evita que las tarjetas se estiren verticalmente */
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
 }
 
 /* --- Estilos para las tarjetas de Prompt (Fondo Oscuro) --- */
@@ -648,6 +730,7 @@ ul.accordion-content a:hover {
     display: grid;
     gap: 2rem;
     align-items: start; /* Evita que las tarjetas se estiren verticalmente */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
 .update-card {
@@ -806,12 +889,93 @@ ul.accordion-content a:hover {
 }
 
 /* ==========================================================================
+   8.1. STICKY MASCOT (MASCOTA FLOTANTE)
+   ========================================================================== */
+.sticky-mascot {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 85px;
+    height: 85px;
+    z-index: 998; /* Debajo del header, encima del contenido */
+    cursor: pointer;
+    /* Animación de entrada con efecto "pop" */
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+    transform: translateY(50px) scale(0.5);
+    opacity: 0;
+    pointer-events: none; /* No se puede hacer clic cuando está oculto */
+}
+
+.sticky-mascot.visible {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    pointer-events: auto; /* Se puede hacer clic cuando es visible */
+}
+
+.sticky-mascot img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+    transition: transform 0.3s ease;
+}
+
+.sticky-mascot:hover img {
+    transform: scale(1.1) rotate(-8deg);
+}
+
+/* Animación de "jiggle" al hacer clic */
+.sticky-mascot.jiggle img {
+    animation: mascot-jiggle 0.5s ease-in-out;
+}
+
+@keyframes mascot-jiggle {
+    0%   { transform: scale(1.0) rotate(0deg); }
+    30%  { transform: scale(1.2) rotate(10deg); }
+    50%  { transform: scale(0.9) rotate(-10deg); }
+    75%  { transform: scale(1.15) rotate(5deg); }
+    100% { transform: scale(1.0) rotate(0deg); }
+}
+
+.chat-bubble-container {
+    position: absolute;
+    bottom: 95%; /* Posición encima de la mascota */
+    right: 95%;
+    width: max-content;
+    max-width: 260px;
+    pointer-events: none; /* Las burbujas no bloquean los clics en la mascota */
+}
+
+.chat-bubble {
+    background-color: #fff;
+    color: var(--color-texto-dark);
+    padding: 12px 18px;
+    border-radius: 15px;
+    border-bottom-right-radius: 3px; /* Esquina estilo WhatsApp */
+    box-shadow: var(--shadow-md);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+    animation: bubble-in 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes bubble-in {
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ajuste para la burbuja de chat en móviles */
+@media (max-width: 480px) {
+    .chat-bubble-container {
+        right: 0; /* Alinea la burbuja con el borde derecho de la mascota */
+        max-width: 250px; /* Un ancho máximo que cabe en la mayoría de móviles */
+    }
+}
+
+/* ==========================================================================
    9. MEDIA QUERIES (DISEÑO RESPONSIVO)
    ========================================================================== */
 @media (min-width: 768px) {
-    .breakdown-grid, .updates-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+    /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
 }
 
 @media (min-width: 992px) {
@@ -869,6 +1033,7 @@ ul.accordion-content a:hover {
         grid-template-columns: 1.1fr 1fr;
         align-items: center;
         gap: 3rem;
+        /* perspective: 1500px;  Quitado de aquí y movido a .hero para que funcione en móvil también */
     }
     .hero-text {
         text-align: left;
@@ -878,9 +1043,7 @@ ul.accordion-content a:hover {
         max-width: 480px; /* Agrandamos la mascota en pantallas grandes */
     }
 
-    .updates-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
+    /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
 }
 
 @media (max-width: 991px) {
@@ -889,14 +1052,18 @@ ul.accordion-content a:hover {
         align-items: center; /* Centra los bloques */
         text-align: center; /* Centra el texto dentro de los bloques */
     }
+    .footer {
+        padding-block: 3rem; /* Reducimos el padding para que no sea tan grande en móvil */
+    }
     .footer-main {
         display: flex;
         flex-direction: column;
         align-items: center;
+        gap: 1.5rem; /* Reducimos el espacio entre el logo y el texto */
     }
     .footer-contact {
         text-align: center;
-        margin-top: 1.5rem;
+        margin-top: 0; /* Usamos el gap del contenedor principal para el espaciado */
     }
     .footer-contact-item {
         justify-content: center; /* Centra el ícono y el texto */
@@ -905,11 +1072,5 @@ ul.accordion-content a:hover {
 
 @media (min-width: 1200px) {
     .nav-list { gap: 3.5rem; }
-
-    .breakdown-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    .updates-grid {
-        grid-template-columns: repeat(4, 1fr); /* 4 columnas para 8 tarjetas */
-    }
+    /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
 }
