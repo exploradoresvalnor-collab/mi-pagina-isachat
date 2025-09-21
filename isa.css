@@ -375,12 +375,21 @@ a { text-decoration: none; color: var(--color-primario); }
 
 /* Base style for accordion content (used by FAQ paragraphs) */
 .accordion-content {
-    padding: 1rem 1.5rem 1.2rem;
+    padding: 1.2rem 1.5rem; /* Ajuste de padding */
     font-size: var(--fs-sm);
     color: var(--color-texto-dark);
     line-height: 1.7;
     background-color: #fff;
+    text-align: left; /* Asegurar alineación a la izquierda */
 }
+
+.accordion-content p {
+    margin-bottom: 1rem;
+}
+.accordion-content p:last-child {
+    margin-bottom: 0;
+}
+
 
 /* --- Styling for Class Links inside Accordion --- */
 ul.accordion-content {
@@ -388,6 +397,7 @@ ul.accordion-content {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    text-align: left; /* Heredado, pero para asegurar */
 }
 
 ul.accordion-content li {
@@ -415,15 +425,40 @@ ul.accordion-content a:hover {
 }
 
 /* --- Styling for FAQ Links inside Accordion --- */
-p.accordion-content a {
+#faq .accordion-content a {
     color: var(--color-acento-purpura);
     font-weight: 600;
     text-decoration: underline;
     transition: color 0.3s ease;
 }
 
-p.accordion-content a:hover {
+#faq .accordion-content a:hover {
     color: var(--color-secundario);
+}
+
+.faq-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.faq-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.faq-important {
+    background-color: #fffbe6; /* Light yellow */
+    border-left: 4px solid #ffc107; /* Amber */
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
 }
 
 .accordion-category {
@@ -433,6 +468,27 @@ p.accordion-content a:hover {
     margin-bottom: 1.5rem;
     text-align: left;
     font-weight: 600;
+    /* Nuevos estilos */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: white;
+    flex-shrink: 0;
+}
+
+.category-icon svg {
+    width: 20px;
+    height: 20px;
 }
 
 /* Estilos para la sección de Prompt Base */
