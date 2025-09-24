@@ -38,7 +38,18 @@
     box-sizing: border-box;
 }
 html { scroll-behavior: smooth; font-size: var(--fs-base); }
-body { font-family: var(--fuente-principal); line-height: 1.6; color: var(--color-texto-dark); background-color: var(--color-fondo-light); }
+body { 
+    font-family: var(--fuente-principal); 
+    line-height: 1.6; 
+    color: var(--color-texto-dark); 
+    background-color: var(--color-fondo-light); 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main {
+    flex-grow: 1;
+}
 img { max-width: 100%; height: auto; display: block; }
 ul { list-style: none; }
 a { text-decoration: none; color: var(--color-primario); }
@@ -54,11 +65,14 @@ details > summary:focus-visible {
 /* ==========================================================================
    2.1. PRELOADER (PANTALLA DE CARGA)
    ========================================================================== */
+/* ==========================================================================
+   2.1. PRELOADER (PANTALLA DE CARGA)
+   ========================================================================== */
 #preloader {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--color-fondo-dark) url("fondohero.png") center/cover;
+    background: var(--color-fondo-dark) url("redneu.png") center/cover;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,16 +89,31 @@ details > summary:focus-visible {
     pointer-events: none;
 }
 
-/* Hacemos el selector más específico con #preloader para asegurar que se aplique */
+/* Animación de entrada de la mascota */
 #preloader .preloader-mascot {
-    width: clamp(120px, 30vw, 180px); /* Tamaño base responsivo */
-    animation: preloader-grow 4s cubic-bezier(0.5, 0, 0.5, 1) forwards;
+    width: clamp(120px, 30vw, 180px);
+    animation: mascot-entrance 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
 }
 
-/* Animación de crecimiento ajustada para ser responsiva */
-@keyframes preloader-grow {
-    from { transform: scale(1); opacity: 0.8; }
-    to { transform: scale(2.5); opacity: 1; }
+@keyframes mascot-entrance {
+    0% {
+        transform: scale(0) rotate(-90deg);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.1) rotate(10deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Animación de los puntos de carga */
+.preloader-dots {
+    display: flex;
+    gap: 1rem;
 }
 
 .preloader-dots div {
@@ -92,15 +121,21 @@ details > summary:focus-visible {
     height: 12px;
     background-color: var(--color-primario);
     border-radius: 50%;
-    display: inline-block;
-    animation: dots-bounce 1.4s infinite ease-in-out both;
+    animation: dots-pulse 2.5s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
-.preloader-dots div:nth-child(2) { animation-delay: -0.16s; }
-.preloader-dots div:nth-child(3) { animation-delay: -0.32s; }
+.preloader-dots div:nth-child(1) { animation-delay: 0s; }
+.preloader-dots div:nth-child(2) { animation-delay: 0.2s; }
+.preloader-dots div:nth-child(3) { animation-delay: 0.4s; }
 
-@keyframes dots-bounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1.0); }
+@keyframes dots-pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: scale(0.8);
+    }
 }
 
 /* ==========================================================================
@@ -284,7 +319,7 @@ details > summary:focus-visible {
 .hero {
     color: var(--color-texto-light);
     background-color: var(--color-fondo-dark);
-    background-image: linear-gradient(160deg, rgba(28, 11, 51, 0.8) 0%, rgba(42, 10, 74, 0.85) 100%), url("fondohero.png");
+    background-image: linear-gradient(160deg, rgba(28, 11, 51, 0.6) 0%, rgba(42, 10, 74, 0.65) 100%), url("redneu.png");
     background-size: cover;
     background-position: center;
     /* Se ajusta el padding para controlar el espacio superior y acercar el contenido a la navegación */
@@ -748,8 +783,86 @@ ul.accordion-content a:hover::before {
 
 .breakdown-card-content p {
     font-size: var(--fs-sm);
-    opacity: 0.8;
+    color: rgba(240, 240, 240, 0.85);
+    opacity: 0.85;
     line-height: 1.7;
+}
+
+/* Styles for the collapsible prompt area */
+.collapsible-prompt {
+    position: relative;
+}
+
+.prompt-container pre {
+    max-height: 250px; /* Reduced height */
+    transition: max-height 0.7s ease-in-out;
+}
+
+.collapsible-prompt.is-expanded pre {
+    max-height: 800px; /* Expanded height */
+}
+
+/* Fade overlay for collapsed state */
+.prompt-fade-overlay {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, transparent, var(--color-fondo-dark));
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.collapsible-prompt.is-expanded .prompt-fade-overlay {
+    opacity: 0;
+}
+
+/* Expander button styles */
+.prompt-expander {
+    text-align: center;
+    padding: 0.5rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-expand-prompt {
+    background: none;
+    border: none;
+    color: var(--color-primario);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    transition: background-color 0.3s;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-expand-prompt .chevron-icon {
+    transition: transform 0.4s ease;
+}
+
+.collapsible-prompt.is-expanded + .prompt-expander .btn-expand-prompt .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.btn-expand-prompt:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-expand-prompt .collapse-text {
+    display: none;
+}
+
+.collapsible-prompt.is-expanded + .prompt-expander .btn-expand-prompt .collapse-text {
+    display: inline;
+}
+
+.collapsible-prompt.is-expanded + .prompt-expander .btn-expand-prompt .expand-text {
+    display: none;
 }
 
 /* --- Estilos para las tarjetas de Actualizaciones (Fondo Claro) --- */
@@ -996,6 +1109,51 @@ ul.accordion-content a:hover::before {
         right: 0; /* Alinea la burbuja con el borde derecho de la mascota */
         max-width: 250px; /* Un ancho máximo que cabe en la mayoría de móviles */
     }
+}
+
+/* ==========================================================================
+   8.2. BACK TO TOP BUTTON
+   ========================================================================== */
+.back-to-top {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 997;
+    opacity: 0;
+    transform: translateY(100px);
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: var(--shadow-md);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.back-to-top:hover {
+    background: linear-gradient(135deg, #5a349a, var(--color-acento-purpura));
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.back-to-top svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.back-to-top:hover svg {
+    transform: scale(1.1);
 }
 
 /* ==========================================================================

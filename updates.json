@@ -1,0 +1,50 @@
+[
+    {
+        "icon": "shopping-cart",
+        "title": "Integración con MasterShop",
+        "description": "Obtén información de productos y crea pedidos automáticamente en MasterShop.",
+        "status": "live"
+    },
+    {
+        "icon": "trending-up",
+        "title": "Mejor seguimiento para campañas",
+        "description": "IsaChat ahora reconoce el primer mensaje de un nuevo chat, permitiéndote medir la efectividad de tus campañas.",
+        "status": "live"
+    },
+    {
+        "icon": "sliders",
+        "title": "Control total sobre tu bienvenida",
+        "description": "Activa, desactiva y personaliza tu mensaje de inicio con imágenes para hacerlo más atractivo.",
+        "status": "live"
+    },
+    {
+        "icon": "user-check",
+        "title": "Gestión de usuarios más sencilla",
+        "description": "Configura la desactivación automática tras una compra y usa comandos rápidos para desactivar usuarios al instante.",
+        "status": "live"
+    },
+    {
+        "icon": "refresh-cw",
+        "title": "Comunicación más fluida",
+        "description": "Isa ahora entiende perfectamente los mensajes de texto e imágenes que han sido reenviados.",
+        "status": "live"
+    },
+    {
+        "icon": "link",
+        "title": "Próximamente: Conexión con Merkaweb7",
+        "description": "Estamos trabajando para integrar tus productos y pedidos directamente desde Merkaweb7.",
+        "status": "soon"
+    },
+    {
+        "icon": "link",
+        "title": "Próximamente: Conexión con Dropi",
+        "description": "Amplía tu catálogo de dropshipping con la futura integración nativa con Dropi.",
+        "status": "soon"
+    },
+    {
+        "icon": "briefcase",
+        "title": "Mejoras para Venta de Servicios",
+        "description": "Optimizando a ISA para la gestión de citas, reservas y venta de servicios profesionales.",
+        "status": "soon"
+    }
+]

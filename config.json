@@ -1,0 +1,8 @@
+{
+    "notifications": {
+        "new_update_text": "Nuevas Actualizaciones",
+        "new_class_text": "Nuevas Clases",
+        "new_both_text": "¡Hay Novedades!",
+        "enable_nav_badge": true
+    }
+}
