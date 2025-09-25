@@ -7,16 +7,18 @@
     
     <meta name="description" content="Tu espacio de aprendizaje y soporte para IsaChat. Encuentra clases, respuestas a preguntas frecuentes y la información que necesitas para dominar la automatización de ventas en WhatsApp.">
     
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://isachat.com/">
-    <meta property="og:title" content="IsaChat | Centro de Recursos">
-    <meta property="og:description" content="Tu espacio de aprendizaje y soporte para dominar IsaChat.">
-    <meta property="og:image" content="https://i.ibb.co/YT1mn5vM/isa.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://isachat.com/">
-    <meta property="twitter:title" content="IsaChat | Centro de Recursos">
-    <meta property="twitter:description" content="Tu espacio de aprendizaje y soporte para dominar IsaChat.">
-    <meta property="twitter:image" content="https://i.ibb.co/YT1mn5vM/isa.png">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Centro de Recursos IsaChat - Clase 16" />
+    <meta property="og:description" content="Ya está disponible nuestra Clase 16 del Reto 7 en 1 + ISA. Ponte al día con lo más nuevo en www.info.isachat.com 🚀" />
+    <meta property="og:image" content="https://www.info.isachat.com/imagenes/preview-clase16.png" />
+    <meta property="og:url" content="https://www.info.isachat.com/" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Centro de Recursos IsaChat - Clase 16" />
+    <meta name="twitter:description" content="Accede ahora a la Clase 16 del Reto 7 en 1 + ISA y mantente actualizado con IsaChat." />
+    <meta name="twitter:image" content="https://www.info.isachat.com/imagenes/preview-clase16.png" />
     
     <link rel="stylesheet" href="isa.css">
     <link rel="icon" href="isotipoIsa.svg" type="image/svg+xml">
@@ -57,6 +59,15 @@
         }
       ]
     }
+    </script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LT3VK4FM94"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-LT3VK4FM94');
     </script>
 </head>
 <body>
@@ -103,7 +114,25 @@
                     <a href="#recursos" class="btn btn-hero">Explorar Recursos</a>
                 </div>
                 <div class="hero-image">
-                    <img src="mascota isa.png" alt="Mascota de IsaChat">
+                    <!-- Carousel: pequeñas diapositivas dentro del hero -->
+                    <div class="carousel" id="hero-carousel" aria-roledescription="carousel" tabindex="0" role="region" aria-label="Carrusel de la mascota">
+                        <div class="carousel-track">
+                            <div class="carousel-slide">
+                                <img src="mascota isa.png" alt="Mascota de IsaChat" loading="lazy">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="1.png" alt="Mascota de IsaChat - variante" loading="lazy">
+                            </div>
+                            <div class="carousel-slide">
+                                <img src="2.png" alt="Mascota de IsaChat - variante 2" loading="lazy">
+                            </div>
+                        </div>
+
+                        <button class="carousel-control carousel-prev" aria-label="Anterior">&#10094;</button>
+                        <button class="carousel-control carousel-next" aria-label="Siguiente">&#10095;</button>
+
+                        <div class="carousel-indicators" aria-hidden="false"></div>
+                    </div>
                 </div>
             </div>
         </section>

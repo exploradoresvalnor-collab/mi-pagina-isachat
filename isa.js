@@ -120,6 +120,74 @@ document.addEventListener('DOMContentLoaded', () => {
         on(window, 'load', hidePreloader, { once: true });
     }
 
+    // ======= CARRUSEL PEQUEÑO EN HERO =======
+    (function initHeroCarousel() {
+        const carousel = document.getElementById('hero-carousel');
+        if (!carousel) return;
+
+        const track = carousel.querySelector('.carousel-track');
+        const slides = Array.from(carousel.querySelectorAll('.carousel-slide'));
+        const prevBtn = carousel.querySelector('.carousel-prev');
+        const nextBtn = carousel.querySelector('.carousel-next');
+        const indicatorsWrap = carousel.querySelector('.carousel-indicators');
+    let current = 0;
+    let autoplayId = null;
+    const AUTOPLAY_INTERVAL = 3000; // 3s autoplay
+
+        // crear indicadores
+        slides.forEach((s, i) => {
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.setAttribute('aria-label', `Ir a la diapositiva ${i+1}`);
+            if (i === 0) btn.setAttribute('aria-current', 'true');
+            indicatorsWrap.appendChild(btn);
+            btn.addEventListener('click', () => goTo(i));
+        });
+
+        const indicators = Array.from(indicatorsWrap.querySelectorAll('button'));
+
+        function update() {
+            track.style.transform = `translateX(-${current * 100}%)`;
+            indicators.forEach((b, i) => b.setAttribute('aria-current', i === current ? 'true' : 'false'));
+        }
+
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            update();
+            restartAutoplay();
+        }
+
+    function prev() { goTo(current - 1); }
+    function next() { goTo(current + 1); }
+
+        if (prevBtn) prevBtn.addEventListener('click', prev);
+        if (nextBtn) nextBtn.addEventListener('click', next);
+
+        // teclado
+        carousel.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prev();
+            if (e.key === 'ArrowRight') next();
+        });
+
+        // autoplay
+        function startAutoplay() {
+            if (autoplayId) return;
+            autoplayId = setInterval(() => { next(); }, AUTOPLAY_INTERVAL);
+        }
+        function stopAutoplay() { if (autoplayId) { clearInterval(autoplayId); autoplayId = null; } }
+        function restartAutoplay() { stopAutoplay(); startAutoplay(); }
+
+        // pausa en hover/focus
+        carousel.addEventListener('mouseenter', stopAutoplay);
+        carousel.addEventListener('mouseleave', startAutoplay);
+        carousel.addEventListener('focusin', stopAutoplay);
+        carousel.addEventListener('focusout', startAutoplay);
+
+        // inicializar
+        update();
+        startAutoplay();
+    })();
+
     const handleSmartNotification = async () => {
         const UPDATE_KEY = 'lastSeenUpdateTitle';
         const CLASS_KEY = 'lastSeenClassTitle';
