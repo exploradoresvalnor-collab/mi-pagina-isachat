@@ -64,8 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    loadClasses();
-
     // --- LÓGICA PARA CARGAR ACTUALIZACIONES DESDE JSON ---
     const loadUpdates = async () => {
         const iconMap = {
@@ -120,9 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
         on(window, 'load', hidePreloader, { once: true });
     }
 
-    // ======= CARRUSEL PEQUEÑO EN HERO =======
-    (function initHeroCarousel() {
-        const carousel = document.getElementById('hero-carousel');
+    // ======= LÓGICA DE CARRUSEL GENÉRICA =======
+    const initCarousel = (carouselId, options = {}) => {
+        const carousel = document.getElementById(carouselId);
         if (!carousel) return;
 
         const track = carousel.querySelector('.carousel-track');
@@ -130,63 +128,255 @@ document.addEventListener('DOMContentLoaded', () => {
         const prevBtn = carousel.querySelector('.carousel-prev');
         const nextBtn = carousel.querySelector('.carousel-next');
         const indicatorsWrap = carousel.querySelector('.carousel-indicators');
-    let current = 0;
-    let autoplayId = null;
-    const AUTOPLAY_INTERVAL = 3000; // 3s autoplay
+        if (!track || !slides.length) return;
 
-        // crear indicadores
-        slides.forEach((s, i) => {
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.setAttribute('aria-label', `Ir a la diapositiva ${i+1}`);
-            if (i === 0) btn.setAttribute('aria-current', 'true');
-            indicatorsWrap.appendChild(btn);
-            btn.addEventListener('click', () => goTo(i));
-        });
+        let current = 0;
+        let autoplayId = null;
+        const AUTOPLAY_INTERVAL = options.autoplayInterval || 3000;
 
-        const indicators = Array.from(indicatorsWrap.querySelectorAll('button'));
+        // Crear indicadores si el contenedor existe
+        if (indicatorsWrap) {
+            slides.forEach((s, i) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.setAttribute('aria-label', `Ir a la diapositiva ${i + 1}`);
+                if (i === 0) btn.setAttribute('aria-current', 'true');
+                indicatorsWrap.appendChild(btn);
+                btn.addEventListener('click', () => goTo(i));
+            });
+        }
+
+        const indicators = indicatorsWrap ? Array.from(indicatorsWrap.querySelectorAll('button')) : [];
 
         function update() {
             track.style.transform = `translateX(-${current * 100}%)`;
-            indicators.forEach((b, i) => b.setAttribute('aria-current', i === current ? 'true' : 'false'));
+            if (indicators.length) {
+                indicators.forEach((b, i) => b.setAttribute('aria-current', i === current ? 'true' : 'false'));
+            }
         }
 
         function goTo(index) {
             current = (index + slides.length) % slides.length;
             update();
-            restartAutoplay();
+            if (options.autoplay) restartAutoplay();
         }
 
-    function prev() { goTo(current - 1); }
-    function next() { goTo(current + 1); }
+        function prev() { goTo(current - 1); }
+        function next() { goTo(current + 1); }
 
-        if (prevBtn) prevBtn.addEventListener('click', prev);
-        if (nextBtn) nextBtn.addEventListener('click', next);
+        if (prevBtn) on(prevBtn, 'click', prev);
+        if (nextBtn) on(nextBtn, 'click', next);
 
-        // teclado
-        carousel.addEventListener('keydown', (e) => {
+        // Teclado
+        on(carousel, 'keydown', (e) => {
             if (e.key === 'ArrowLeft') prev();
             if (e.key === 'ArrowRight') next();
         });
 
-        // autoplay
+        // Autoplay
         function startAutoplay() {
-            if (autoplayId) return;
-            autoplayId = setInterval(() => { next(); }, AUTOPLAY_INTERVAL);
+            if (!options.autoplay || autoplayId) return;
+            autoplayId = setInterval(next, AUTOPLAY_INTERVAL);
         }
-        function stopAutoplay() { if (autoplayId) { clearInterval(autoplayId); autoplayId = null; } }
-        function restartAutoplay() { stopAutoplay(); startAutoplay(); }
 
-        // pausa en hover/focus
-        carousel.addEventListener('mouseenter', stopAutoplay);
-        carousel.addEventListener('mouseleave', startAutoplay);
-        carousel.addEventListener('focusin', stopAutoplay);
-        carousel.addEventListener('focusout', startAutoplay);
+        function stopAutoplay() {
+            if (autoplayId) {
+                clearInterval(autoplayId);
+                autoplayId = null;
+            }
+        }
 
-        // inicializar
+        function restartAutoplay() {
+            stopAutoplay();
+            startAutoplay();
+        }
+
+        // Pausa en hover/focus
+        on(carousel, 'mouseenter', stopAutoplay);
+        on(carousel, 'mouseleave', startAutoplay);
+        on(carousel, 'focusin', stopAutoplay);
+        on(carousel, 'focusout', startAutoplay);
+
+        // Inicializar
         update();
         startAutoplay();
-    })();
+    };
+
+    // --- LÓGICA PARA EL MODAL DE LA GUÍA VISUAL ---
+    const initGuiaVisualModal = () => {
+        const images = qsa('#guia-visual .guia-imagen img');
+        if (images.length === 0) return;
+
+        // Crear y añadir el HTML del modal al body
+        const modalHTML = `
+            <div class="guia-modal-overlay" id="guia-modal-overlay">
+                <div class="guia-modal-content">
+                    <button class="guia-modal-close" aria-label="Cerrar">&times;</button>
+                    <div class="guia-modal-nav">
+                        <button class="modal-prev" aria-label="Anterior">&#10094;</button>
+                        <button class="modal-next" aria-label="Siguiente">&#10095;</button>
+                    </div>
+                    <div class="guia-modal-body">
+                        <img src="" alt="">
+                        <div class="guia-modal-text">
+                            <h3></h3>
+                            <p></p>
+                            <div class="modal-counter">1 de 8</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        const overlay = qs('#guia-modal-overlay');
+        const modalImage = qs('img', overlay);
+        const modalTitle = qs('h3', overlay);
+        const modalText = qs('p', overlay);
+        const modalCounter = qs('.modal-counter', overlay);
+        const closeBtn = qs('.guia-modal-close', overlay);
+        const prevBtn = qs('.modal-prev', overlay);
+        const nextBtn = qs('.modal-next', overlay);
+
+        let currentIndex = 0;
+
+        const updateModal = (index) => {
+            const img = images[index];
+            const item = img.closest('.guia-item');
+            const title = qs('.guia-texto h3', item).textContent;
+            const text = qs('.guia-texto p', item).innerHTML;
+
+            modalImage.src = img.src;
+            modalImage.alt = img.alt;
+            modalTitle.textContent = title;
+            modalText.innerHTML = text;
+            modalCounter.textContent = `${index + 1} de ${images.length}`;
+
+            // Actualizar estado de los botones de navegación
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === images.length - 1;
+        };
+
+        const openModal = (index) => {
+            currentIndex = index;
+            updateModal(currentIndex);
+            document.body.classList.add('modal-open');
+            overlay.classList.add('visible');
+        };
+
+        const closeModal = () => {
+            document.body.classList.remove('modal-open');
+            overlay.classList.remove('visible');
+        };
+
+        const nextImage = () => {
+            if (currentIndex < images.length - 1) {
+                currentIndex++;
+                updateModal(currentIndex);
+            }
+        };
+
+        const prevImage = () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateModal(currentIndex);
+            }
+        };
+
+        images.forEach((img, index) => {
+            on(img, 'click', () => openModal(index));
+        });
+
+        on(closeBtn, 'click', closeModal);
+        on(prevBtn, 'click', prevImage);
+        on(nextBtn, 'click', nextImage);
+        on(overlay, 'click', (e) => {
+            if (e.target === overlay) {
+                closeModal();
+            }
+        });
+
+        // Soporte para teclado
+        on(window, 'keydown', (e) => {
+            if (!overlay.classList.contains('visible')) return;
+            
+            switch(e.key) {
+                case 'ArrowLeft':
+                    prevImage();
+                    break;
+                case 'ArrowRight':
+                    nextImage();
+                    break;
+                case 'Escape':
+                    closeModal();
+                    break;
+            }
+        });
+    };
+
+    // --- LÓGICA PARA INYECTAR ICONOS EN LA GUÍA ---
+    const initGuiaExpansion = () => {
+        const guiaContainer = qs('#guia-pasos');
+        const expandBtn = qs('#btn-expand-guia');
+        if (!guiaContainer || !expandBtn) return;
+
+        const items = qsa('.guia-item', guiaContainer);
+        const visibleItemCount = 3;
+
+        // Inicialmente muestra solo los primeros 3 pasos
+        items.forEach((item, index) => {
+            if (index < visibleItemCount) {
+                item.classList.add('visible');
+            } else {
+                item.classList.remove('visible');
+            }
+        });
+
+        on(expandBtn, 'click', () => {
+            const isExpanded = expandBtn.classList.toggle('expanded');
+            
+            items.forEach((item, index) => {
+                if (index >= visibleItemCount) {
+                    if (isExpanded) {
+                        // Mostrar el item con un pequeño delay para crear un efecto cascada
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, (index - visibleItemCount) * 100);
+                    } else {
+                        item.classList.remove('visible');
+                    }
+                }
+            });
+
+            // Si estamos colapsando, scrollear suavemente hacia arriba
+            if (!isExpanded) {
+                const firstItem = items[0];
+                firstItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    };
+
+    const initGuiaVisualIcons = () => {
+        const GUIA_ICON_MAP = {
+            "contact": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+            "welcome": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
+            "training": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/><path d="M12 22V12"/><path d="M12 12H2"/><path d="M12 12h10"/><path d="M12 12a2.5 2.5 0 0 1-5 0"/><path d="M12 12a2.5 2.5 0 0 0 5 0"/></svg>',
+            "whatsapp": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>',
+            "create-product": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+            "upload-image": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15c.7-1.2 1-2.5.7-3.9-.6-2.4-3-4.1-5.6-4.1-1.6 0-3.1.8-4.1 2.1-1.5-1.6-3.9-2.3-6.2-1.7-2.7.8-4.6 3.4-4.6 6.4 0 3.5 2.9 6.4 6.4 6.4h9.6c2.5 0 4.6-2 4.6-4.5 0-1.7-.9-3.2-2.3-4z"/><polyline points="16 16 12 12 8 16"/></svg>',
+            "details-price": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>',
+            "finish": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+        };
+
+        const items = qsa('#guia-visual .guia-item[data-icon]');
+        items.forEach(item => {
+            const iconName = item.dataset.icon;
+            const iconContainer = qs('.guia-item-icon', item);
+            if (iconName && iconContainer && GUIA_ICON_MAP[iconName]) {
+                iconContainer.innerHTML = GUIA_ICON_MAP[iconName];
+            }
+        });
+    };
 
     const handleSmartNotification = async () => {
         const UPDATE_KEY = 'lastSeenUpdateTitle';
@@ -410,8 +600,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const initScrollBehaviors = () => {
         const header = qs('.header');
         const backToTopBtn = qs('#back-to-top');
-        const navLinksForScroll = qsa('.nav-menu .nav-link');
-        const sections = navLinksForScroll.map(l => qs(l.getAttribute('href'))).filter(Boolean);
+        const navLinksForScroll = qsa('.nav-menu a[href^="#"]');
+        const sections = navLinksForScroll.map(l => {
+            try {
+                return qs(l.getAttribute('href'));
+            } catch (e) {
+                return null;
+            }
+        }).filter(Boolean);
         const sectionsToAnimate = qsa('.section');
 
         if ('IntersectionObserver' in window) {
@@ -511,6 +707,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadClasses();
     loadUpdates();
     handleSmartNotification();
+    initCarousel('hero-carousel', { autoplay: true, autoplayInterval: 3000 });
+    initGuiaVisualModal();
+    initGuiaVisualIcons();
+    initGuiaExpansion();
     initInteractivePrompt();
     initCollapsiblePrompt();
     initNavMenu();

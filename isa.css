@@ -147,6 +147,7 @@ details > summary:focus-visible {
 .section-subtitle { max-width: 700px; margin-inline: auto; margin-bottom: 3.5rem; font-size: var(--fs-md); opacity: 0.9; }
 .bg-light { background-color: var(--color-fondo-light); }
 .bg-dark { background-color: var(--color-fondo-dark); background-image: linear-gradient(160deg, #1c0b33 0%, #2a0a4a 100%); color: var(--color-texto-light); }
+.bg-gradient { background: linear-gradient(160deg, rgba(28, 11, 51, 0.03) 0%, rgba(126, 87, 194, 0.08) 100%); }
 .bg-dark .section-title, .bg-dark .section-subtitle { color: var(--color-texto-light); }
 .dark-text { color: var(--color-texto-dark); }
 
@@ -1025,11 +1026,17 @@ ul.accordion-content a:hover::before {
 .footer-contact a {
     color: var(--color-texto-light);
     font-weight: 600;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: -0.5rem;
+    display: inline-block;
 }
 
 .footer-contact a:hover {
     color: var(--color-primario);
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
 }
 
 /* ==========================================================================
@@ -1275,4 +1282,481 @@ ul.accordion-content a:hover::before {
 @media (min-width: 1200px) {
     .nav-list { gap: 3.5rem; }
     /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
+}
+
+/* --- Guia Visual IsaChat --- */
+.guia-pasos-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    counter-reset: step-counter; /* Inicializa el contador de pasos */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.guia-item {
+  position: relative; /* Necesario para posicionar el número del paso */
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+  padding-top: 3rem; /* Espacio extra arriba para el número */
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s ease;
+  text-align: center;
+  overflow: hidden; /* Para que el número no se salga del borde redondeado */
+  opacity: 0;
+  transform: translateY(20px);
+  display: none;
+}
+
+.guia-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+  display: flex;
+}
+
+.guia-item::before {
+    counter-increment: step-counter;
+    content: counter(step-counter);
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding-top: 5px; /* Ajuste para centrar el número visualmente */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: rotate(-15deg);
+    transition: transform 0.3s ease;
+}
+
+.guia-item:hover::before {
+    transform: rotate(0deg) scale(1.05);
+}
+
+.guia-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(126, 87, 194, 0.12);
+}
+
+.guia-imagen {
+  flex: 1 1 55%;
+  text-align: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.guia-imagen img {
+  width: 100%;
+  max-width: 600px; /* Aumentamos el tamaño máximo */
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin: 0 auto;
+}
+
+.guia-imagen img:hover {
+    transform: scale(1.03);
+}
+
+.guia-texto {
+  flex: 1 1 45%;
+}
+
+.guia-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.guia-item-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    border-radius: 10px;
+    color: white;
+}
+
+.guia-item-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.guia-texto h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--color-acento-purpura);
+  margin-bottom: 0;
+}
+
+.guia-texto p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-top: 1rem;
+}
+
+.guia-controles {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+    width: 100%;
+}
+
+#guia-visual {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+    #guia-visual {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+}
+
+.btn-expand {
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 1rem;
+    justify-content: center;
+    width: calc(100% - 2rem);
+    max-width: 300px;
+}
+
+@media (min-width: 768px) {
+    .btn-expand {
+        width: auto;
+        margin: 0;
+    }
+}
+
+.btn-expand:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(126, 87, 194, 0.2);
+}
+
+.btn-expand .chevron-icon {
+    transition: transform 0.4s ease;
+}
+
+.btn-expand.expanded .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.btn-expand .btn-texto-colapsar {
+    display: none;
+}
+
+.btn-expand.expanded .btn-texto-expandir {
+    display: none;
+}
+
+.btn-expand.expanded .btn-texto-colapsar {
+    display: inline;
+}
+
+/* Efecto de hover para las tarjetas de la guía */
+.guia-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(126, 87, 194, 0.12);
+}
+
+.guia-imagen {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.guia-imagen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom right, 
+        rgba(126, 87, 194, 0.2),
+        rgba(0, 224, 184, 0.2)
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.guia-item:hover .guia-imagen::after {
+    opacity: 1;
+}
+
+/* Responsive */
+@media (min-width: 768px) {
+    .guia-item {
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+    }
+
+    .guia-item:nth-child(odd) {
+        flex-direction: row-reverse;
+    }
+
+    .guia-item-header {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 992px) {
+    .guia-texto h3 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 768px) {
+  .guia-item,
+  .guia-item:nth-child(odd) {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+    gap: 2rem;
+    margin: 0 1rem;
+  }
+
+  .guia-texto {
+    order: 2;
+  }
+  
+  .guia-imagen {
+    order: 1;
+    padding: 0 1rem;
+  }
+
+  .guia-imagen img {
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .guia-texto h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .guia-texto p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .guia-item::before {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Ajustes para tablets y pantallas medianas */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .guia-item {
+    padding: 2.5rem;
+    gap: 2.5rem;
+  }
+
+  .guia-imagen {
+    flex: 1 1 50%;
+  }
+
+  .guia-imagen img {
+    max-width: 500px;
+  }
+
+  .guia-texto {
+    flex: 1 1 50%;
+  }
+}
+
+/* --- Estilos para el Carrusel de la Guía Visual (Eliminados o Simplificados) --- */
+.guia-carousel-wrapper {
+    display: none; /* Ocultamos el carrusel anterior */
+}
+
+/* --- Estilos para el Modal de la Guía Visual --- */
+body.modal-open {
+    overflow: hidden;
+}
+
+.guia-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(28, 11, 51, 0.95);
+    backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.guia-modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.guia-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem;
+    width: 100%;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-lg);
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.guia-modal-overlay.visible .guia-modal-content {
+    transform: scale(1);
+}
+
+.guia-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.guia-modal-close:hover {
+    background: rgba(0,0,0,0.8);
+    transform: rotate(90deg);
+}
+
+.guia-modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.guia-modal-nav button {
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.guia-modal-nav button:hover {
+    background: rgba(0,0,0,0.8);
+    transform: scale(1.1);
+}
+
+.guia-modal-nav button:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.modal-counter {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.guia-modal-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow-y: auto;
+    gap: 1.5rem;
+    padding: 1.5rem;
+}
+
+.guia-modal-body img {
+    width: 100%;
+    height: auto;
+    max-height: 60vh;
+    object-fit: contain;
+    border-radius: 8px;
+}
+
+.guia-modal-text {
+    text-align: center;
+}
+
+.guia-modal-text h3 {
+    font-size: 1.5rem;
+    color: var(--color-acento-purpura);
+    margin-bottom: 0.5rem;
+}
+
+.guia-modal-text p {
+    font-size: 1rem;
+    color: var(--color-texto-dark);
+    line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+    .guia-modal-content { max-width: 1000px; }
+    .guia-modal-body {
+        flex-direction: row;
+        align-items: center;
+        gap: 2rem;
+        padding: 2rem;
+    }
+    .guia-modal-body img { flex: 0 0 60%; }
+    .guia-modal-text { flex: 1 1 40%; text-align: left; }
 }
