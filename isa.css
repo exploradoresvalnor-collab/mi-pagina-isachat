@@ -89,7 +89,7 @@ details > summary:focus-visible {
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: var(--color-fondo-dark) url("redneu.png") center/cover;
+    background: var(--color-fondo-dark) url("assets/images/redneu.png") center/cover;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -666,7 +666,7 @@ details > summary:focus-visible {
 .hero {
     color: var(--color-texto-light);
     background-color: var(--color-fondo-dark);
-    background-image: linear-gradient(160deg, rgba(28, 11, 51, 0.6) 0%, rgba(42, 10, 74, 0.65) 100%), url("redneu.png");
+    background-image: linear-gradient(160deg, rgba(28, 11, 51, 0.6) 0%, rgba(42, 10, 74, 0.65) 100%), url("assets/images/redneu.png");
     background-size: cover;
     background-position: center;
     /* Se ajusta el padding para controlar el espacio superior y acercar el contenido a la navegación */
