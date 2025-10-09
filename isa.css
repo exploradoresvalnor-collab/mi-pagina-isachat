@@ -17,14 +17,15 @@
     --fuente-principal: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --fuente-codigo: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', Consolas, 'Courier New', monospace;
     --fs-base: 16px;
-    --fs-sm: clamp(0.8rem, 0.17vw + 0.76rem, 0.94rem);
-    --fs-md: clamp(1rem, 0.2vw + 0.9rem, 1.15rem);
-    --fs-lg: clamp(1.15rem, 0.5vw + 1rem, 1.5rem);
-    --fs-xl: clamp(1.95rem, 1.56vw + 1.56rem, 3.13rem);
-    --fs-xxl: clamp(2rem, 4vw + 1rem, 3.5rem);
+    --fs-sm: clamp(0.8rem, 0.4vw + 0.7rem, 1rem);
+    --fs-md: clamp(1rem, 0.6vw + 0.8rem, 1.25rem);
+    --fs-lg: clamp(1.15rem, 1vw + 0.8rem, 1.75rem);
+    --fs-xl: clamp(1.95rem, 2.5vw + 1.2rem, 3.5rem);
+    --fs-xxl: clamp(2rem, 5vw + 1rem, 4.5rem);
 
     /* Espaciado y Sombras */
-    --header-height: 100px;
+    --header-height: 110px; /* aumentado para una barra más gruesa */
+    --header-height-compact: 72px; /* altura al hacer scroll (proporcional) */
     --nav-padding: clamp(1rem, 3vw, 2rem);
     --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.07);
     --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -45,6 +46,9 @@ html {
     scroll-behavior: smooth; 
     font-size: clamp(15px, 1vw + 12px, 18px); /* Ajuste dinámico del tamaño base */
 }
+
+/* Evitar que anclas queden ocultas por el header fijo */
+html { scroll-padding-top: var(--header-height); }
 
 /* Mejoras de legibilidad y contraste */
 body { 
@@ -156,7 +160,7 @@ details > summary:focus-visible {
    ========================================================================== */
 .container { 
     width: 95%; /* Aumentado para móviles */
-    max-width: 1400px;
+    max-width: 1200px; /* menos ancho para una lectura más profesional en pantallas grandes */
     margin-inline: auto;
     position: relative;
     padding-inline: clamp(0.5rem, 2vw, 2rem); /* Padding responsivo */
@@ -176,22 +180,23 @@ details > summary:focus-visible {
 }
 
 .section-title { 
-    font-size: clamp(2rem, 5vw, 3.5rem); /* Tamaño de título responsivo */
-    font-weight: 700; 
-    margin-bottom: clamp(1rem, 3vw, 2rem); /* Margen responsivo */
-    line-height: 1.2;
-    letter-spacing: -0.02em; /* Mejor legibilidad para títulos grandes */
-    color: #1a1a1a; /* Color más oscuro para mejor contraste */
+    /* Tamaño más contenido y proporcional para un look profesional */
+    font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+    font-weight: 700; /* peso fuerte pero no tan extremo */
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    line-height: 1.12; /* mejor legibilidad en varias líneas */
+    letter-spacing: -0.01em;
+    color: #111217; /* conservar contraste */
 }
 
 .section-subtitle { 
-    max-width: min(800px, 90%); /* Ancho responsivo */
-    margin-inline: auto; 
-    margin-bottom: clamp(2rem, 5vw, 3.5rem); /* Margen responsivo */
-    font-size: clamp(1rem, 2vw, 1.25rem); /* Tamaño de texto responsivo */
-    line-height: 1.7;
-    color: #444; /* Color más oscuro para mejor legibilidad */
-    font-weight: 400; /* Peso de fuente optimizado */
+    max-width: min(760px, 92%);
+    margin-inline: auto;
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
+    font-size: clamp(0.95rem, 1.2vw + 0.9rem, 1.05rem);
+    line-height: 1.6;
+    color: #5a5a5a; /* tono más neutro y profesional */
+    font-weight: 400;
 }
 
 /* Clases de fondo */
@@ -316,13 +321,35 @@ details > summary:focus-visible {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
+/* Estilo compacto cuando el usuario hace scroll */
+.header.scrolled .navbar {
+    height: var(--header-height-compact);
+}
+.header.scrolled .nav-logo img {
+    height: clamp(40px, 3.5vw, 52px);
+    transform: translateY(-1px);
+}
+.header.scrolled .nav-item-cta-desktop .btn {
+    transform: scale(0.95);
+}
+
+.navbar {
+    transition: height 0.28s ease, padding-inline 0.3s ease;
+}
+.nav-logo img {
+    transition: height 0.28s ease, transform 0.28s ease;
+}
+.nav-item-cta-desktop .btn {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
 .header::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    height: 2px;
+    height: 4px; /* línea superior más visible para dar peso al header */
     background: linear-gradient(to right, 
         var(--color-primario), 
         var(--color-acento-purpura),
@@ -338,14 +365,18 @@ details > summary:focus-visible {
 
 .navbar {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    /* usar tamaños basados en contenido evita que el logo se comprima en pantallas grandes */
+    grid-template-columns: max-content 1fr max-content;
     align-items: center;
-    gap: 2rem;
-    height: var(--header-height);
-    position: relative;
-    padding: 0;
-    width: 90%;
-    max-width: 1400px;
+        gap: clamp(1rem, 2.5vw, 2rem);
+        height: var(--header-height);
+        position: relative;
+    /* padding lateral mayor para dar espacio al logo y al CTA (más generoso como en el mock) */
+    padding-inline: clamp(1.5rem, 4vw, 3rem);
+    padding-top: 1.1rem; /* espacio superior para que la barra se vea más gruesa */
+    padding-bottom: 1.1rem;
+    width: 100%;
+        max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -354,9 +385,10 @@ details > summary:focus-visible {
     align-items: center;
     gap: 1rem;
     position: relative;
-    padding: 0.75rem;
+    padding: 0.5rem 0.75rem;
     transition: all 0.3s ease;
     border-radius: 12px;
+    flex-shrink: 0;
 }
 
 .nav-logo::before {
@@ -405,9 +437,32 @@ details > summary:focus-visible {
 }
 
 .nav-logo img {
-    height: 40px;
+    height: clamp(48px, 5.2vw, 72px); /* un poco más grande para mejor presencia */
     width: auto;
-    filter: drop-shadow(0 0 15px rgba(0, 224, 184, 0.25));
+    filter: drop-shadow(0 6px 20px rgba(0, 224, 184, 0.28));
+    transition: height 0.28s ease, transform 0.28s ease, filter 0.28s ease;
+}
+
+/* Forzar visibilidad del logo en la barra (soluciona casos donde está oculto por overlays o reglas específicas) */
+.nav-logo,
+.nav-logo img {
+    display: inline-block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+.nav-logo {
+    position: relative; /* asegurar stacking context */
+    z-index: 1201; /* por encima de la decoración del header si fuera necesario */
+}
+.nav-logo img {
+    max-height: 80px; /* límite seguro */
+    height: clamp(48px, 5.2vw, 72px);
+}
+
+/* Evitar que el logo quede pegado al borde de la página en pantallas grandes */
+@media (min-width: 992px) {
+    .nav-logo { margin-left: 2.5rem; }
 }
 
 .nav-menu {
@@ -437,7 +492,7 @@ details > summary:focus-visible {
     .nav-list {
         flex-direction: row;
         justify-content: center;
-        gap: 1rem;
+        gap: 4rem; /* espacio entre enlaces más amplio para igualar el diseño */
     }
 }
 
@@ -449,7 +504,7 @@ details > summary:focus-visible {
     padding: 0.75rem 1.25rem;
     font-size: 0.95rem;
     border-radius: 12px;
-    letter-spacing: 0.3px;
+    letter-spacing: 1px; /* aumentar separación entre letras en la nav */
     white-space: nowrap;
     opacity: 0.85;
     background: linear-gradient(135deg, 
@@ -457,6 +512,30 @@ details > summary:focus-visible {
         rgba(255, 255, 255, 0.01)
     );
     backdrop-filter: blur(5px);
+}
+.nav-link {
+    font-weight: 600;
+    color: rgba(255,255,255,0.92); /* enlaces más visibles sobre el fondo oscuro */
+    transition: color 0.18s ease, transform 0.18s ease;
+    position: relative;
+    padding: 0.55rem 0.6rem; /* algo más alto para alinear con el CTA */
+    font-size: 1.05rem;
+    letter-spacing: 0.6px; /* separación sutil entre letras */
+    white-space: nowrap;
+    opacity: 0.98;
+    background: transparent; /* eliminar fondos innecesarios */
+    box-shadow: none;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    height: 3px;
+    width: 0;
+    background: linear-gradient(90deg, var(--color-primario), var(--color-acento-purpura));
+    border-radius: 6px;
+    transition: width 220ms ease;
 }
 
 .nav-link::before {
@@ -484,6 +563,9 @@ details > summary:focus-visible {
     opacity: 1;
     transform: translateY(-2px);
 }
+.nav-link:hover::after {
+    width: 100%;
+}
 
 .nav-link:hover::before {
     opacity: 1;
@@ -498,12 +580,42 @@ details > summary:focus-visible {
     opacity: 1;
     box-shadow: 0 4px 15px rgba(0, 224, 184, 0.1);
 }
+.nav-link.active {
+    color: var(--color-primario);
+    font-weight: 700;
+    opacity: 1;
+}
 
 .nav-item-cta-mobile {
     margin-top: 2rem;
 }
 .nav-item-cta-desktop {
     display: none;
+}
+
+/* Asegurar que el botón de registro tenga separación del borde derecho en desktop */
+@media (min-width: 992px) {
+    .nav-item-cta-desktop { display: block; grid-column: 3 / 4; justify-self: end; margin-right: 2.5rem; }
+    /* Botón de registro refinado para mejor apariencia */
+    .nav-item-cta-desktop .btn {
+        padding: 0.6rem 1.25rem; /* ajustar para que el botón se vea más prominente en la nav */
+        font-size: 1rem;
+        border-radius: 14px; /* ligeramente más redondeado como en la referencia */
+        background: linear-gradient(135deg, #8b5cf6, #7e57c2); /* púrpura más profundo al estilo del botón */
+        color: #ffffff;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+        border: none;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+    }
+    .nav-item-cta-desktop .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+        background: linear-gradient(135deg, #9b7df9, #8b5cf6);
+    }
 }
 
 .nav-toggle {
@@ -558,12 +670,26 @@ details > summary:focus-visible {
     background-size: cover;
     background-position: center;
     /* Se ajusta el padding para controlar el espacio superior y acercar el contenido a la navegación */
-    /* Padding ajustado para móvil, menos espacio vertical */
-    padding-top: calc(var(--header-height) + 2rem);
-    padding-bottom: 4rem;
+    /* Reducir un poco más para que el bloque del hero suba visualmente */
+    padding-top: calc(var(--header-height) - 0.25rem);
+    padding-bottom: 3rem;
 }
 .hero-text { text-align: center; }
-.hero-title { font-size: var(--fs-xxl); font-weight: 800; line-height: 1.15; margin-bottom: 1rem; color: #fff; }
+.hero-text { max-width: 720px; margin-inline-start: 0; }
+.hero-title {
+    /* Título menos dominante y más proporcional */
+    font-size: clamp(1.6rem, 3.0vw + 0.4rem, 2.8rem);
+    font-weight: 700; /* menos extremo */
+    line-height: 1.12;
+    margin-bottom: 0.6rem;
+    color: #ffffff;
+    text-shadow: 0 4px 14px rgba(10,10,15,0.28);
+    max-width: 680px; /* evitar títulos demasiado largos */
+}
+
+@media (min-width: 1200px) {
+    .hero-title { font-size: clamp(2.8rem, 2.8vw + 1rem, 5rem); }
+}
 .hero-subtitle { font-size: var(--fs-lg); margin-bottom: 1.5rem; opacity: 0.9; }
 .hero-description { font-size: var(--fs-md); margin-bottom: 2.5rem; opacity: 0.8; }
 
@@ -1053,21 +1179,22 @@ ul.accordion-content a:hover::before {
 
 .breakdown-grid {
     display: grid;
-    gap: 1.5rem;
-    align-items: start; /* Evita que las tarjetas se estiren verticalmente */
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem; /* menos gap para compactar visualmente */
+    align-items: start;
+    /* Aumentar el min para evitar tarjetas demasiado delgadas y largas */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 /* --- Estilos para las tarjetas de Prompt (Fondo Oscuro) --- */
 .breakdown-card {
     background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-    padding: 1.75rem;
-    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 1.15rem; /* menos padding para tarjetas más compactas */
+    transition: all 0.22s ease;
     display: flex;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .breakdown-card:hover {
@@ -1078,9 +1205,9 @@ ul.accordion-content a:hover::before {
 
 .breakdown-card-icon {
     flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    border-radius: 12px;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
     background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
     color: #fff;
     display: flex;
@@ -1095,15 +1222,15 @@ ul.accordion-content a:hover::before {
 
 .breakdown-card-content h4 {
     color: #fff;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
 }
 
 .breakdown-card-content p {
-    font-size: var(--fs-sm);
-    color: rgba(240, 240, 240, 0.85);
-    opacity: 0.85;
-    line-height: 1.7;
+    font-size: 0.95rem;
+    color: rgba(240, 240, 240, 0.9);
+    opacity: 0.95;
+    line-height: 1.5; /* más compacto y legible */
 }
 
 /* Styles for the collapsible prompt area */
@@ -1940,10 +2067,11 @@ ul.accordion-content a:hover::before {
         gap: 2rem;
         padding: 0;
     }
-    .nav-logo img {
-        height: 65px; /* Restaurar tamaño para desktop */
-    }
     .nav-logo { grid-column: 1 / 2; }
+
+    /* Asegurar que el logo no se quede demasiado a la izquierda en pantallas anchas */
+    .nav-logo { padding-inline-start: 0.5rem; }
+    .nav-logo img { height: clamp(48px, 4vw, 72px); }
 
     .nav-toggle { display: none; }
 
@@ -1962,9 +2090,10 @@ ul.accordion-content a:hover::before {
     }
     .nav-list {
         flex-direction: row;
-        gap: 3rem;
+        gap: 1.9rem; /* reducido ~20% para compactar enlaces */
     }
-    .nav-link { font-size: 1rem; }
+    /* Hacer los enlaces de la nav 20% más pequeños en desktop */
+    .nav-link { font-size: 0.76rem; padding: 0.36rem 0.4rem; }
 
     .nav-item-cta-mobile { display: none; }
     .nav-item-cta-desktop {
@@ -1973,12 +2102,22 @@ ul.accordion-content a:hover::before {
         justify-self: end;
     }
 
+    /* Mantener la navegación centrada dentro del layout cuando hay mucho espacio */
+    .navbar { justify-content: space-between; }
+
     .hero {
-        /* Se ajusta para un mejor encaje en 16:9, usando min-height y centrando el contenido */
-        min-height: 100vh;
+        /* Evitar que el hero quede debajo del header y subir visualmente el bloque */
+        min-height: calc(78vh - var(--header-height));
         display: flex;
         align-items: center;
-        padding: 0; /* Reseteamos el padding para el centrado flex */
+        padding-top: calc(var(--header-height) - 1.25rem);
+        padding-bottom: 3rem;
+    }
+
+    /* Mover ligeramente el bloque de texto hacia arriba en desktop sin afectar la imagen */
+    .hero-text {
+        transform: translateY(-64px);
+        transition: transform 0.28s ease;
     }
 
     .hero-container {
@@ -1994,6 +2133,12 @@ ul.accordion-content a:hover::before {
     .hero-image {
         margin-top: 0;
         max-width: 480px; /* Agrandamos la mascota en pantallas grandes */
+        transform: translateY(-30px); /* Eleva la imagen/carrusel para alinearla con el título */
+    }
+
+    /* Imagen del hero un poco más grande en pantallas muy anchas */
+    @media (min-width: 1200px) {
+        .hero-image { max-width: 540px; }
     }
 
     /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
