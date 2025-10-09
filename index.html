@@ -7,6 +7,14 @@
     
     <meta name="description" content="Tu espacio de aprendizaje y soporte para IsaChat. Encuentra clases, respuestas a preguntas frecuentes y la información que necesitas para dominar la automatización de ventas en WhatsApp.">
     
+    <!-- Favicon -->
+    <link rel="icon" href="isotipoIsa.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" sizes="32x32" href="isotipoIsa.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="isotipoIsa.png">
+    <link rel="apple-touch-icon" href="isotipoIsa.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="theme-color" content="#7B2CBF">
+    
     <!-- Open Graph -->
     <meta property="og:title" content="Centro de Recursos IsaChat - Clase 16" />
     <meta property="og:description" content="Ponte al día con lo más nuevo en www.info.isachat.com 🚀" />
@@ -140,112 +148,226 @@
 
         <section id="guia-visual" class="section bg-gradient">
             <div class="container">
-                <h2 class="section-title">Guía de Inicio Rápido</h2>
-                <p class="section-subtitle">Un recorrido paso a paso por las funciones clave. Haz clic en las imágenes para ampliarlas.</p>
+                <h2 class="section-title">Configuración Inicial</h2>
+                <p class="section-subtitle">Sigue estos pasos para comenzar a usar IsaChat en tu negocio</p>
 
-                <div class="guia-pasos-container" id="guia-pasos">
-                    <!-- Paso 1 -->
-                    <div class="guia-item visible" data-icon="contact">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/1.png" alt="Configuración de Contacto" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
+                <div class="guia-steps">
+                    <!-- Paso 1: Configuración -->
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <picture>
+                                <source media="(max-width: 768px)" srcset="Inicio rapido/mobile/1.png">
+                                <source media="(min-width: 769px)" srcset="Inicio rapido/1.png">
+                                <img src="Inicio rapido/1.png" alt="Configuración de Contacto" class="step-image" loading="lazy">
+                            </picture>
+                            <div class="step-info">
                                 <h3>Configuración de Contacto</h3>
+                                <p>En la pestaña <strong>Configuración</strong>, ingresa tu número de celular principal. Este número es exclusivo para la administración de tu IsaChat - <strong>no atiende clientes</strong>, sino que:</p>
+                                <ul class="step-info-list">
+                                    <li>Recibe notificaciones de ventas validadas</li>
+                                    <li>Sirve como centro de control para configuraciones avanzadas</li>
+                                    <li>Te mantiene informado sobre el estado de tu negocio</li>
+                                </ul>
+                                <p>Una vez ingresado, haz clic en el botón amarillo <strong>Actualizar</strong> para guardar los cambios.</p>
                             </div>
-                            <p>En la pestaña <strong>Configuración</strong>, ingresa tu número de celular de atención al cliente y haz clic en el botón amarillo <strong>Actualizar</strong>.</p>
                         </div>
-                    </div>
-                    <!-- Paso 2 -->
-                    <div class="guia-item" data-icon="welcome">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/2.png" alt="Mensaje de Bienvenida" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
+                    </div>                    <!-- Paso 2: Mensaje de Bienvenida -->
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <div class="step-image-wrapper">
+                                <img src="Inicio rapido/2.png" alt="Mensaje de Bienvenida" class="step-image">
+                                <div class="step-image-caption">Panel de configuración del mensaje de bienvenida</div>
+                            </div>
+                            <div class="step-info">
                                 <h3>Mensaje de Bienvenida</h3>
+                                <p>El mensaje de bienvenida es tu primer punto de contacto con los clientes. Configura un mensaje atractivo y activa la opción de imagen para causar una mejor primera impresión.</p>
+                                
+                                <div class="step-content-expandable" id="welcomeContent">
+                                    <div class="expandable-content">
+                                        <div class="feature-box">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                                </svg>
+                                                Mensaje de Inicio
+                                            </h4>
+                                            <ul class="step-info-list">
+                                                <li><strong>Sé estratégico:</strong> Incluye una breve presentación y un gancho que despierte interés</li>
+                                                <li><strong>Menciona beneficios clave:</strong> Destaca lo que hace único a tu negocio</li>
+                                                <li><strong>Llama a la acción:</strong> Invita al cliente a preguntar por tus productos</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="feature-box">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                                </svg>
+                                                Imagen de Inicio
+                                            </h4>
+                                            <ul class="step-info-list">
+                                                <li><strong>Activa el interruptor:</strong> Para enviar una imagen junto con tu mensaje</li>
+                                                <li><strong>Elige con cuidado:</strong> Una imagen profesional aumenta la credibilidad</li>
+                                                <li><strong>Optimiza el tamaño:</strong> Usa imágenes claras pero no muy pesadas</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="feature-box feature-box--tip">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                                                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                                </svg>
+                                                Consejo Pro
+                                            </h4>
+                                            <p>Puedes personalizar completamente la experiencia:</p>
+                                            <ul class="step-info-list">
+                                                <li>Activa o desactiva el mensaje según necesites</li>
+                                                <li>Ajusta el texto según temporadas o promociones</li>
+                                                <li>Prueba diferentes combinaciones de texto e imagen</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <button class="btn-expand" onclick="toggleExpand('welcomeContent')" aria-expanded="false">
+                                        <span class="expand-text">Ver más detalles</span>
+                                        <span class="collapse-text">Ver menos</span>
+                                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
-                            <p>Justo debajo, escribe un <strong>Mensaje de inicio</strong> atractivo. Puedes activar el interruptor para enviar también una <strong>Imagen de inicio</strong>.</p>
                         </div>
                     </div>
-                    <!-- Paso 3 -->
-                    <div class="guia-item" data-icon="training">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/3.png" alt="Entrenamiento del Agente" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
+
+                    <!-- Paso 3: Entrenamiento -->
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <img src="Inicio rapido/3.png" alt="Entrenamiento del Agente" class="step-image">
+                            <div class="step-info">
                                 <h3>Entrenamiento del Agente</h3>
+                                <p>En <strong>Entrena tu Isa</strong>, escribe las instrucciones y personalidad de tu IA. Haz clic en <strong>Actualizar</strong> para guardar el "cerebro" de tu Isa.</p>
+                                <div class="prompt-note">
+                                    <p><strong>💡 Consejo:</strong> Revisa la sección de Prompts más abajo para obtener ejemplos detallados y estructura recomendada para entrenar a tu agente de manera efectiva.</p>
+                                </div>
                             </div>
-                            <p>En <strong>Entrena tu Isa</strong>, escribe las instrucciones y personalidad de tu IA. Haz clic en <strong>Actualizar</strong> para guardar el "cerebro" de tu Isa.</p>
                         </div>
                     </div>
-                    <!-- Paso 4 -->
-                    <div class="guia-item" data-icon="whatsapp">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/5.png" alt="Conexión con WhatsApp" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
+
+                    <!-- Paso 4: Conexión -->
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <img src="Inicio rapido/4.png" alt="Conexión con WhatsApp" class="step-image">
+                            <div class="step-info">
                                 <h3>Conexión con WhatsApp</h3>
+                                <p>En <strong>Conexión a IsaChat</strong>, sigue la Guía Rápida: escanea el código QR con tu WhatsApp y presiona <strong>Verificar Conexión</strong>.</p>
                             </div>
-                            <p>En <strong>Conexión a IsaChat</strong>, sigue la Guía Rápida: escanea el código QR con tu WhatsApp y presiona <strong>Verificar Conexión</strong>.</p>
                         </div>
                     </div>
-                    <!-- Paso 5 -->
-                    <div class="guia-item" data-icon="create-product">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/6.png" alt="Acceso a Creación de Productos" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
-                                <h3>Creación de Productos</h3>
+
+                    <!-- Paso 5: Creación y Gestión de Productos -->
+                    <div class="step-card">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <div class="step-image-wrapper carousel-multiple">
+                                <img src="Inicio rapido/Productos 1.png" alt="Creación de Productos - Panel Principal" class="step-image active">
+                                <img src="Inicio rapido/Productos 2.png" alt="Creación de Productos - Formulario" class="step-image">
                             </div>
-                            <p>En el menú superior, ve a <strong>Productos</strong>. Desde aquí gestionarás tu inventario. Haz clic en <strong>+ Crear Producto</strong> para empezar.</p>
-                        </div>
-                    </div>
-                    <!-- Paso 6 -->
-                    <div class="guia-item" data-icon="upload-image">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/7.png" alt="Carga de Imágenes del Producto" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
-                                <h3>Carga de Imágenes</h3>
+                            <div class="step-info">
+                                <h3>Creación y Gestión de Productos</h3>
+                                <p class="step-info-intro">Administra tu catálogo de productos de forma sencilla. Aprende a crear y configurar tus productos para que tu agente los presente correctamente.</p>
+                                
+                                <div class="step-info-preview">
+                                    <div class="feature-box">
+                                        <h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="2" y="3" width="20" height="18" rx="2"></rect>
+                                                <path d="M12 8v8"></path>
+                                                <path d="M8 12h8"></path>
+                                            </svg>
+                                            Crear Nuevo Producto
+                                        </h4>
+                                        <ul class="step-info-list">
+                                            <li>Accede a la sección de <strong>Productos</strong> en el menú</li>
+                                            <li>Haz clic en <strong>+ Crear Producto</strong></li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="content-expander">
+                                        <button class="expand-toggle" aria-expanded="false">
+                                            <span class="expand-text">Ver más detalles</span>
+                                            <span class="collapse-text">Ver menos</span>
+                                            <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="step-info-expanded">
+
+                                    <div class="feature-box">
+                                        <h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
+                                                <line x1="16" y1="5" x2="22" y2="5"></line>
+                                                <line x1="19" y1="2" x2="19" y2="8"></line>
+                                                <circle cx="9" cy="9" r="2"></circle>
+                                                <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                                            </svg>
+                                            Contenido del Producto
+                                        </h4>
+                                        <ul class="step-info-list">
+                                            <li><strong>Imágenes:</strong> Sube hasta 15 fotos de alta calidad</li>
+                                            <li><strong>Información:</strong> Nombre, descripción detallada y especificaciones</li>
+                                            <li><strong>Precios:</strong> Define el precio y selecciona la moneda</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="feature-box feature-box--tip">
+                                        <h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M12 16v-4"></path>
+                                                <path d="M12 8h.01"></path>
+                                            </svg>
+                                            Consejos Importantes
+                                        </h4>
+                                        <ul class="step-info-list">
+                                            <li>La primera imagen será la principal en el catálogo</li>
+                                            <li>Una descripción detallada mejora las ventas</li>
+                                            <li>Actualiza el inventario regularmente</li>
+                                            <li>Revisa que toda la información esté correcta antes de guardar</li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="feature-box feature-box--warning">
+                                        <h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                                <line x1="12" y1="9" x2="12" y2="13"></line>
+                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                            </svg>
+                                            ¡Importante para el Prompt!
+                                        </h4>
+                                        <p><strong>Conexión con Productos:</strong> En tu prompt, es OBLIGATORIO incluir una sección llamada "Productos Disponibles" donde debes listar los nombres EXACTOS que usaste al crear los productos. Por ejemplo:</p>
+                                        <pre class="prompt-example">
+Productos Disponibles:
+- Crema Hidratante Ultra
+- Sérum Vitamina C
+- Mascarilla de Colágeno</pre>
+                                        <p>👉 El agente utilizará estos nombres exactos para reconocer y proporcionar información precisa sobre tus productos cuando los clientes pregunten por ellos.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <p>En <strong>Crear Nuevo Producto</strong>, arrastra o selecciona las <strong>Imágenes del Producto</strong>. Puedes subir hasta 15 fotos.</p>
-                        </div>
-                    </div>
-                    <!-- Paso 7 -->
-                    <div class="guia-item" data-icon="details-price">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/8.png" alt="Detalles y Precio del Producto" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
-                                <h3>Detalles y Precio</h3>
-                            </div>
-                            <p>Completa la información clave: <strong>Nombre</strong>, <strong>Descripción</strong>, <strong>Moneda</strong> y <strong>Precio de Venta</strong>.</p>
-                        </div>
-                    </div>
-                    <!-- Paso 8 -->
-                    <div class="guia-item" data-icon="finish">
-                        <div class="guia-imagen">
-                            <img src="Inicio rapido/4.png" alt="Finalizar Creación" loading="lazy">
-                        </div>
-                        <div class="guia-texto">
-                            <div class="guia-item-header">
-                                <div class="guia-item-icon"></div>
-                                <h3>Finalizar Creación</h3>
-                            </div>
-                            <p>Una vez que todos los campos estén llenos, haz clic en <strong>Crear Producto</strong> en la parte inferior para añadirlo a tu tienda. ¡Y listo!</p>
                         </div>
                     </div>
                 </div>
@@ -511,5 +633,7 @@ si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda n
     </a>
 
     <script src="isa.js" defer></script>
+
+
 </body>
 </html>

@@ -1,6 +1,6 @@
 "use strict";
 
-// Helper: fetch con timeout
+// --- UTILIDADES GENERALES ---
 const fetchWithTimeout = (url, options = {}, timeout = 7000) => {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), timeout);
@@ -8,17 +8,72 @@ const fetchWithTimeout = (url, options = {}, timeout = 7000) => {
         .finally(() => clearTimeout(id));
 };
 
+const qs = (selector, ctx = document) => ctx.querySelector(selector);
+const qsa = (selector, ctx = document) => Array.from(ctx.querySelectorAll(selector));
+const on = (el, event, handler, opts = {}) => { if (!el) return; el.addEventListener(event, handler, opts); };
+
 document.addEventListener('DOMContentLoaded', () => {
     const PRELOADER_MIN_MS = 600; // tiempo mínimo que el preloader debe mostrarse (configurable)
     const PRELOADER_TRANSITION_MS = 900; // debe coincidir con la transición CSS
     const preloader = document.getElementById('preloader');
     const preloaderShownAt = preloader ? performance.now() : null;
 
-    // --- UTILIDADES GENERALES ---
-    const qs = (selector, ctx = document) => ctx.querySelector(selector);
-    const qsa = (selector, ctx = document) => Array.from(ctx.querySelectorAll(selector));
-    const on = (el, event, handler, opts = {}) => { if (!el) return; el.addEventListener(event, handler, opts); };
+    // Función para manejar la expansión de contenido
+    const handleContentExpansion = () => {
+        const expandButtons = document.querySelectorAll('.expand-toggle');
+        expandButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                button.setAttribute('aria-expanded', !isExpanded);
+                
+                const container = button.closest('.step-content');
+                if (container) {
+                    const expandedContent = container.querySelector('.step-info-expanded');
+                    if (expandedContent) {
+                        if (!isExpanded) {
+                            expandedContent.style.maxHeight = expandedContent.scrollHeight + 'px';
+                            expandedContent.style.opacity = '1';
+                            expandedContent.style.visibility = 'visible';
+                        } else {
+                            expandedContent.style.maxHeight = '0px';
+                            expandedContent.style.opacity = '0';
+                            setTimeout(() => {
+                                expandedContent.style.visibility = 'hidden';
+                            }, 500);
+                        }
+                    }
+                }
+            });
+        });
+    };
 
+    // Inicializar los botones de expansión
+    const expandButtons = document.querySelectorAll('.expand-toggle');
+    expandButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+            button.setAttribute('aria-expanded', !isExpanded);
+            
+            const container = button.closest('.step-content');
+            if (container) {
+                const expandedContent = container.querySelector('.step-info-expanded');
+                if (expandedContent) {
+                    if (!isExpanded) {
+                        expandedContent.style.maxHeight = expandedContent.scrollHeight + 'px';
+                        expandedContent.style.opacity = '1';
+                        expandedContent.style.visibility = 'visible';
+                    } else {
+                        expandedContent.style.maxHeight = '0px';
+                        expandedContent.style.opacity = '0';
+                        setTimeout(() => {
+                            expandedContent.style.visibility = 'hidden';
+                        }, 500);
+                    }
+                }
+            }
+        });
+    });
+    
     // --- LÓGICA PARA CARGAR CLASES DESDE JSON ---
     const loadClasses = async () => {
         try {
@@ -202,114 +257,125 @@ document.addEventListener('DOMContentLoaded', () => {
         startAutoplay();
     };
 
-    // --- LÓGICA PARA EL MODAL DE LA GUÍA VISUAL ---
-    const initGuiaVisualModal = () => {
-        const images = qsa('#guia-visual .guia-imagen img');
-        if (images.length === 0) return;
+    // --- LÓGICA PARA LA ANIMACIÓN DE STEPS Y BOTONES ---
+    const initGuiaVisual = () => {
+        const steps = qsa('.step-card');
+        const expandBtn = qs('#btn-expand-guia');
+        const stepsContainer = qs('.guia-steps');
+        
+        if (!steps.length || !expandBtn || !stepsContainer) return;
 
-        // Crear y añadir el HTML del modal al body
-        const modalHTML = `
-            <div class="guia-modal-overlay" id="guia-modal-overlay">
-                <div class="guia-modal-content">
-                    <button class="guia-modal-close" aria-label="Cerrar">&times;</button>
-                    <div class="guia-modal-nav">
-                        <button class="modal-prev" aria-label="Anterior">&#10094;</button>
-                        <button class="modal-next" aria-label="Siguiente">&#10095;</button>
-                    </div>
-                    <div class="guia-modal-body">
-                        <img src="" alt="">
-                        <div class="guia-modal-text">
-                            <h3></h3>
-                            <p></p>
-                            <div class="modal-counter">1 de 8</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        // Configuramos el estado inicial
+        const visibleSteps = 4; // Número de pasos visibles inicialmente
+        let isExpanded = false;
 
-        const overlay = qs('#guia-modal-overlay');
-        const modalImage = qs('img', overlay);
-        const modalTitle = qs('h3', overlay);
-        const modalText = qs('p', overlay);
-        const modalCounter = qs('.modal-counter', overlay);
-        const closeBtn = qs('.guia-modal-close', overlay);
-        const prevBtn = qs('.modal-prev', overlay);
-        const nextBtn = qs('.modal-next', overlay);
-
-        let currentIndex = 0;
-
-        const updateModal = (index) => {
-            const img = images[index];
-            const item = img.closest('.guia-item');
-            const title = qs('.guia-texto h3', item).textContent;
-            const text = qs('.guia-texto p', item).innerHTML;
-
-            modalImage.src = img.src;
-            modalImage.alt = img.alt;
-            modalTitle.textContent = title;
-            modalText.innerHTML = text;
-            modalCounter.textContent = `${index + 1} de ${images.length}`;
-
-            // Actualizar estado de los botones de navegación
-            prevBtn.disabled = index === 0;
-            nextBtn.disabled = index === images.length - 1;
+        // Función para actualizar la visibilidad de los pasos
+        const updateStepsVisibility = () => {
+            steps.forEach((step, index) => {
+                if (index < visibleSteps || isExpanded) {
+                    step.style.display = 'block';
+                    // Añadimos un pequeño retraso para la animación
+                    setTimeout(() => {
+                        step.style.opacity = '1';
+                        step.style.transform = 'translateY(0)';
+                    }, index * 100);
+                } else {
+                    step.style.display = 'none';
+                    step.style.opacity = '0';
+                    step.style.transform = 'translateY(20px)';
+                }
+            });
         };
 
-        const openModal = (index) => {
-            currentIndex = index;
-            updateModal(currentIndex);
-            document.body.classList.add('modal-open');
-            overlay.classList.add('visible');
-        };
-
-        const closeModal = () => {
-            document.body.classList.remove('modal-open');
-            overlay.classList.remove('visible');
-        };
-
-        const nextImage = () => {
-            if (currentIndex < images.length - 1) {
-                currentIndex++;
-                updateModal(currentIndex);
-            }
-        };
-
-        const prevImage = () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateModal(currentIndex);
-            }
-        };
-
-        images.forEach((img, index) => {
-            on(img, 'click', () => openModal(index));
-        });
-
-        on(closeBtn, 'click', closeModal);
-        on(prevBtn, 'click', prevImage);
-        on(nextBtn, 'click', nextImage);
-        on(overlay, 'click', (e) => {
-            if (e.target === overlay) {
-                closeModal();
-            }
-        });
-
-        // Soporte para teclado
-        on(window, 'keydown', (e) => {
-            if (!overlay.classList.contains('visible')) return;
+        // Configurar el botón de expandir/colapsar
+        expandBtn.addEventListener('click', () => {
+            isExpanded = !isExpanded;
             
-            switch(e.key) {
-                case 'ArrowLeft':
-                    prevImage();
-                    break;
-                case 'ArrowRight':
-                    nextImage();
-                    break;
-                case 'Escape':
-                    closeModal();
-                    break;
+            // Actualizar el texto del botón
+            const btnText = expandBtn.querySelector('.btn-texto-expandir');
+            const btnTextColapsar = expandBtn.querySelector('.btn-texto-colapsar');
+            if (btnText && btnTextColapsar) {
+                btnText.style.display = isExpanded ? 'none' : 'inline';
+                btnTextColapsar.style.display = isExpanded ? 'inline' : 'none';
+            }
+
+            // Actualizar el ícono
+            const chevron = expandBtn.querySelector('.chevron-icon');
+            if (chevron) {
+                chevron.style.transform = isExpanded ? 'rotate(180deg)' : '';
+            }
+
+            updateStepsVisibility();
+
+            // Si estamos colapsando, hacer scroll suave hacia arriba
+            if (!isExpanded && steps[0]) {
+                steps[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+
+        // Configurar el observador de intersección para la animación inicial
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    const step = entry.target;
+                    const index = Array.from(steps).indexOf(step);
+                    setTimeout(() => {
+                        step.classList.add('visible');
+                    }, index * 200);
+                    observer.unobserve(step);
+                }
+            });
+        }, {
+            threshold: 0.2,
+            rootMargin: '50px'
+        });
+
+        // Inicializar el estado de los pasos
+        updateStepsVisibility();
+
+        // Observar los pasos para la animación
+        steps.forEach((step) => {
+            observer.observe(step);
+
+            // Manejar el clic en la imagen para ampliarla
+            const img = qs('.step-image', step);
+            if (img) {
+                on(img, 'click', () => {
+                    const modal = document.createElement('div');
+                    modal.className = 'image-modal';
+                    modal.innerHTML = `
+                        <div class="image-modal-content">
+                            <img src="${img.src}" alt="${img.alt}">
+                            <button class="image-modal-close">×</button>
+                        </div>
+                    `;
+                    document.body.appendChild(modal);
+                    
+                    // Prevenir scroll del body
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Animación de entrada
+                    requestAnimationFrame(() => modal.classList.add('visible'));
+                    
+                    // Manejar cierre
+                    const close = () => {
+                        modal.classList.remove('visible');
+                        setTimeout(() => {
+                            modal.remove();
+                            document.body.style.overflow = '';
+                        }, 300);
+                    };
+                    
+                    on(modal, 'click', e => {
+                        if (e.target === modal || e.target.classList.contains('image-modal-close')) {
+                            close();
+                        }
+                    });
+                    
+                    on(window, 'keydown', e => {
+                        if (e.key === 'Escape') close();
+                    });
+                });
             }
         });
     };
@@ -703,17 +769,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Función para expandir/colapsar contenido
+    window.toggleExpand = function(containerId) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        const isExpanded = container.classList.toggle('expanded');
+        const button = container.querySelector('.btn-expand, .expand-toggle');
+        if (button) {
+            button.setAttribute('aria-expanded', isExpanded);
+        }
+        
+        const content = container.querySelector('.expandable-content');
+        if (content) {
+            if (isExpanded) {
+                content.style.maxHeight = `${content.scrollHeight}px`;
+                content.style.opacity = '1';
+            } else {
+                content.style.maxHeight = '0';
+                content.style.opacity = '0';
+            }
+        }
+        
+        // Scroll suave si el contenido está siendo colapsado
+        if (!isExpanded && container.getBoundingClientRect().top < 0) {
+            container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };    // Inicializar los botones de expansión
+    document.addEventListener('DOMContentLoaded', () => {
+        const expandButtons = document.querySelectorAll('.expand-toggle');
+        expandButtons.forEach(button => {
+            const container = button.closest('.step-card');
+            if (container) {
+                const expandedContent = container.querySelector('.step-info-expanded');
+                if (expandedContent) {
+                    button.addEventListener('click', () => {
+                        const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                        button.setAttribute('aria-expanded', !isExpanded);
+                        
+                        if (!isExpanded) {
+                            expandedContent.style.maxHeight = expandedContent.scrollHeight + 'px';
+                        } else {
+                            expandedContent.style.maxHeight = '0px';
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    // Función para manejar la expansión del contenido de productos
+    const initProductExpansion = () => {
+        const productSections = qsa('.product-section');
+        productSections.forEach(section => {
+            const content = qs('.product-content', section);
+            const expandBtn = qs('.expand-btn', section);
+            if (!content || !expandBtn) return;
+
+            on(expandBtn, 'click', () => {
+                const isExpanded = section.classList.toggle('expanded');
+                expandBtn.setAttribute('aria-expanded', isExpanded);
+                const btnText = expandBtn.querySelector('.btn-text');
+                const icon = expandBtn.querySelector('.chevron-icon');
+                
+                if (btnText) {
+                    btnText.textContent = isExpanded ? 'Ver menos' : 'Ver más';
+                }
+                if (icon) {
+                    icon.style.transform = isExpanded ? 'rotate(180deg)' : '';
+                }
+                
+                // Scroll suave cuando colapsamos
+                if (!isExpanded && section.getBoundingClientRect().top < 0) {
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    };
+
     // --- INICIALIZACIÓN --- 
     loadClasses();
     loadUpdates();
     handleSmartNotification();
     initCarousel('hero-carousel', { autoplay: true, autoplayInterval: 3000 });
-    initGuiaVisualModal();
-    initGuiaVisualIcons();
-    initGuiaExpansion();
+    initGuiaVisual();
     initInteractivePrompt();
     initCollapsiblePrompt();
     initNavMenu();
     initScrollBehaviors();
     initMisc();
+    initProductExpansion();
 });

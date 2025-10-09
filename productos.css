@@ -1,0 +1,144 @@
+/* Estilos para la guía de productos */
+.guia-steps {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+.product-section {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.product-preview {
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.step-info {
+    flex: 1;
+}
+
+.step-info h3 {
+    color: #2c3e50;
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+}
+
+.step-info p {
+    color: #666;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.expand-btn {
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.expand-btn:hover {
+    background: #f5f5f5;
+    border-color: #d0d0d0;
+}
+
+.expand-btn .btn-text {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.chevron-icon {
+    transition: transform 0.3s ease;
+}
+
+.expand-btn[aria-expanded="true"] .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.product-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
+}
+
+.product-section.expanded .product-content {
+    max-height: 2000px; /* Ajusta según el contenido */
+}
+
+.step-content {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.step-content img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+}
+
+.feature-box {
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.feature-box h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+}
+
+.feature-box--warning {
+    background: #fff3e0;
+    border: 1px solid #ffe0b2;
+}
+
+.feature-box--warning h4 {
+    color: #f57c00;
+}
+
+.feature-box--tip {
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+}
+
+.feature-box--tip h4 {
+    color: #2e7d32;
+}
+
+.feature-box ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.feature-box li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .product-preview {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .expand-btn {
+        width: 100%;
+        justify-content: space-between;
+    }
+}

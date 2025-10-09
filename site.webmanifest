@@ -1,0 +1,19 @@
+{
+    "name": "IsaChat Centro de Recursos",
+    "short_name": "IsaChat",
+    "icons": [
+        {
+            "src": "isotipoIsa.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "isotipoIsa.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#7B2CBF",
+    "background_color": "#1c0b33",
+    "display": "standalone"
+}
