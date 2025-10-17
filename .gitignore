@@ -1,0 +1,26 @@
+# Node / tooling
+node_modules/
+dist/
+/.cache/
+
+# System
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+*.log
+
+# Environment
+.env
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+desktop.ini
