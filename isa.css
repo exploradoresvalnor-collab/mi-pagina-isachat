@@ -13,6 +13,10 @@
     --color-cta-lime: #00D26A; /* Botón verde */
     --color-cta-lime-hover: #00a855;
 
+    --color-acento-purpura-darker: #4a2a8a; /* Un púrpura aún más oscuro para estados activos */
+    --color-acento-purpura-dark: #5a349a; /* Un púrpura más oscuro para gradientes */
+    --color-primario-dark: #00a855; /* Un verde/cian más oscuro para gradientes */
+    --color-primario-darker: #006a50; /* Un verde/cian aún más oscuro para estados activos */
     /* Tipografía */
     --fuente-principal: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     --fuente-codigo: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Source Code Pro', Consolas, 'Courier New', monospace;
@@ -229,59 +233,74 @@ details > summary:focus-visible {
    4. COMPONENTES REUTILIZABLES
    ========================================================================== */
 .btn { display: inline-block; padding: 0.75rem 1.75rem; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; text-align: center; font-size: 0.95rem; }
-.btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.btn { /* Estilos base consolidados y actualizados */
+    padding: 0.85rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-align: center;
+    font-size: 0.95rem; /* Tamaño de fuente estándar */
+    text-decoration: none; /* Asegura que no haya subrayado */
+}
+.btn:hover { transform: translateY(-3px); } /* La sombra se define por tipo de botón */
+.btn:active { transform: translateY(1px); }
 
 /* --- Nuevo Estilo de Botones (Blanco y Púrpura) --- */
 .btn-hero {
     background-color: #fff;
     color: var(--color-acento-purpura);
     border: 2px solid var(--color-acento-purpura);
-    box-shadow: none;
+    box-shadow: 0 6px 20px rgba(126, 87, 194, 0.15); /* Sombra inicial un poco más pronunciada */
     text-shadow: none;
+    font-size: 1.1rem; /* Más grande para el hero */
+    padding: 0.9rem 2.5rem; /* Más padding para el hero */
 }
-.btn-hero:hover {
-    background-color: var(--color-acento-purpura);
+.btn-hero:hover { /* Al pasar el ratón, se convierte en un botón relleno púrpura */
+    background: linear-gradient(135deg, var(--color-acento-purpura), var(--color-acento-purpura-dark));
     color: #fff;
-    box-shadow: 0 7px 25px rgba(126, 87, 194, 0.25);
+    border-color: transparent; /* Oculta el borde al rellenarse */
+    box-shadow: 0 12px 35px rgba(126, 87, 194, 0.4); /* Sombra más intensa y vibrante */
+    transform: translateY(-5px) scale(1.02); /* Efecto de levantamiento y ligero agrandamiento */
 }
-.btn-hero:active {
-    background-color: #5a349a;
-    border-color: #5a349a;
+.btn-hero:active { /* Estado activo (clic) */
+    background: linear-gradient(135deg, var(--color-acento-purpura-dark), var(--color-acento-purpura-darker)); /* Gradiente púrpura más oscuro */
+    color: #fff;
     box-shadow: 0 2px 10px rgba(126, 87, 194, 0.2);
-    transform: translateY(1px);
+    transform: translateY(1px) scale(0.98); /* Efecto de "presión" */
 }
 
 /* Nuevo estilo con degradado para el botón de Registro (.btn-solid) */
 .btn-solid {
     background: linear-gradient(135deg,
         var(--color-acento-purpura),
-        #5a349a
+        var(--color-acento-purpura-dark)
     );
     color: white;
     text-shadow: none;
-    padding: 0.85rem 2rem;
     border: 2px solid transparent;
     position: relative;
     overflow: hidden;
     isolation: isolate;
+    box-shadow: 0 4px 15px rgba(126, 87, 194, 0.2); /* Sombra sutil inicial */
 }
 
 .btn-solid::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg,
-        var(--color-primario),
-        var(--color-acento-purpura)
+    background: linear-gradient(135deg, /* Gradiente verde/cian para el hover */
+        var(--color-primario), /* Inicia con verde/cian primario */
+        var(--color-acento-purpura) /* Termina con púrpura acento */
     );
     opacity: 0;
     transition: opacity 0.3s ease;
     z-index: -1;
 }
 
-.btn-solid:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(126, 87, 194, 0.3);
+.btn-solid:hover { /* Al pasar el ratón, muestra el gradiente verde/cian */
+    box-shadow: 0 10px 30px rgba(0, 224, 184, 0.3); /* Sombra verde/cian */
     border-color: transparent;
     color: white;
 }
@@ -289,17 +308,11 @@ details > summary:focus-visible {
 .btn-solid:hover::before {
     opacity: 1;
 }
-.btn-solid:active {
-    transform: translateY(1px);
-    background: #f8f9fa; /* Un blanco ligeramente más oscuro al hacer clic */
-    border-color: #5a349a;
-    color: #5a349a;
-    box-shadow: 0 2px 10px rgba(126, 87, 194, 0.2);
+.btn-solid:active { /* Estado activo (clic) */
+    background: linear-gradient(135deg, var(--color-primario-dark), var(--color-primario-darker)); /* Gradiente verde/cian más oscuro */
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 224, 184, 0.2);
 }
-
-/* --- Estilos específicos para cada botón --- */
-.btn-hero { font-size: 1.1rem; padding: 0.9rem 2.5rem; }
-.btn-hero:hover { transform: translateY(-5px) scale(1.02); }
 
 /* ==========================================================================
    5. HEADER Y NAVEGACIÓN
@@ -625,6 +638,7 @@ details > summary:focus-visible {
     cursor: pointer;
     z-index: 1001;
     padding: 12px;
+    grid-area: toggle; /* Asignar área para el grid de escritorio */
     margin: -12px;
     border-radius: 8px;
     transition: background-color 0.3s ease;
@@ -671,11 +685,17 @@ details > summary:focus-visible {
     background-position: center;
     /* Se ajusta el padding para controlar el espacio superior y acercar el contenido a la navegación */
     /* Reducir un poco más para que el bloque del hero suba visualmente */
-    padding-top: calc(var(--header-height) - 0.25rem);
-    padding-bottom: 3rem;
+    padding-top: calc(var(--header-height) + 2rem); /* Espacio respecto al header */
+    padding-bottom: 4rem; /* Espacio inferior */
+    display: flex; /* Usar flexbox para centrar verticalmente */
+    align-items: center; /* Centrar el contenido */
+    min-height: 85vh; /* Altura mínima para que ocupe buena parte de la pantalla */
 }
-.hero-text { text-align: center; }
-.hero-text { max-width: 720px; margin-inline-start: 0; }
+.hero-text { 
+    text-align: center; 
+    max-width: 720px; 
+    margin: 0 auto; /* Centrar el bloque de texto */
+}
 .hero-title {
     /* Título menos dominante y más proporcional */
     font-size: clamp(1.6rem, 3.0vw + 0.4rem, 2.8rem);
@@ -690,8 +710,12 @@ details > summary:focus-visible {
 @media (min-width: 1200px) {
     .hero-title { font-size: clamp(2.8rem, 2.8vw + 1rem, 5rem); }
 }
-.hero-subtitle { font-size: var(--fs-lg); margin-bottom: 1.5rem; opacity: 0.9; }
-.hero-description { font-size: var(--fs-md); margin-bottom: 2.5rem; opacity: 0.8; }
+.hero-subtitle { 
+    font-size: clamp(1.1rem, 2vw, 1.5rem); /* Ajuste de tamaño para mejor legibilidad */
+    margin-bottom: 1.5rem; 
+    opacity: 0.9; 
+}
+.hero-description { font-size: clamp(0.95rem, 1.5vw, 1.1rem); margin-bottom: 2.5rem; opacity: 0.8; }
 
 /* --- Estilos para la imagen del Hero --- */
 .hero-image {
@@ -2054,6 +2078,15 @@ ul.accordion-content a:hover::before {
 /* ==========================================================================
    9. MEDIA QUERIES (DISEÑO RESPONSIVO)
    ========================================================================== */
+/* Ajuste para móvil: usar flexbox para alinear logo y toggle */
+@media (max-width: 991px) {
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
 @media (min-width: 768px) {
     /* Los grids de tarjetas ahora son automáticos, no necesitan breakpoints específicos */
 }
@@ -2063,12 +2096,14 @@ ul.accordion-content a:hover::before {
 
     .navbar {
         display: grid;
+        /* Se ajusta la grilla para dar espacio explícito al logo, menú y CTA */
+        grid-template-areas: "logo menu cta";
         grid-template-columns: auto 1fr auto;
         gap: 2rem;
         padding: 0;
     }
-    .nav-logo { grid-column: 1 / 2; }
-
+    .nav-logo { grid-area: logo; justify-self: start; }
+    
     /* Asegurar que el logo no se quede demasiado a la izquierda en pantallas anchas */
     .nav-logo { padding-inline-start: 0.5rem; }
     .nav-logo img { height: clamp(48px, 4vw, 72px); }
@@ -2085,7 +2120,7 @@ ul.accordion-content a:hover::before {
         right: auto;
         max-width: none;
         overflow-y: visible;
-        grid-column: 2 / 3;
+        grid-area: menu; /* Asignamos el menú a su área */
         justify-self: center;
     }
     .nav-list {
@@ -2098,12 +2133,13 @@ ul.accordion-content a:hover::before {
     .nav-item-cta-mobile { display: none; }
     .nav-item-cta-desktop {
         display: block;
-        grid-column: 3 / 4;
+        grid-area: cta;
         justify-self: end;
     }
 
     /* Mantener la navegación centrada dentro del layout cuando hay mucho espacio */
     .navbar { justify-content: space-between; }
+
 
     .hero {
         /* Evitar que el hero quede debajo del header y subir visualmente el bloque */
