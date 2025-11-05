@@ -1,0 +1,57 @@
+{
+  "name": "isachat-landing",
+  "version": "2.0.0",
+  "description": "IsaChat Landing Page - Optimizado y Modular",
+  "main": "index.html",
+  "scripts": {
+    "build:css": "postcss css/main.css -o dist/css/main.min.css",
+    "build:css:watch": "postcss css/main.css -o dist/css/main.min.css --watch",
+    "build:tailwind": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --minify",
+    "watch:tailwind": "tailwindcss -i ./css/tailwind-input.css -o ./css/tailwind.css --watch",
+    "build:js": "terser js/main.js -o dist/js/main.min.js --compress --mangle --source-map",
+    "build:productos-js": "terser productos.js -o dist/js/productos.min.js --compress --mangle --source-map",
+    "optimize:images": "bash scripts/optimize-images.sh",
+    "optimize:images:webp": "bash scripts/convert-to-webp.sh",
+    "build": "npm run build:tailwind && npm run build:css && npm run build:js && npm run build:productos-js",
+    "dev": "npm-run-all --parallel watch:tailwind serve",
+    "serve": "npx http-server -p 8080 -c-1",
+    "test": "echo \"No tests configured yet\" && exit 0",
+    "validate:html": "html-validate index.html productos.html",
+    "lint:css": "stylelint 'css/**/*.css'",
+    "format": "prettier --write '**/*.{html,css,js,json,md}'",
+    "clean": "rm -rf dist && mkdir -p dist/css dist/js dist/assets/images"
+  },
+  "keywords": [
+    "isachat",
+    "landing-page",
+    "whatsapp",
+    "automation",
+    "ai"
+  ],
+  "author": "IsaChat Team",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.1",
+    "html-validate": "^8.7.4",
+    "http-server": "^14.1.1",
+    "imagemin": "^8.0.1",
+    "imagemin-cli": "^7.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^9.0.2",
+    "imagemin-webp": "^8.0.0",
+    "postcss": "^8.4.31",
+    "postcss-cli": "^11.0.0",
+    "postcss-import": "^15.1.0",
+    "prettier": "^3.1.0",
+    "stylelint": "^15.11.0",
+    "stylelint-config-standard": "^34.0.0",
+    "tailwindcss": "^3.4.1",
+    "terser": "^5.24.0"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "> 1%",
+    "not dead"
+  ]
+}

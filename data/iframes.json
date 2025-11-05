@@ -1,0 +1,92 @@
+{
+    "courses": [
+        {
+            "id": "mod1",
+            "module": "Módulo 1: Fundamentos y Configuración (Clases 2-4)",
+            "classes": [
+                {
+                    "title": "Clase 2: Introducción y Configuración Inicial",
+                    "url": "https://drive.google.com/file/d/1Qb4UBfZtJFj0qLQjHe1v5ljIJzZFkBKT/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 3: Estructura de Productos",
+                    "url": "https://drive.google.com/file/d/1Xzr6RDfT5NKXgcc8oElYVhrM4q6Mt_NZ/view?usp=drivesdk"
+                },
+                {
+                    "title": "Clase 4: Técnicas de Prompts",
+                    "url": "https://drive.google.com/file/d/1S4_WXV1EOdeKeXiEaS2mE9HnLu7BaXxn/view?usp=sharing"
+                }
+            ]
+        },
+        {
+            "id": "mod2",
+            "module": "Módulo 2: Estrategia de Ventas (Clases 5-8)",
+            "classes": [
+                {
+                    "title": "Clase 5: Optimización de Conversaciones",
+                    "url": "https://drive.google.com/file/d/1ok2Y1kFqIQCQtffCq7SMroKnjsHz188s/view"
+                },
+                {
+                    "title": "Clase 6: Integración con Isa Lab",
+                    "url": "https://drive.google.com/file/d/15gqHKL9lOmh56ZN4bQPOnQQclDpdfg9J/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 7: Análisis de Métricas",
+                    "url": "https://drive.google.com/file/d/1wvdZ-QVqjXkw1Tti2G4DnEXdHvUmKAbC/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 8: Soporte y Resolución de Problemas",
+                    "url": "https://drive.google.com/file/d/1PBAKXRqsI4JkEBsjl79YH-RSJyaKx02S/view?usp=sharing"
+                }
+            ]
+        },
+        {
+            "id": "mod3",
+            "module": "Módulo 3: Crecimiento y Expansión (Clases 9-12)",
+            "classes": [
+                {
+                    "title": "Clase 9: Estrategias de Marketing",
+                    "url": "https://drive.google.com/file/d/1GsiV8JvTZzVJSt5tw95G5DQs4q_8uL3W/view?usp=drivesdk"
+                },
+                {
+                    "title": "Clase 10: Automatizaciones Avanzadas",
+                    "url": "https://drive.google.com/file/d/1T-Y8t6uLoW2JkVdhvJvYqu0P8kiga1zp/view?usp=drivesdk"
+                },
+                {
+                    "title": "Clase 11: Conviértete en Implementador",
+                    "url": "https://drive.google.com/file/d/1XJgfRt7OJ3OKVS5u6CFtNDrshvtz9L-f/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 12: Sesión Final de Q&A",
+                    "url": "https://drive.google.com/file/d/1mRRBOyn9f7gExLvlCk_OJoMKZh1QDBhu/view?usp=sharing"
+                }
+            ]
+        },
+        {
+            "id": "mod4",
+            "module": "Módulo 4: Contenido Adicional (Clases 13-17)",
+            "classes": [
+                {
+                    "title": "Clase 13: Novedades y Futuras Funciones",
+                    "url": "https://drive.google.com/file/d/1-vQR5Bga4nImFXM_iwBLjFlIQGIfg75X/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 14: Integración con Mastershop",
+                    "url": "https://drive.google.com/file/d/1Iiw5sgGmoW4-hJsKJqVNH9edlKA647D8/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 15: Estrategia para Creación de Contenido e Instagram Ads",
+                    "url": "https://drive.google.com/file/d/1JIZ7LaZmKaAZOrSQtPkLEV0fdH9AtTjv/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 16: Sesión Especial",
+                    "url": "https://drive.google.com/file/d/15td-oIvim2HgyGjnsjx1oqTe75QQuPsC/view?usp=sharing"
+                },
+                {
+                    "title": "Clase 17: Sesión de Cierre",
+                    "url": "https://drive.google.com/file/d/13fxfgPMhWHvqyQMKz-JXPXSOpHFJPDuZ/view?usp=sharing"
+                }
+            ]
+        }
+    ]
+}

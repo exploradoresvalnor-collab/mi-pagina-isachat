@@ -1,0 +1,29 @@
+/* ==========================================================================
+   SCROLLBAR STYLES
+   Estilos personalizados para scrollbars
+   ========================================================================== */
+
+/* Custom Scrollbar para área de prompts */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(139, 92, 246, 0.5) rgba(31, 41, 55, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(31, 41, 55, 0.3);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.7), rgba(236, 72, 153, 0.7));
+    border-radius: 10px;
+    border: 2px solid rgba(31, 41, 55, 0.3);
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, rgba(139, 92, 246, 0.9), rgba(236, 72, 153, 0.9));
+}

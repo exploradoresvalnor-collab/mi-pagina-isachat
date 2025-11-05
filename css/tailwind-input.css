@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Componentes personalizados de IsaChat con Tailwind */
+@layer components {
+  /* Botones */
+  .btn-isa {
+    @apply bg-isa-purple hover:bg-isa-purple-600 text-white font-semibold 
+           px-8 py-4 rounded-lg transition-all duration-300 
+           shadow-isa hover:shadow-isa-lg transform hover:scale-105;
+  }
+  
+  .btn-isa-outline {
+    @apply border-2 border-isa-purple text-isa-purple hover:bg-isa-purple 
+           hover:text-white font-semibold px-8 py-4 rounded-lg 
+           transition-all duration-300;
+  }
+  
+  .btn-isa-pink {
+    @apply bg-isa-pink hover:bg-isa-pink-600 text-white font-semibold 
+           px-8 py-4 rounded-lg transition-all duration-300 
+           shadow-lg hover:shadow-xl transform hover:scale-105;
+  }
+
+  /* Cards */
+  .card-isa {
+    @apply bg-white rounded-2xl shadow-lg hover:shadow-xl 
+           transition-all duration-300 p-6 border border-gray-100;
+  }
+  
+  .card-isa-hover {
+    @apply card-isa hover:scale-105 hover:-translate-y-2;
+  }
+
+  /* Containers */
+  .container-isa {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Gradients */
+  .gradient-isa {
+    @apply bg-gradient-to-r from-isa-purple to-isa-pink;
+  }
+  
+  .gradient-isa-radial {
+    @apply bg-gradient-to-br from-isa-purple via-isa-pink to-purple-400;
+  }
+
+  /* Texto */
+  .text-gradient-isa {
+    @apply bg-gradient-to-r from-isa-purple to-isa-pink bg-clip-text text-transparent;
+  }
+
+  /* Secciones */
+  .section-isa {
+    @apply py-20 lg:py-32;
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .backdrop-blur-isa {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+}

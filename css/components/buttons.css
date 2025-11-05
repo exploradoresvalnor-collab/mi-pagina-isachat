@@ -1,0 +1,212 @@
+/* ==========================================================================
+   BOTONES - Componentes reutilizables
+   ========================================================================== */
+
+/* Botones básicos desactivados - El hero usa Tailwind */
+/* .btn {
+    padding: 0.85rem 2rem;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    text-align: center;
+    font-size: 0.95rem;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover { 
+    transform: translateY(-3px); 
+}
+
+.btn:active { 
+    transform: translateY(1px); 
+}
+
+.btn-hero {
+    background-color: #fff;
+    color: var(--color-acento-purpura);
+    border: 2px solid var(--color-acento-purpura);
+    box-shadow: 0 6px 20px rgba(126, 87, 194, 0.15);
+    text-shadow: none;
+    font-size: 1.1rem;
+    padding: 0.9rem 2.5rem;
+}
+
+.btn-hero:hover {
+    background: linear-gradient(135deg, var(--color-acento-purpura), var(--color-acento-purpura-dark));
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 12px 35px rgba(126, 87, 194, 0.4);
+    transform: translateY(-5px) scale(1.02);
+}
+
+.btn-hero:active {
+    background: linear-gradient(135deg, var(--color-acento-purpura-dark), var(--color-acento-purpura-darker));
+    color: #fff;
+    box-shadow: 0 2px 10px rgba(126, 87, 194, 0.2);
+    transform: translateY(1px) scale(0.98);
+} */
+
+/* Botón Sólido (gradiente púrpura) */
+.btn-solid {
+    background: linear-gradient(135deg, var(--color-acento-purpura), var(--color-acento-purpura-dark));
+    color: white;
+    text-shadow: none;
+    border: 2px solid transparent;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    box-shadow: 0 4px 15px rgba(126, 87, 194, 0.2);
+}
+
+.btn-solid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--color-primario), var(--color-acento-purpura));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.btn-solid:hover {
+    box-shadow: 0 10px 30px rgba(0, 224, 184, 0.3);
+    border-color: transparent;
+    color: white;
+}
+
+.btn-solid:hover::before {
+    opacity: 1;
+}
+
+.btn-solid:active {
+    background: linear-gradient(135deg, var(--color-primario-dark), var(--color-primario-darker));
+    color: white;
+    box-shadow: 0 2px 10px rgba(0, 224, 184, 0.2);
+}
+
+/* Botones de Expandir/Colapsar */
+.btn-expand,
+.btn-expand-prompt,
+.expand-toggle,
+.content-expander button {
+    background: none;
+    border: 2px solid var(--color-acento-purpura);
+    color: var(--color-acento-purpura);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    margin-top: 1rem;
+    width: auto;
+    min-width: 180px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.btn-expand:hover,
+.btn-expand-prompt:hover,
+.expand-toggle:hover,
+.content-expander button:hover {
+    background-color: var(--color-acento-purpura);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(126, 87, 194, 0.2);
+}
+
+.btn-expand .chevron-icon,
+.btn-expand-prompt .chevron-icon,
+.expand-toggle .chevron-icon,
+.content-expander .chevron-icon {
+    transition: transform 0.4s ease;
+    width: 20px;
+    height: 20px;
+}
+
+.btn-expand[aria-expanded="true"] .chevron-icon,
+.btn-expand-prompt.expanded .chevron-icon,
+.expand-toggle[aria-expanded="true"] .chevron-icon,
+.content-expander.expanded .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.btn-expand .collapse-text,
+.btn-expand-prompt .collapse-text,
+.expand-toggle .collapse-text,
+.content-expander .collapse-text,
+.btn-texto-colapsar {
+    display: none;
+}
+
+.btn-expand[aria-expanded="true"] .collapse-text,
+.btn-expand-prompt.expanded .collapse-text,
+.expand-toggle[aria-expanded="true"] .collapse-text,
+.content-expander.expanded .collapse-text,
+.btn-expand[aria-expanded="true"] .btn-texto-colapsar {
+    display: inline;
+}
+
+.btn-expand[aria-expanded="true"] .expand-text,
+.btn-expand-prompt.expanded .expand-text,
+.expand-toggle[aria-expanded="true"] .expand-text,
+.content-expander.expanded .expand-text,
+.btn-expand[aria-expanded="true"] .btn-texto-expandir {
+    display: none;
+}
+
+.expand-button-container {
+    text-align: center;
+    margin-top: 2rem;
+    padding: 1rem;
+    border-top: 1px solid rgba(126, 87, 194, 0.1);
+}
+
+/* Botón Copiar */
+.copy-btn {
+    background-color: var(--color-acento-purpura);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.copy-btn:hover {
+    background-color: #5a349a;
+}
+
+.copy-btn.copied {
+    background-color: var(--color-cta-lime);
+    color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .btn-expand,
+    .btn-expand-prompt,
+    .expand-toggle,
+    .content-expander button {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+        border-width: 1px;
+    }
+    
+    .expand-button-container {
+        margin-top: 1.5rem;
+        padding: 0.75rem;
+    }
+}

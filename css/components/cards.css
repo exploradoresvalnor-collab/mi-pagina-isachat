@@ -1,0 +1,310 @@
+/* ==========================================================================
+   CARDS Y ACORDEONES
+   ========================================================================== */
+
+/* Cards Generales */
+.card, 
+.step-card,
+.update-card,
+.product-section {
+    background-color: #fff;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: all 0.3s ease;
+    text-align: left;
+}
+
+.card:hover,
+.step-card:hover,
+.update-card:hover,
+.product-section:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-acento-purpura);
+}
+
+/* Update Cards */
+.update-card--soon {
+    border-style: dashed;
+    border-color: #ced4da;
+}
+
+.update-card--soon .update-icon {
+    background: linear-gradient(135deg, var(--color-cta-lime), var(--color-cta-lime-hover));
+}
+
+.update-card--soon:hover {
+    border-color: var(--color-cta-lime);
+    border-style: solid;
+}
+
+.update-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.update-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.update-title {
+    color: var(--color-texto-dark);
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.update-description {
+    font-size: var(--fs-sm);
+    color: var(--color-texto-dark);
+    opacity: 0.8;
+    line-height: 1.7;
+}
+
+/* Acordeones */
+.accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.accordion-item {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #e9ecef;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.accordion-item:hover {
+    border-color: #ced4da;
+    box-shadow: var(--shadow-sm);
+}
+
+.accordion-item summary {
+    font-size: var(--fs-md);
+    font-weight: 600;
+    color: var(--color-fondo-dark);
+    padding: 1.2rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.accordion-item summary:hover {
+    background-color: #f8f9fa;
+}
+
+.accordion-item[open] > summary {
+    color: var(--color-acento-purpura);
+    border-bottom: 1px solid #e9ecef;
+}
+
+.accordion-item summary::marker,
+.accordion-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.chevron-icon {
+    flex-shrink: 0;
+    margin-left: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.accordion-item[open] > summary .chevron-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-item .accordion-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.4s ease-out;
+}
+
+.accordion-item[open] .accordion-content {
+    grid-template-rows: 1fr;
+}
+
+.accordion-content > * {
+    overflow: hidden;
+}
+
+.accordion-content {
+    padding: 1.2rem 1.5rem;
+    font-size: var(--fs-sm);
+    color: var(--color-texto-dark);
+    line-height: 1.7;
+    background-color: #fff;
+    text-align: left;
+}
+
+.accordion-content p {
+    margin-bottom: 1rem;
+}
+
+.accordion-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Categorías de acordeón */
+.accordion-category {
+    font-size: var(--fs-lg);
+    color: var(--color-fondo-dark);
+    margin-top: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--color-acento-purpura), #5a349a);
+    color: white;
+    flex-shrink: 0;
+}
+
+.category-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Feature Boxes */
+.feature-box {
+    background: rgba(126, 87, 194, 0.05);
+    border-radius: 12px;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    border: 1px solid rgba(126, 87, 194, 0.1);
+    box-shadow: 0 2px 15px rgba(126, 87, 194, 0.05);
+    transition: all 0.3s ease;
+}
+
+.feature-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(126, 87, 194, 0.1);
+}
+
+.feature-box:last-child {
+    margin-bottom: 0;
+}
+
+.feature-box h4 {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    color: var(--color-acento-purpura);
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.feature-box svg {
+    color: var(--color-acento-purpura);
+}
+
+.feature-box--tip {
+    background: rgba(0, 224, 184, 0.05);
+    border-left: 4px solid var(--color-primario);
+}
+
+.feature-box--tip h4 {
+    color: var(--color-primario);
+}
+
+.feature-box--tip svg {
+    color: var(--color-primario);
+}
+
+.feature-box--warning {
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+}
+
+.feature-box--warning h4 {
+    color: #ff9800;
+}
+
+.feature-box--warning svg {
+    color: #ff9800;
+}
+
+/* Listas en componentes */
+.faq-list,
+.step-info-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.faq-list li,
+.step-info-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.faq-important {
+    background-color: #fffbe6;
+    border-left: 4px solid #ffc107;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.prompt-example {
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    border-radius: 6px;
+    margin: 0.5rem 0;
+    font-family: var(--fuente-codigo);
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+    color: #2c3e50;
+}
+
+.prompt-note {
+    background: rgba(0, 224, 184, 0.1);
+    border-left: 4px solid var(--color-primario);
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+    .prompt-note {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        border-radius: 0 8px 8px 0;
+        color: var(--color-texto-dark);
+        background: rgba(0, 224, 184, 0.08);
+    }
+}

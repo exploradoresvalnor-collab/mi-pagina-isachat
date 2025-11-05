@@ -74,32 +74,89 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
+    // Función para expandir detalles del producto (Paso 5)
+    window.toggleProductDetails = function() {
+        const details = document.getElementById('productDetails');
+        const btnText = document.getElementById('btnProductText');
+        const btnIcon = document.getElementById('btnProductIcon');
+        
+        if (details.classList.contains('hidden')) {
+            details.classList.remove('hidden');
+            btnText.textContent = 'Ver menos detalles';
+            btnIcon.style.transform = 'rotate(180deg)';
+        } else {
+            details.classList.add('hidden');
+            btnText.textContent = 'Ver más detalles';
+            btnIcon.style.transform = 'rotate(0deg)';
+        }
+    };
+    
+    // Función para mostrar/ocultar todos los pasos de configuración
+    window.toggleAllSteps = function() {
+        const hiddenSteps = document.getElementById('hiddenSteps');
+        const btnText = document.getElementById('btnToggleStepsText');
+        const btnIcon1 = document.getElementById('btnToggleIcon1');
+        const btnIcon2 = document.getElementById('btnToggleIcon2');
+        
+        if (hiddenSteps.classList.contains('hidden')) {
+            hiddenSteps.classList.remove('hidden');
+            btnText.textContent = 'Ocultar pasos adicionales';
+            btnIcon1.style.transform = 'rotate(180deg)';
+            btnIcon2.style.transform = 'rotate(180deg)';
+            // Scroll suave al inicio de los pasos ocultos
+            setTimeout(() => {
+                hiddenSteps.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        } else {
+            hiddenSteps.classList.add('hidden');
+            btnText.textContent = 'Ver más pasos de configuración';
+            btnIcon1.style.transform = 'rotate(0deg)';
+            btnIcon2.style.transform = 'rotate(0deg)';
+        }
+    };
+    
     // --- LÓGICA PARA CARGAR CLASES DESDE JSON ---
     const loadClasses = async () => {
         try {
-            const response = await fetchWithTimeout('iframes.json', {}, 6000);
+            const response = await fetchWithTimeout('data/iframes.json', {}, 6000);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const modules = await response.json();
+            const data = await response.json();
             const accordionContainer = document.querySelector('#clases .accordion');
+
+            // Soportar ambos formatos: { courses: [] } o array directo
+            const modules = data.courses || data;
 
             if (accordionContainer && Array.isArray(modules)) {
                 const fragment = document.createDocumentFragment();
-                modules.forEach(module => {
+                modules.forEach((module, index) => {
                     const details = document.createElement('details');
                     details.className = 'accordion-item';
+                    
+                    // Abrir el primer módulo por defecto
+                    if (index === 0) details.open = true;
 
                     const summary = document.createElement('summary');
-                    summary.innerHTML = `${module.module}<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+                    // Soportar ambos nombres de propiedad
+                    const moduleName = module.name || module.module;
+                    summary.innerHTML = `
+                        <span>${moduleName}</span>
+                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    `;
                     details.appendChild(summary);
 
                     const ul = document.createElement('ul');
                     ul.className = 'accordion-content';
                     (module.classes || []).forEach(clase => {
                         const li = document.createElement('li');
+                        const className = clase.name || clase.title;
+                        const classUrl = clase.src || clase.url;
+                        
                         if (clase.status === 'disabled') {
-                            li.innerHTML = `<a href="#" class="disabled" onclick="return false;">${clase.title}</a>`;
+                            li.innerHTML = `<a href="#" class="disabled opacity-50 cursor-not-allowed" onclick="return false;">${className}</a>`;
                         } else {
-                            li.innerHTML = `<a href="${clase.url}" target="_blank" rel="noopener noreferrer">${clase.title}</a>`;
+                            li.innerHTML = `<a href="${classUrl}" target="_blank" rel="noopener noreferrer">${className}</a>`;
                         }
                         ul.appendChild(li);
                     });
@@ -109,12 +166,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 accordionContainer.innerHTML = '';
                 accordionContainer.appendChild(fragment);
+                
+                console.log(`✅ ${modules.length} módulos cargados exitosamente`);
             }
         } catch (error) {
-            console.error('No se pudieron cargar las clases:', error);
+            console.error('❌ Error al cargar las clases:', error);
             const accordionContainer = document.querySelector('#clases .accordion');
             if (accordionContainer) {
-                accordionContainer.innerHTML = '<p style="color: var(--color-texto-dark);">No se pudieron cargar las clases en este momento. Por favor, intenta de nuevo más tarde.</p>';
+                accordionContainer.innerHTML = `
+                    <div class="text-center py-8 px-4">
+                        <div class="text-red-500 text-5xl mb-4">⚠️</div>
+                        <p class="text-gray-700 text-lg font-semibold mb-2">No se pudieron cargar las clases</p>
+                        <p class="text-gray-500">Por favor, intenta recargar la página o contacta con soporte.</p>
+                    </div>
+                `;
             }
         }
     };
@@ -132,21 +197,67 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         try {
-            const response = await fetchWithTimeout('updates.json');
+            const response = await fetchWithTimeout('data/updates.json');
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-            const updates = await response.json();
+            const data = await response.json();
+            const updates = data.updates || data;
             const updatesGrid = document.querySelector('.updates-grid');
 
             if (updatesGrid && Array.isArray(updates)) {
                 updatesGrid.innerHTML = '';
-                updates.forEach(update => {
+                updates.forEach((update, index) => {
                     const card = document.createElement('div');
-                    card.className = `card update-card ${update.status === 'soon' ? 'update-card--soon' : ''}`.trim();
+                    const isComingSoon = update.status === 'coming-soon';
+                    const delay = index * 100;
+                    
+                    card.className = `group relative bg-white rounded-2xl p-7 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-gray-100 hover:border-purple-300 ${isComingSoon ? 'opacity-75' : ''}`;
+                    card.style.animationDelay = `${delay}ms`;
+                    card.style.animation = 'fadeIn 0.6s ease-out forwards';
+                    
+                    const badgeColors = {
+                        'Nuevo': 'bg-green-100 text-green-700 border-green-200',
+                        'Mejorado': 'bg-blue-100 text-blue-700 border-blue-200',
+                        'Próximamente': 'bg-purple-100 text-purple-700 border-purple-200'
+                    };
+                    
+                    const iconSVG = {
+                        '🛍️': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>',
+                        '📊': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>',
+                        '👋': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>',
+                        '👥': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>',
+                        '💬': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>',
+                        '🔗': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>',
+                        '📦': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>',
+                        '📅': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>'
+                    };
+                    
                     card.innerHTML = `
-                        <div class="update-icon">${iconMap[update.icon] || ''}</div>
-                        <h3 class="update-title">${update.title}</h3>
-                        <p class="update-description">${update.description}</p>
+                        <!-- Badge -->
+                        <div class="absolute top-4 right-4">
+                            <span class="px-3 py-1.5 text-xs font-bold rounded-full border-2 ${badgeColors[update.badge] || 'bg-gray-100 text-gray-700 border-gray-200'}">
+                                ${update.badge}
+                            </span>
+                        </div>
+                        
+                        <!-- Icon -->
+                        <div class="flex items-center justify-center w-16 h-16 mb-5 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-500 text-white shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300">
+                            ${iconSVG[update.icon] || '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>'}
+                        </div>
+                        
+                        <!-- Title -->
+                        <h3 class="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-purple-600 transition-colors">
+                            ${update.title}
+                        </h3>
+                        
+                        <!-- Description -->
+                        <p class="text-gray-600 leading-relaxed text-base">
+                            ${update.description}
+                        </p>
+                        
+                        <!-- Border decoration -->
+                        <div class="absolute bottom-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-b-2xl transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                     `;
+                    
                     updatesGrid.appendChild(card);
                 });
             }
@@ -162,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const elapsed = preloaderShownAt ? (performance.now() - preloaderShownAt) : PRELOADER_MIN_MS;
         const remaining = Math.max(0, PRELOADER_MIN_MS - elapsed);
         setTimeout(() => {
-            preloader.classList.add('loaded');
-            setTimeout(() => preloader.remove(), PRELOADER_TRANSITION_MS);
+            preloader.classList.add('hidden');
+            setTimeout(() => preloader.remove(), 500);
         }, remaining);
     };
 
@@ -189,11 +300,22 @@ document.addEventListener('DOMContentLoaded', () => {
         let autoplayId = null;
         const AUTOPLAY_INTERVAL = options.autoplayInterval || 3000;
 
+        // Inicializar el primer slide como visible
+        slides.forEach((slide, i) => {
+            if (i === 0) {
+                slide.classList.add('opacity-100', 'z-10');
+                slide.classList.remove('opacity-0');
+            }
+        });
+
         // Crear indicadores si el contenedor existe
         if (indicatorsWrap) {
             slides.forEach((s, i) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
+                btn.className = i === 0 
+                    ? 'w-10 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 shadow-lg shadow-cyan-500/50 transition-all duration-300' 
+                    : 'w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 hover:w-4 transition-all duration-300';
                 btn.setAttribute('aria-label', `Ir a la diapositiva ${i + 1}`);
                 if (i === 0) btn.setAttribute('aria-current', 'true');
                 indicatorsWrap.appendChild(btn);
@@ -204,9 +326,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const indicators = indicatorsWrap ? Array.from(indicatorsWrap.querySelectorAll('button')) : [];
 
         function update() {
-            track.style.transform = `translateX(-${current * 100}%)`;
+            // Usar fade effect en lugar de translateX
+            slides.forEach((slide, i) => {
+                if (i === current) {
+                    slide.classList.remove('opacity-0');
+                    slide.classList.add('opacity-100', 'z-10');
+                } else {
+                    slide.classList.remove('opacity-100', 'z-10');
+                    slide.classList.add('opacity-0');
+                }
+            });
+            
+            // Actualizar indicadores con clases Tailwind mejoradas
             if (indicators.length) {
-                indicators.forEach((b, i) => b.setAttribute('aria-current', i === current ? 'true' : 'false'));
+                indicators.forEach((btn, i) => {
+                    btn.setAttribute('aria-current', i === current ? 'true' : 'false');
+                    if (i === current) {
+                        btn.className = 'w-10 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-pink-400 shadow-lg shadow-cyan-500/50 transition-all duration-300';
+                    } else {
+                        btn.className = 'w-2 h-2 rounded-full bg-white/40 hover:bg-white/70 hover:w-4 transition-all duration-300';
+                    }
+                });
             }
         }
 
@@ -259,45 +399,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- LÓGICA PARA LA ANIMACIÓN DE STEPS Y BOTONES ---
     const initGuiaVisual = () => {
-        const steps = qsa('.step-card');
+        const extraSteps = qsa('.step-extra');
         const expandBtn = qs('#btn-expand-guia');
         const stepsContainer = qs('.guia-steps');
         
-        if (!steps.length || !expandBtn || !stepsContainer) return;
+        if (!expandBtn) return;
 
-        // Configuramos el estado inicial
-        const visibleSteps = 4; // Número de pasos visibles inicialmente
         let isExpanded = false;
-
-        // Función para actualizar la visibilidad de los pasos
-        const updateStepsVisibility = () => {
-            steps.forEach((step, index) => {
-                if (index < visibleSteps || isExpanded) {
-                    step.style.display = 'block';
-                    // Añadimos un pequeño retraso para la animación
-                    setTimeout(() => {
-                        step.style.opacity = '1';
-                        step.style.transform = 'translateY(0)';
-                    }, index * 100);
-                } else {
-                    step.style.display = 'none';
-                    step.style.opacity = '0';
-                    step.style.transform = 'translateY(20px)';
-                }
-            });
-        };
 
         // Configurar el botón de expandir/colapsar
         expandBtn.addEventListener('click', () => {
             isExpanded = !isExpanded;
             
-            // Actualizar el texto del botón
-            const btnText = expandBtn.querySelector('.btn-texto-expandir');
-            const btnTextColapsar = expandBtn.querySelector('.btn-texto-colapsar');
-            if (btnText && btnTextColapsar) {
-                btnText.style.display = isExpanded ? 'none' : 'inline';
-                btnTextColapsar.style.display = isExpanded ? 'inline' : 'none';
-            }
+            // Actualizar aria-expanded
+            expandBtn.setAttribute('aria-expanded', isExpanded);
+            
+            // Mostrar/ocultar pasos extra
+            extraSteps.forEach((step, index) => {
+                if (isExpanded) {
+                    step.classList.remove('hidden');
+                    // Animación escalonada
+                    setTimeout(() => {
+                        step.classList.add('animate-fadeIn');
+                    }, index * 100);
+                } else {
+                    step.classList.add('hidden');
+                    step.classList.remove('animate-fadeIn');
+                }
+            });
 
             // Actualizar el ícono
             const chevron = expandBtn.querySelector('.chevron-icon');
@@ -305,40 +434,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 chevron.style.transform = isExpanded ? 'rotate(180deg)' : '';
             }
 
-            updateStepsVisibility();
-
-            // Si estamos colapsando, hacer scroll suave hacia arriba
-            if (!isExpanded && steps[0]) {
-                steps[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // Si estamos colapsando, hacer scroll suave hacia la sección
+            if (!isExpanded && stepsContainer) {
+                stepsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
 
-        // Configurar el observador de intersección para la animación inicial
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    const step = entry.target;
-                    const index = Array.from(steps).indexOf(step);
-                    setTimeout(() => {
-                        step.classList.add('visible');
-                    }, index * 200);
-                    observer.unobserve(step);
-                }
-            });
-        }, {
-            threshold: 0.2,
-            rootMargin: '50px'
-        });
-
-        // Inicializar el estado de los pasos
-        updateStepsVisibility();
-
-        // Observar los pasos para la animación
-        steps.forEach((step) => {
-            observer.observe(step);
-
+        // Manejar ampliación de imágenes en los steps
+        const allSteps = qsa('.step-card');
+        allSteps.forEach((step) => {
             // Manejar el clic en la imagen para ampliarla
-            const img = qs('.step-image', step);
+            const img = step.querySelector('img[alt*="rapido"]');
             if (img) {
                 on(img, 'click', () => {
                     const modal = document.createElement('div');
@@ -380,48 +486,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // --- LÓGICA PARA INYECTAR ICONOS EN LA GUÍA ---
-    const initGuiaExpansion = () => {
-        const guiaContainer = qs('#guia-pasos');
-        const expandBtn = qs('#btn-expand-guia');
-        if (!guiaContainer || !expandBtn) return;
-
-        const items = qsa('.guia-item', guiaContainer);
-        const visibleItemCount = 3;
-
-        // Inicialmente muestra solo los primeros 3 pasos
-        items.forEach((item, index) => {
-            if (index < visibleItemCount) {
-                item.classList.add('visible');
-            } else {
-                item.classList.remove('visible');
-            }
-        });
-
-        on(expandBtn, 'click', () => {
-            const isExpanded = expandBtn.classList.toggle('expanded');
-            
-            items.forEach((item, index) => {
-                if (index >= visibleItemCount) {
-                    if (isExpanded) {
-                        // Mostrar el item con un pequeño delay para crear un efecto cascada
-                        setTimeout(() => {
-                            item.classList.add('visible');
-                        }, (index - visibleItemCount) * 100);
-                    } else {
-                        item.classList.remove('visible');
-                    }
-                }
-            });
-
-            // Si estamos colapsando, scrollear suavemente hacia arriba
-            if (!isExpanded) {
-                const firstItem = items[0];
-                firstItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-    };
-
+    // --- ICONOS PARA LA GUÍA VISUAL (CÓDIGO LEGACY - DEPRECADO) ---
     const initGuiaVisualIcons = () => {
         const GUIA_ICON_MAP = {
             "contact": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
@@ -449,16 +514,19 @@ document.addEventListener('DOMContentLoaded', () => {
         const CLASS_KEY = 'lastSeenClassTitle';
 
         try {
-            const [updates, modules, config] = await Promise.all([
-                fetchWithTimeout('updates.json').then(res => res.json()),
-                fetchWithTimeout('iframes.json').then(res => res.json()),
-                fetchWithTimeout('config.json').then(res => res.json())
+            const [updates, modulesData, config] = await Promise.all([
+                fetchWithTimeout('data/updates.json').then(res => res.json()),
+                fetchWithTimeout('data/iframes.json').then(res => res.json()),
+                fetchWithTimeout('data/config.json').then(res => res.json())
             ]);
+
+            // Soportar ambos formatos del JSON
+            const modules = modulesData.courses || modulesData;
 
             const latestUpdateTitle = updates?.[0]?.title;
             const lastModule = modules?.[modules.length - 1];
             const latestClass = lastModule?.classes?.[lastModule.classes.length - 1];
-            const latestClassTitle = latestClass?.status !== 'disabled' ? latestClass.title : null;
+            const latestClassTitle = latestClass?.status !== 'disabled' ? (latestClass.name || latestClass.title) : null;
 
             const isNewUpdate = latestUpdateTitle && latestUpdateTitle !== localStorage.getItem(UPDATE_KEY);
             const isNewClass = latestClassTitle && latestClassTitle !== localStorage.getItem(CLASS_KEY);
@@ -629,36 +697,37 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const initNavMenu = () => {
-        const navToggle = qs('#nav-toggle');
-        const navMenu = qs('#nav-menu');
-        const allNavLinks = qsa('.nav-list .nav-link');
+        const mobileToggle = qs('#mobileToggle');
+        const mobileMenu = qs('#mobileMenu');
+        const allMenuLinks = qsa('.mobile-item, .nav-item');
 
-        if (!navToggle || !navMenu) return;
-
-        navToggle.setAttribute('aria-expanded', 'false');
-        navToggle.setAttribute('aria-controls', navMenu.id);
+        if (!mobileToggle || !mobileMenu) return;
 
         const toggleMenu = () => {
-            const isExpanded = navMenu.classList.toggle('active');
-            navToggle.classList.toggle('active');
-            navToggle.setAttribute('aria-expanded', isExpanded);
+            const isActive = mobileMenu.classList.toggle('active');
+            mobileToggle.classList.toggle('active');
+            document.body.classList.toggle('menu-open', isActive);
         };
-        on(navToggle, 'click', toggleMenu);
+        
+        on(mobileToggle, 'click', toggleMenu);
 
         const closeMenu = () => {
-            navMenu.classList.remove('active');
-            navToggle.classList.remove('active');
-            navToggle.setAttribute('aria-expanded', 'false');
+            mobileMenu.classList.remove('active');
+            mobileToggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
         };
 
-        allNavLinks.forEach(link => {
+        allMenuLinks.forEach(link => {
             on(link, 'click', (event) => {
+                closeMenu();
                 if (link.getAttribute('href').startsWith('#')) {
                     event.preventDefault();
-                    qs(link.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+                    const targetId = link.getAttribute('href');
+                    const target = qs(targetId);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
                 }
-                if (qs('.tab-btn[data-tab]', link)) qs('.tab-btn[data-tab]').click();
-                if (navMenu.classList.contains('active')) closeMenu();
             });
         });
     };
@@ -723,9 +792,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 const clickedBtn = e.target.closest('.tab-btn');
                 if (!clickedBtn) return;
                 const tabId = clickedBtn.dataset.tab;
-                qsa('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                clickedBtn.classList.add('active');
-                qsa('.tab-pane').forEach(pane => pane.classList.toggle('active', pane.id === tabId));
+                
+                // Actualizar botones con estilos Tailwind
+                qsa('.tab-btn').forEach(btn => {
+                    if (btn === clickedBtn) {
+                        btn.classList.remove('bg-white', 'text-gray-700', 'border-2', 'border-gray-300');
+                        btn.classList.add('bg-purple-600', 'text-white', 'shadow-lg');
+                        btn.classList.add('active');
+                    } else {
+                        btn.classList.remove('bg-purple-600', 'text-white', 'shadow-lg', 'active');
+                        btn.classList.add('bg-white', 'text-gray-700', 'border-2', 'border-gray-300');
+                    }
+                });
+                
+                // Actualizar panes con animación
+                qsa('.tab-pane').forEach(pane => {
+                    if (pane.id === tabId) {
+                        pane.classList.remove('hidden');
+                        pane.classList.add('active');
+                    } else {
+                        pane.classList.add('hidden');
+                        pane.classList.remove('active');
+                    }
+                });
             });
         }
 
@@ -795,28 +884,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!isExpanded && container.getBoundingClientRect().top < 0) {
             container.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    };    // Inicializar los botones de expansión
-    document.addEventListener('DOMContentLoaded', () => {
-        const expandButtons = document.querySelectorAll('.expand-toggle');
-        expandButtons.forEach(button => {
-            const container = button.closest('.step-card');
-            if (container) {
-                const expandedContent = container.querySelector('.step-info-expanded');
-                if (expandedContent) {
-                    button.addEventListener('click', () => {
-                        const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                        button.setAttribute('aria-expanded', !isExpanded);
-                        
-                        if (!isExpanded) {
-                            expandedContent.style.maxHeight = expandedContent.scrollHeight + 'px';
-                        } else {
-                            expandedContent.style.maxHeight = '0px';
-                        }
-                    });
-                }
-            }
-        });
-    });
+    };
 
     // Función para manejar la expansión del contenido de productos
     const initProductExpansion = () => {

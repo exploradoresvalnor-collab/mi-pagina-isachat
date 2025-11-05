@@ -28,7 +28,73 @@
     <meta name="twitter:description" content="Mantente actualizado con IsaChat." />
     <meta name="twitter:image" content="https://www.info.isachat.com/isatw.png" />
     
-    <link rel="stylesheet" href="isa.css">
+    <!-- Tailwind CSS via CDN (sin Node.js) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'isa-purple': {
+                            DEFAULT: '#7B2CBF',
+                            50: '#F5EFFF',
+                            100: '#E5D4FF',
+                            200: '#C9A3FF',
+                            300: '#AD72FF',
+                            400: '#9441FF',
+                            500: '#7B2CBF',
+                            600: '#6B26A8',
+                            700: '#5B2091',
+                            800: '#4B1A7A',
+                            900: '#3B1463',
+                        },
+                        'isa-pink': {
+                            DEFAULT: '#C77DFF',
+                            50: '#FDF5FF',
+                            100: '#F9E5FF',
+                            200: '#F0CCFF',
+                            300: '#E7B3FF',
+                            400: '#DE9AFF',
+                            500: '#C77DFF',
+                            600: '#B35CFF',
+                            700: '#9F3BFF',
+                            800: '#8B1AFF',
+                            900: '#7700F5',
+                        },
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    animation: {
+                        'blob': 'blob 7s infinite',
+                        'fade-in': 'fadeIn 1s ease-out',
+                    },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Animation delays personalizados */
+        .animation-delay-300 { animation-delay: 300ms; }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+    </style>
+    
+    <link rel="stylesheet" href="css/components/navigation.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="icon" href="assets/images/isotipoIsa.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="assets/images/isotipoIsa.svg">
 
@@ -85,108 +151,291 @@
 <body>
 
     <!-- Preloader / Pantalla de Carga -->
-    <div id="preloader">
-        <img src="assets/images/mascota-isa.png" alt="Cargando IsaChat..." class="preloader-mascot">
-        <div class="preloader-dots"><div></div><div></div><div></div></div>
+    <div id="preloader" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 transition-all duration-500">
+        <!-- Decoración de fondo -->
+        <div class="absolute inset-0 overflow-hidden opacity-30">
+            <div class="absolute top-10 left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-purple-500/40 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-10 right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-pink-500/40 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 bg-cyan-500/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 0.5s;"></div>
+        </div>
+        
+        <!-- Contenido del preloader -->
+        <div class="relative z-10 flex flex-col items-center space-y-6 sm:space-y-8 px-4">
+            <!-- Mascota con animación -->
+            <div class="relative">
+                <!-- Anillo animado alrededor de la mascota -->
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 border-4 border-transparent border-t-cyan-400 border-r-purple-400 rounded-full animate-spin"></div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 border-4 border-transparent border-b-pink-400 border-l-purple-400 rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                </div>
+                
+                <!-- Imagen de la mascota -->
+                <img src="assets/images/mascota-isa.png" 
+                     alt="Cargando IsaChat..." 
+                     class="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain animate-float drop-shadow-[0_10px_30px_rgba(139,92,246,0.6)]">
+            </div>
+            
+            <!-- Texto de carga -->
+            <div class="text-center space-y-2">
+                <h2 class="text-white text-xl sm:text-2xl md:text-3xl font-bold animate-pulse">
+                    IsaChat
+                </h2>
+                <p class="text-cyan-300 text-sm sm:text-base md:text-lg font-medium">
+                    Cargando Centro de Recursos...
+                </p>
+            </div>
+            
+            <!-- Puntos de carga mejorados -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-full animate-bounce shadow-lg shadow-cyan-500/50"></div>
+                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-bounce shadow-lg shadow-purple-500/50" style="animation-delay: 0.1s;"></div>
+                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-pink-400 to-pink-500 rounded-full animate-bounce shadow-lg shadow-pink-500/50" style="animation-delay: 0.2s;"></div>
+            </div>
+            
+            <!-- Barra de progreso -->
+            <div class="w-48 sm:w-64 md:w-80 h-1.5 sm:h-2 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
+                <div class="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-progress shadow-lg"></div>
+            </div>
+        </div>
     </div>
 
-    <header class="header">
-        <div class="navbar container">
-            <a href="#hero" class="nav-logo">
-                <img src="assets/images/IsaChatlogo.svg" alt="IsaChat Logo">
+    <!-- Header/Navbar -->
+    <header class="header-simple">
+        <div class="nav-container">
+            <a href="#hero" class="logo-link">
+                <img src="assets/images/IsaChatlogo.svg" alt="IsaChat Logo" class="logo-img">
             </a>
-            
-            <nav class="nav-menu" id="nav-menu" aria-label="Navegación principal">
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="#recursos" class="nav-link" data-tab-target="clases">Clases</a></li>
-                    <li class="nav-item"><a href="#guia-visual" class="nav-link">Inicio Rápido</a></li>
-                    <li class="nav-item"><a href="#recursos" class="nav-link" data-tab-target="faq">Preguntas Frecuentes</a></li>
-                    <li class="nav-item"><a href="#prompt-base" class="nav-link">Aprende Prompt</a></li>
-                    <li class="nav-item" id="nav-notification-container"></li>
-                    <li class="nav-item-cta nav-item-cta-mobile"><a href="https://isachat.com/register" class="btn btn-solid" target="_blank" rel="noopener noreferrer">Registro</a></li>
-                </ul>
+            <nav class="main-nav" id="mainNav">
+                <a href="#guia-visual" class="nav-item">Inicio Rápido</a>
+                <a href="#recursos" class="nav-item">FAQ</a>
+                <a href="#prompt-base" class="nav-item">Aprende Prompt</a>
             </nav>
-            
-            <div class="nav-item-cta nav-item-cta-desktop">
-                <a href="https://isachat.com/register" class="btn btn-solid" target="_blank" rel="noopener noreferrer">Registro</a>
-            </div>
-            
-            <div class="nav-toggle" id="nav-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="nav-menu">
+            <a href="https://isachat.com/register" class="cta-btn" target="_blank">Registro</a>
+            <button class="mobile-toggle" id="mobileToggle">
                 <span></span><span></span><span></span>
-            </div>
+            </button>
+        </div>
+        <div class="mobile-menu" id="mobileMenu">
+            <a href="#guia-visual" class="mobile-item">Inicio Rápido</a>
+            <a href="#recursos" class="mobile-item">FAQ</a>
+            <a href="#prompt-base" class="mobile-item">Aprende Prompt</a>
+            <a href="https://isachat.com/register" class="mobile-cta">Registro</a>
         </div>
     </header>
 
     <main>
-        <section id="hero" class="hero section">
-            <div class="hero-container container">
-                <div class="hero-text">
-                    <h1 class="hero-title">Centro de Recursos IsaChat</h1>
-                    <p class="hero-subtitle">Tu espacio de aprendizaje y soporte.</p>
-                    <p class="hero-description">Aquí encontrarás todas las clases grabadas, respuestas a preguntas frecuentes y la información que necesitas para dominar IsaChat.</p>
-                    <a href="#recursos" class="btn btn-hero">Explorar Recursos</a>
-                </div>
-                <div class="hero-image">
-                    <!-- Carousel: pequeñas diapositivas dentro del hero -->
-                    <div class="carousel" id="hero-carousel" aria-roledescription="carousel" tabindex="0" role="region" aria-label="Carrusel de la mascota">
-                        <div class="carousel-track">
-                            <div class="carousel-slide">
-                                <img src="assets/images/mascota-isa.png" alt="Mascota de IsaChat" loading="lazy">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/1.png" alt="Mascota de IsaChat - variante" loading="lazy">
-                            </div>
-                            <div class="carousel-slide">
-                                <img src="assets/images/2.png" alt="Mascota de IsaChat - variante 2" loading="lazy">
+        <!-- Hero Section con diseño limpio -->
+        <section id="hero" class="relative min-h-[85vh] lg:min-h-[90vh] flex items-center pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-8 sm:pb-12 md:pb-16 overflow-hidden">
+            
+            <!-- Imagen de fondo con overlay reducido -->
+            <div class="absolute inset-0 z-0">
+                <img src="assets/images/redneu.png" alt="Fondo" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/60 via-purple-900/60 to-pink-800/60"></div>
+            </div>
+
+            <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12 xl:gap-20 items-center max-w-7xl xl:max-w-none 2xl:max-w-[90rem] mx-auto xl:mx-0 xl:ml-[5%] 2xl:ml-[8%]">
+                    
+                    <!-- Columna Izquierda: Texto -->
+                    <div class="space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6 text-center lg:text-left order-2 lg:order-1">
+                        <!-- Título en 2 LÍNEAS -->
+                        <h1 class="font-bold leading-tight">
+                            <span class="block text-white text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mb-2 animate-fade-in-up">
+                                Centro de Recursos
+                            </span>
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-pink-400 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl animate-fade-in-up" style="animation-delay: 0.2s;">
+                                IsaChat
+                            </span>
+                        </h1>
+                        
+                        <!-- Subtítulo -->
+                        <p class="text-sm sm:text-base md:text-base lg:text-lg text-cyan-300 font-semibold px-4 lg:px-0 animate-fade-in-up" style="animation-delay: 0.4s;">
+                            Tu espacio de aprendizaje y soporte.
+                        </p>
+                        
+                        <!-- Descripción -->
+                        <p class="text-xs sm:text-sm md:text-sm lg:text-base text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 px-4 lg:px-0 animate-fade-in-up" style="animation-delay: 0.6s;">
+                            Aquí encontrarás todas las clases grabadas, respuestas a preguntas frecuentes y la información que necesitas para dominar IsaChat.
+                        </p>
+                        
+                        <!-- Botón CTA -->
+                        <div class="flex justify-center lg:justify-start pt-1 sm:pt-2 animate-fade-in-up" style="animation-delay: 0.8s;">
+                            <a href="#recursos" 
+                               class="group inline-flex flex-col items-center gap-0.5 px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-base font-bold text-white bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 rounded-xl sm:rounded-xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/60 hover:scale-105 transition-all duration-300 relative overflow-hidden">
+                                <!-- Efecto de brillo animado -->
+                                <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
+                                
+                                <span class="relative text-sm sm:text-base md:text-lg font-bold tracking-wide">Explorar Recursos</span>
+                                <span class="relative text-[10px] sm:text-xs md:text-sm opacity-90 font-normal">Comienza tu aprendizaje →</span>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Columna Derecha: Carousel con efectos -->
+                    <div class="flex items-center justify-center lg:justify-end order-1 lg:order-2 mt-4 lg:mt-0">
+                        <div class="relative w-56 h-56 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-96 xl:h-96 animate-fade-in-up" style="animation-delay: 0.3s;">
+                            <!-- Efectos de resplandor multicapa -->
+                            <div class="absolute inset-0 bg-gradient-to-r from-cyan-400/30 via-purple-500/30 to-pink-500/30 rounded-full blur-2xl animate-pulse"></div>
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/20 to-pink-500/20 rounded-full blur-3xl" style="animation: pulse 3s ease-in-out infinite alternate;"></div>
+                            
+                            <!-- Anillos decorativos giratorios -->
+                            <div class="absolute inset-0 rounded-full border-2 border-cyan-400/20 animate-spin" style="animation-duration: 8s;"></div>
+                            <div class="absolute inset-4 rounded-full border-2 border-purple-400/20 animate-spin" style="animation-duration: 6s; animation-direction: reverse;"></div>
+                            
+                            <!-- Carousel Container -->
+                            <div id="hero-carousel" 
+                                 class="relative w-full h-full z-10"
+                                 aria-roledescription="carousel" 
+                                 tabindex="0" 
+                                 role="region" 
+                                 aria-label="Carrusel de la mascota">
+                                
+                                <!-- Track -->
+                                <div class="carousel-track relative h-full w-full overflow-hidden rounded-full">
+                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                        <img src="assets/images/mascota-isa.png" 
+                                             alt="Mascota IsaChat" 
+                                             class="w-full h-full object-contain drop-shadow-[0_10px_60px_rgba(6,182,212,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
+                                             loading="lazy">
+                                    </div>
+                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                        <img src="assets/images/1.png" 
+                                             alt="Mascota IsaChat variante 1" 
+                                             class="w-full h-full object-contain drop-shadow-[0_10px_60px_rgba(168,85,247,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
+                                             loading="lazy">
+                                    </div>
+                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                        <img src="assets/images/2.png" 
+                                             alt="Mascota IsaChat variante 2" 
+                                             class="w-[85%] h-[85%] object-contain drop-shadow-[0_10px_60px_rgba(236,72,153,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
+                                             loading="lazy">
+                                    </div>
+                                </div>
+
+                                <!-- Controles con mejor diseño responsive -->
+                                <button class="carousel-control carousel-prev absolute left-2 sm:-left-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 backdrop-blur-md rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl shadow-cyan-500/50 transition-all duration-300 hover:scale-110 hover:shadow-2xl z-20" 
+                                        aria-label="Anterior">
+                                    ‹
+                                </button>
+                                <button class="carousel-control carousel-next absolute right-2 sm:-right-4 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-pink-500 to-purple-500 hover:from-pink-400 hover:to-purple-400 backdrop-blur-md rounded-full flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl shadow-pink-500/50 transition-all duration-300 hover:scale-110 hover:shadow-2xl z-20" 
+                                        aria-label="Siguiente">
+                                    ›
+                                </button>
+
+                                <!-- Indicadores mejorados responsive -->
+                                <div class="carousel-indicators absolute -bottom-6 sm:-bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-20" 
+                                     aria-hidden="false">
+                                </div>
                             </div>
                         </div>
-
-                        <button class="carousel-control carousel-prev" aria-label="Anterior">&#10094;</button>
-                        <button class="carousel-control carousel-next" aria-label="Siguiente">&#10095;</button>
-
-                        <div class="carousel-indicators" aria-hidden="false"></div>
                     </div>
+                    
                 </div>
             </div>
         </section>
 
-        <section id="guia-visual" class="section bg-gradient">
-            <div class="container">
-                <h2 class="section-title">Configuración Inicial</h2>
-                <p class="section-subtitle">Sigue estos pasos para comenzar a usar IsaChat en tu negocio</p>
+        <!-- Sección: Configuración Inicial con Tailwind -->
+        <section id="guia-visual" class="py-20 bg-gradient-to-b from-white to-purple-50">
+            <div class="container mx-auto px-4 lg:px-8">
+                <!-- Encabezado de sección -->
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold mb-4">
+                        Guía de Inicio
+                    </span>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                        Configuración Inicial
+                    </h2>
+                    <p class="text-lg text-gray-600">
+                        Sigue estos pasos para comenzar a usar IsaChat en tu negocio
+                    </p>
+                </div>
 
-                <div class="guia-steps">
+                <div class="guia-steps space-y-12">
                     <!-- Paso 1: Configuración -->
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <picture>
-                                <source media="(max-width: 768px)" srcset="assets/images/inicio-rapido/mobile/1.png">
-                                <source media="(min-width: 769px)" srcset="assets/images/inicio-rapido/1.png">
-                                <img src="assets/images/inicio-rapido/1.png" alt="Configuración de Contacto" class="step-image" loading="lazy">
-                            </picture>
-                            <div class="step-info">
-                                <h3>Configuración de Contacto</h3>
-                                <p>En la pestaña <strong>Configuración</strong>, ingresa tu número de celular principal. Este número es exclusivo para la administración de tu IsaChat - <strong>no atiende clientes</strong>, sino que:</p>
-                                <ul class="step-info-list">
-                                    <li>Recibe notificaciones de ventas validadas</li>
-                                    <li>Sirve como centro de control para configuraciones avanzadas</li>
-                                    <li>Te mantiene informado sobre el estado de tu negocio</li>
+                    <div class="step-card bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <!-- Imagen -->
+                            <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 p-8 flex items-center justify-center">
+                                <div class="absolute top-4 left-4 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center text-2xl font-bold shadow-lg">
+                                    1
+                                </div>
+                                <picture class="w-full">
+                                    <source media="(max-width: 768px)" srcset="assets/images/inicio-rapido/mobile/1.png">
+                                    <source media="(min-width: 769px)" srcset="assets/images/inicio-rapido/1.png">
+                                    <img src="assets/images/inicio-rapido/1.png" 
+                                         alt="Configuración de Contacto" 
+                                         class="rounded-lg shadow-md w-full h-auto object-contain max-h-96" 
+                                         loading="lazy">
+                                </picture>
+                            </div>
+                            
+                            <!-- Contenido -->
+                            <div class="p-8 lg:p-10 flex flex-col justify-center">
+                                <h3 class="text-2xl md:text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                    <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                    Configuración de Contacto
+                                </h3>
+                                <p class="text-gray-600 mb-4 leading-relaxed">
+                                    En la pestaña <span class="font-semibold text-purple-600">Configuración</span>, ingresa tu número de celular principal. Este número es exclusivo para la administración de tu IsaChat - <span class="font-semibold text-gray-900">no atiende clientes</span>, sino que:
+                                </p>
+                                <ul class="space-y-3 mb-6">
+                                    <li class="flex items-start gap-3">
+                                        <svg class="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-gray-700">Recibe notificaciones de ventas validadas</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <svg class="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-gray-700">Sirve como centro de control para configuraciones avanzadas</span>
+                                    </li>
+                                    <li class="flex items-start gap-3">
+                                        <svg class="w-6 h-6 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="text-gray-700">Te mantiene informado sobre el estado de tu negocio</span>
+                                    </li>
                                 </ul>
-                                <p>Una vez ingresado, haz clic en el botón amarillo <strong>Actualizar</strong> para guardar los cambios.</p>
+                                <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded">
+                                    <p class="text-sm text-gray-700">
+                                        <span class="font-semibold">💡 Tip:</span> Una vez ingresado, haz clic en el botón amarillo <span class="font-bold">Actualizar</span> para guardar los cambios.
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>                    <!-- Paso 2: Mensaje de Bienvenida -->
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <div class="step-image-wrapper">
-                                <img src="assets/images/inicio-rapido/2.png" alt="Mensaje de Bienvenida" class="step-image">
-                                <div class="step-image-caption">Panel de configuración del mensaje de bienvenida</div>
+                    </div>
+
+                    <!-- Paso 2: Mensaje de Bienvenida -->
+                    <div class="step-card bg-white rounded-2xl shadow-xl overflow-hidden hidden step-extra">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <!-- Lado izquierdo: Imagen -->
+                            <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 p-8 lg:p-12 flex items-center justify-center">
+                                <div class="absolute top-6 left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 font-bold text-xl shadow-lg">
+                                    2
+                                </div>
+                                <img src="assets/images/inicio-rapido/2.png" 
+                                     alt="Mensaje de Bienvenida" 
+                                     class="w-full h-auto rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
                             </div>
-                            <div class="step-info">
-                                <h3>Mensaje de Bienvenida</h3>
-                                <p>El mensaje de bienvenida es tu primer punto de contacto con los clientes. Configura un mensaje atractivo y activa la opción de imagen para causar una mejor primera impresión.</p>
+
+                            <!-- Lado derecho: Contenido -->
+                            <div class="p-8 lg:p-10 flex flex-col justify-center">
+                                <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                                    </svg>
+                                    Mensaje de Bienvenida
+                                </h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    El mensaje de bienvenida es tu primer punto de contacto con los clientes. Configura un mensaje atractivo y activa la opción de imagen para causar una mejor primera impresión.
+                                </p>
                                 
                                 <div class="step-content-expandable" id="welcomeContent">
                                     <div class="expandable-content">
@@ -251,132 +500,183 @@
                     </div>
 
                     <!-- Paso 3: Entrenamiento -->
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                                <img src="assets/images/inicio-rapido/3.png" alt="Entrenamiento del Agente" class="step-image">
-                            <div class="step-info">
-                                <h3>Entrenamiento del Agente</h3>
-                                <p>En <strong>Entrena tu Isa</strong>, escribe las instrucciones y personalidad de tu IA. Haz clic en <strong>Actualizar</strong> para guardar el "cerebro" de tu Isa.</p>
-                                <div class="prompt-note">
-                                    <p><strong>💡 Consejo:</strong> Revisa la sección de Prompts más abajo para obtener ejemplos detallados y estructura recomendada para entrenar a tu agente de manera efectiva.</p>
+                    <div class="step-card bg-white rounded-2xl shadow-xl overflow-hidden hidden step-extra">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <!-- Lado izquierdo: Imagen -->
+                            <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 p-8 lg:p-12 flex items-center justify-center">
+                                <div class="absolute top-6 left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 font-bold text-xl shadow-lg">
+                                    3
+                                </div>
+                                <img src="assets/images/inicio-rapido/3.png" 
+                                     alt="Entrenamiento del Agente" 
+                                     class="w-full h-auto rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+
+                            <!-- Lado derecho: Contenido -->
+                            <div class="p-8 lg:p-10 flex flex-col justify-center">
+                                <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+                                        <path d="M12 20h9"></path>
+                                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                                    </svg>
+                                    Entrenamiento del Agente
+                                </h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    En <strong>Entrena tu Isa</strong>, escribe las instrucciones y personalidad de tu IA. Haz clic en <strong>Actualizar</strong> para guardar el "cerebro" de tu Isa.
+                                </p>
+                                <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded">
+                                    <p class="text-sm text-gray-700">
+                                        <span class="font-semibold">💡 Consejo:</span> Revisa la sección de Prompts más abajo para obtener ejemplos detallados y estructura recomendada para entrenar a tu agente de manera efectiva.
+                                    </p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Paso 4: Conexión -->
-                    <div class="step-card">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                                <img src="assets/images/inicio-rapido/4.png" alt="Conexión con WhatsApp" class="step-image">
-                            <div class="step-info">
-                                <h3>Conexión con WhatsApp</h3>
-                                <p>En <strong>Conexión a IsaChat</strong>, sigue la Guía Rápida: escanea el código QR con tu WhatsApp y presiona <strong>Verificar Conexión</strong>.</p>
+                    <div class="step-card bg-white rounded-2xl shadow-xl overflow-hidden hidden step-extra">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <!-- Lado izquierdo: Imagen -->
+                            <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 p-8 lg:p-12 flex items-center justify-center">
+                                <div class="absolute top-6 left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 font-bold text-xl shadow-lg">
+                                    4
+                                </div>
+                                <img src="assets/images/inicio-rapido/4.png" 
+                                     alt="Conexión con WhatsApp" 
+                                     class="w-full h-auto rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
+
+                            <!-- Lado derecho: Contenido -->
+                            <div class="p-8 lg:p-10 flex flex-col justify-center">
+                                <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+                                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                                    </svg>
+                                    Conexión con WhatsApp
+                                </h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    En <strong>Conexión a IsaChat</strong>, sigue la Guía Rápida: escanea el código QR con tu WhatsApp y presiona <strong>Verificar Conexión</strong>.
+                                </p>
+                                <div class="bg-purple-50 border-l-4 border-purple-600 p-4 rounded">
+                                    <p class="text-sm text-gray-700">
+                                        <span class="font-semibold">📱 Importante:</span> Mantén tu dispositivo cerca para escanear el código QR. La conexión se establecerá automáticamente.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Paso 5: Creación y Gestión de Productos -->
-                    <div class="step-card">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <div class="step-image-wrapper carousel-multiple">
-                                <img src="assets/images/inicio-rapido/productos-1.png" alt="Creación de Productos - Panel Principal" class="step-image active">
-                                <img src="assets/images/inicio-rapido/productos-2.png" alt="Creación de Productos - Formulario" class="step-image">
-                            </div>
-                            <div class="step-info">
-                                <h3>Creación y Gestión de Productos</h3>
-                                <p class="step-info-intro">Administra tu catálogo de productos de forma sencilla. Aprende a crear y configurar tus productos para que tu agente los presente correctamente.</p>
-                                
-                                <div class="step-info-preview">
-                                    <div class="feature-box">
-                                        <h4>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <rect x="2" y="3" width="20" height="18" rx="2"></rect>
-                                                <path d="M12 8v8"></path>
-                                                <path d="M8 12h8"></path>
-                                            </svg>
-                                            Crear Nuevo Producto
-                                        </h4>
-                                        <ul class="step-info-list">
-                                            <li>Accede a la sección de <strong>Productos</strong> en el menú</li>
-                                            <li>Haz clic en <strong>+ Crear Producto</strong></li>
-                                        </ul>
-                                    </div>
-                                    
-                                    <div class="content-expander">
-                                        <button class="expand-toggle" aria-expanded="false">
-                                            <span class="expand-text">Ver más detalles</span>
-                                            <span class="collapse-text">Ver menos</span>
-                                            <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="6 9 12 15 18 9"></polyline>
-                                            </svg>
-                                        </button>
-                                    </div>
+                    <div class="step-card bg-white rounded-2xl shadow-xl overflow-hidden hidden step-extra">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <!-- Lado izquierdo: Imagen -->
+                            <div class="relative bg-gradient-to-br from-purple-100 to-pink-100 p-8 lg:p-12 flex items-center justify-center">
+                                <div class="absolute top-6 left-6 w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 font-bold text-xl shadow-lg">
+                                    5
                                 </div>
+                                <img src="assets/images/inicio-rapido/productos-1.png" 
+                                     alt="Creación de Productos - Panel Principal" 
+                                     class="w-full h-auto rounded-lg shadow-2xl hover:scale-105 transition-transform duration-300">
+                            </div>
 
-                                <div class="step-info-expanded">
+                            <!-- Lado derecho: Contenido -->
+                            <div class="p-8 lg:p-10 flex flex-col justify-center">
+                                <h3 class="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-600">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                    Creación y Gestión de Productos
+                                </h3>
+                                <p class="text-gray-600 mb-6 leading-relaxed">
+                                    Administra tu catálogo de productos de forma sencilla. Aprende a crear y configurar tus productos para que tu agente los presente correctamente.
+                                </p>
+                                
+                                <div class="step-content-expandable" id="productContent">
+                                    <div class="expandable-content">
+                                        <div class="feature-box">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <rect x="2" y="3" width="20" height="18" rx="2"></rect>
+                                                    <path d="M12 8v8"></path>
+                                                    <path d="M8 12h8"></path>
+                                                </svg>
+                                                Crear Nuevo Producto
+                                            </h4>
+                                            <ul class="step-info-list">
+                                                <li>Accede a la sección de <strong>Productos</strong> en el menú</li>
+                                                <li>Haz clic en <strong>+ Crear Producto</strong></li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="feature-box">
-                                        <h4>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
-                                                <line x1="16" y1="5" x2="22" y2="5"></line>
-                                                <line x1="19" y1="2" x2="19" y2="8"></line>
-                                                <circle cx="9" cy="9" r="2"></circle>
-                                                <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
-                                            </svg>
-                                            Contenido del Producto
-                                        </h4>
-                                        <ul class="step-info-list">
-                                            <li><strong>Imágenes:</strong> Sube hasta 15 fotos de alta calidad</li>
-                                            <li><strong>Información:</strong> Nombre, descripción detallada y especificaciones</li>
-                                            <li><strong>Precios:</strong> Define el precio y selecciona la moneda</li>
-                                        </ul>
-                                    </div>
+                                        <div class="feature-box">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"></path>
+                                                    <line x1="16" y1="5" x2="22" y2="5"></line>
+                                                    <line x1="19" y1="2" x2="19" y2="8"></line>
+                                                    <circle cx="9" cy="9" r="2"></circle>
+                                                    <path d="M21 15l-3.086-3.086a2 2 0 0 0-2.828 0L6 21"></path>
+                                                </svg>
+                                                Contenido del Producto
+                                            </h4>
+                                            <ul class="step-info-list">
+                                                <li><strong>Imágenes:</strong> Sube hasta 15 fotos de alta calidad</li>
+                                                <li><strong>Información:</strong> Nombre, descripción detallada y especificaciones</li>
+                                                <li><strong>Precios:</strong> Define el precio y selecciona la moneda</li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="feature-box feature-box--tip">
-                                        <h4>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <circle cx="12" cy="12" r="10"></circle>
-                                                <path d="M12 16v-4"></path>
-                                                <path d="M12 8h.01"></path>
-                                            </svg>
-                                            Consejos Importantes
-                                        </h4>
-                                        <ul class="step-info-list">
-                                            <li>La primera imagen será la principal en el catálogo</li>
-                                            <li>Una descripción detallada mejora las ventas</li>
-                                            <li>Actualiza el inventario regularmente</li>
-                                            <li>Revisa que toda la información esté correcta antes de guardar</li>
-                                        </ul>
-                                    </div>
+                                        <div class="feature-box feature-box--tip">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <path d="M12 16v-4"></path>
+                                                    <path d="M12 8h.01"></path>
+                                                </svg>
+                                                Consejos Importantes
+                                            </h4>
+                                            <ul class="step-info-list">
+                                                <li>La primera imagen será la principal en el catálogo</li>
+                                                <li>Una descripción detallada mejora las ventas</li>
+                                                <li>Actualiza el inventario regularmente</li>
+                                                <li>Revisa que toda la información esté correcta antes de guardar</li>
+                                            </ul>
+                                        </div>
 
-                                    <div class="feature-box feature-box--warning">
-                                        <h4>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                                <line x1="12" y1="9" x2="12" y2="13"></line>
-                                                <line x1="12" y1="17" x2="12.01" y2="17"></line>
-                                            </svg>
-                                            ¡Importante para el Prompt!
-                                        </h4>
-                                        <p><strong>Conexión con Productos:</strong> En tu prompt, es OBLIGATORIO incluir una sección llamada "Productos Disponibles" donde debes listar los nombres EXACTOS que usaste al crear los productos. Por ejemplo:</p>
-                                        <pre class="prompt-example">
+                                        <div class="feature-box feature-box--warning">
+                                            <h4>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                                </svg>
+                                                ¡Importante para el Prompt!
+                                            </h4>
+                                            <p><strong>Conexión con Productos:</strong> En tu prompt, es OBLIGATORIO incluir una sección llamada "Productos Disponibles" donde debes listar los nombres EXACTOS que usaste al crear los productos. Por ejemplo:</p>
+                                            <pre class="prompt-example">
 Productos Disponibles:
 - Crema Hidratante Ultra
 - Sérum Vitamina C
 - Mascarilla de Colágeno</pre>
-                                        <p>👉 El agente utilizará estos nombres exactos para reconocer y proporcionar información precisa sobre tus productos cuando los clientes pregunten por ellos.</p>
+                                            <p>👉 El agente utilizará estos nombres exactos para reconocer y proporcionar información precisa sobre tus productos cuando los clientes pregunten por ellos.</p>
+                                        </div>
                                     </div>
+                                    <button class="btn-expand" onclick="toggleExpand('productContent')" aria-expanded="false">
+                                        <span class="expand-text">Ver más detalles</span>
+                                        <span class="collapse-text">Ver menos</span>
+                                        <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="6 9 12 15 18 9"></polyline>
+                                        </svg>
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="guia-controles">
-                    <button class="btn btn-expand" id="btn-expand-guia">
+                    <button class="btn btn-expand" id="btn-expand-guia" aria-expanded="false">
                         <span class="btn-texto-expandir">Mostrar más pasos</span>
                         <span class="btn-texto-colapsar">Mostrar menos</span>
                         <svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
@@ -385,28 +685,303 @@ Productos Disponibles:
             </div>
         </section>
 
-        <section id="recursos" class="section bg-light">
-            <div class="container">
-                <h2 class="section-title">Recursos Adicionales</h2>
-                <p class="section-subtitle dark-text">Accede a todas las grabaciones de las clases y encuentra respuestas a las preguntas más comunes para sacar el máximo provecho a IsaChat.</p>
-                <div class="resources-container">
-                    <div class="tabs-nav">
-                        <button class="tab-btn active" data-tab="clases">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-                            Clases grabadas Reto 7 en 1
+        <!-- Sección: Integración con MasterShop -->
+        <section id="integracion-mastershop" class="relative py-16 sm:py-20 lg:py-28 bg-gradient-to-br from-green-400 via-lime-500 to-emerald-500 overflow-hidden">
+            <!-- Efectos de fondo mejorados -->
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="absolute -top-32 -left-32 w-96 h-96 sm:w-[32rem] sm:h-[32rem] bg-lime-300/40 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute -bottom-32 -right-32 w-[28rem] h-[28rem] sm:w-[36rem] sm:h-[36rem] bg-green-300/35 rounded-full blur-3xl animate-pulse" style="animation-delay: 1.5s;"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 sm:w-96 sm:h-96 bg-emerald-400/25 rounded-full blur-3xl animate-pulse" style="animation-delay: 0.8s;"></div>
+            </div>
+
+            <!-- Grid decorativo de fondo -->
+            <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+                <!-- Encabezado mejorado -->
+                <div class="text-center max-w-5xl mx-auto mb-12 sm:mb-16 lg:mb-20">
+                    <!-- Badge superior -->
+                    <div class="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/90 border border-green-600/40 backdrop-blur-md shadow-lg mb-6 sm:mb-8 animate-fade-in-up">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span class="text-xs sm:text-sm font-bold text-green-800">
+                            Integración de Productos
+                        </span>
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+
+                    <!-- Título con "Conecta con" -->
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-6 sm:mb-8 animate-fade-in-up" style="animation-delay: 0.1s;">
+                        Conecta con
+                    </h2>
+                    
+                    <!-- Logo de MasterShop con diseño premium -->
+                    <div class="flex justify-center mb-6 sm:mb-8 animate-fade-in-up" style="animation-delay: 0.2s;">
+                        <div class="relative group">
+                            <!-- Glow effect animado -->
+                            <div class="absolute -inset-3 sm:-inset-4 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 rounded-3xl blur-xl opacity-40 group-hover:opacity-70 transition-all duration-500 animate-pulse"></div>
+                            
+                            <!-- Container del logo con glassmorphism -->
+                            <div class="relative bg-white/98 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-5 sm:p-7 md:p-9 lg:p-11 shadow-2xl border border-white/30 transform group-hover:scale-105 transition-all duration-300">
+                                <img src="assets/images/mastershop-logo-black.webp" 
+                                     alt="MasterShop Logo" 
+                                     class="w-40 h-auto sm:w-48 md:w-56 lg:w-64 xl:w-72 object-contain"
+                                     loading="lazy">
+                            </div>
+                            
+                            <!-- Decoración de esquinas -->
+                            <div class="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-cyan-400 rounded-tl-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            <div class="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-purple-400 rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Descripción mejorada -->
+                    <p class="text-sm sm:text-base md:text-lg lg:text-xl text-gray-800 leading-relaxed max-w-3xl mx-auto px-4 animate-fade-in-up" style="animation-delay: 0.3s;">
+                        Si utilizas <span class="font-bold text-gray-900">MasterShop</span> ya puedes vincular tu cuenta con <span class="font-bold text-green-900">IsaChat</span> y vender en automático. <span class="font-semibold text-gray-900">Sincroniza tu catálogo completo en minutos.</span>
+                    </p>
+
+                    <!-- Separador decorativo -->
+                    <div class="flex items-center justify-center gap-3 mt-8 sm:mt-10 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <div class="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+                        <svg class="w-5 h-5 sm:w-6 sm:h-6 text-gray-800" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                        </svg>
+                        <div class="h-px w-12 sm:w-20 bg-gradient-to-r from-transparent via-gray-700 to-transparent"></div>
+                    </div>
+                </div>
+
+                <!-- Contenedor principal -->
+                <div class="max-w-7xl mx-auto">
+                    <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
+                        <!-- Lado izquierdo: Video tutorial -->
+                        <div class="relative group animate-fade-in-up order-2 lg:order-1" style="animation-delay: 0.5s;">
+                            <!-- Glow exterior -->
+                            <div class="absolute -inset-1 bg-gradient-to-r from-white via-gray-100 to-white rounded-3xl blur-lg opacity-40 group-hover:opacity-70 transition-all duration-500"></div>
+                            
+                            <!-- Container del video con glassmorphism -->
+                            <div class="relative bg-white/95 backdrop-blur-xl rounded-3xl p-3 sm:p-4 border border-gray-300 shadow-2xl">
+                                <!-- Badge flotante -->
+                                <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-green-600 to-emerald-600 text-white text-xs font-bold shadow-lg">
+                                        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                                        </svg>
+                                        Tutorial Paso a Paso
+                                    </div>
+                                </div>
+
+                                <div class="relative w-full rounded-2xl overflow-hidden shadow-2xl" style="aspect-ratio: 16/9;">
+                                    <iframe 
+                                        src="https://drive.google.com/file/d/1AIgervIAI7DDoK2MhLKVb5890G_fUT30/preview" 
+                                        class="absolute inset-0 w-full h-full"
+                                        allow="autoplay; encrypted-media" 
+                                        allowfullscreen
+                                        loading="lazy">
+                                    </iframe>
+                                </div>
+
+                                <!-- Info del video -->
+                                <div class="mt-4 sm:mt-5 flex items-center justify-center gap-3 text-gray-700">
+                                    <div class="flex items-center gap-2 text-xs sm:text-sm">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <span class="font-medium">Guía Completa</span>
+                                    </div>
+                                    <div class="w-1 h-1 bg-gray-600 rounded-full"></div>
+                                    <div class="flex items-center gap-2 text-xs sm:text-sm">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <span class="font-medium">~3 minutos</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lado derecho: Pasos de integración -->
+                        <div class="space-y-5 sm:space-y-6 order-1 lg:order-2">
+                            <!-- Paso 1 -->
+                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.6s;">
+                                <!-- Glow en hover -->
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
+                                
+                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                    <div class="flex items-start gap-4">
+                                        <!-- Número con gradiente -->
+                                        <div class="flex-shrink-0 relative">
+                                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl blur-md opacity-50"></div>
+                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
+                                                1
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
+                                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                </svg>
+                                                <span class="break-words">Obtén tu API Key en MasterShop</span>
+                                            </h3>
+                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                                                En MasterShop, ve al botón <span class="font-bold text-gray-900">Configuración</span> → <span class="font-bold text-gray-900">API Keys</span> → <span class="font-bold text-green-700">Nueva API Key</span>. Copia la clave generada.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Paso 2 -->
+                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.7s;">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
+                                
+                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-lime-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                    <div class="flex items-start gap-4">
+                                        <div class="flex-shrink-0 relative">
+                                            <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl blur-md opacity-50"></div>
+                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
+                                                2
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
+                                                <svg class="w-5 h-5 text-lime-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                                </svg>
+                                                <span class="break-words">Configura en IsaChat</span>
+                                            </h3>
+                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed mb-3">
+                                                En IsaChat, ve a <span class="font-bold text-gray-900">Proveedor de Productos</span> → <span class="font-bold text-gray-900">Productos</span> → Elige <span class="font-bold text-green-700">MasterShop</span>.
+                                            </p>
+                                            <ul class="space-y-2">
+                                                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
+                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <span>Haz clic en <strong class="text-gray-900">Configuración MasterShop</strong></span>
+                                                </li>
+                                                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
+                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <span>Pega tu API Key y guarda</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Paso 3 -->
+                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.8s;">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
+                                
+                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-emerald-500 transition-all duration-300 shadow-lg hover:shadow-xl">
+                                    <div class="flex items-start gap-4">
+                                        <div class="flex-shrink-0 relative">
+                                            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl blur-md opacity-50"></div>
+                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
+                                                3
+                                            </div>
+                                        </div>
+
+                                        <div class="flex-1 min-w-0">
+                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
+                                                <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                                </svg>
+                                                <span class="break-words">Sincroniza tus Productos</span>
+                                            </h3>
+                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                                                Haz clic en el botón <span class="font-bold text-gray-900">Obtener Productos</span>. Asegúrate de tener los productos ya cargados en MasterShop. <span class="font-semibold text-green-700">La sincronización es automática.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Nota importante mejorada -->
+                            <div class="relative group animate-fade-in-up" style="animation-delay: 0.9s;">
+                                <div class="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl opacity-20 blur"></div>
+                                
+                                <div class="relative bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-4 sm:p-5 shadow-lg">
+                                    <div class="flex items-start gap-3 sm:gap-4">
+                                        <div class="flex-shrink-0">
+                                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+                                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="flex-1">
+                                            <h4 class="text-base sm:text-lg font-bold text-gray-900 mb-1.5 sm:mb-2 flex items-center gap-2">
+                                                <span>💡</span>
+                                                <span>Requisito Previo</span>
+                                            </h4>
+                                            <p class="text-xs sm:text-sm text-gray-800 leading-relaxed">
+                                                Debes tener tus productos <strong class="text-orange-700">previamente cargados en MasterShop</strong> antes de realizar la sincronización con IsaChat.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Recursos con Tailwind mejorado -->
+        <section id="recursos" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 lg:px-8">
+                <!-- Encabezado -->
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-block px-4 py-2 rounded-full bg-purple-100 text-purple-700 text-sm font-semibold mb-4">
+                        📚 Centro de Recursos
+                    </span>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                        Recursos Adicionales
+                    </h2>
+                    <p class="text-lg text-gray-600">
+                        Accede a todas las grabaciones de las clases y encuentra respuestas a las preguntas más comunes para sacar el máximo provecho a IsaChat.
+                    </p>
+                </div>
+
+                <!-- Tabs con Tailwind -->
+                <div class="max-w-5xl mx-auto">
+                    <div class="tabs-nav flex flex-wrap gap-3 justify-center mb-8 border-b-2 border-gray-200 pb-4">
+                        <button class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-purple-600 text-white shadow-lg" 
+                                data-tab="clases">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+                            Clases Reto 7 en 1
                         </button>
-                        <button class="tab-btn" data-tab="faq">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                        <button class="tab-btn flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all duration-300 bg-white text-gray-700 border-2 border-gray-300 hover:border-purple-600 hover:text-purple-600" 
+                                data-tab="faq">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                             Preguntas Frecuentes
                         </button>
                     </div>
+
+                    <!-- Contenido de tabs -->
                     <div class="tabs-content">
+                        <!-- Tab Clases -->
                         <div class="tab-pane active" id="clases">
-                            <div class="accordion">
+                            <div class="accordion space-y-3">
                                 <!-- Las clases se cargarán aquí dinámicamente -->
+                                <div class="text-center py-8">
+                                    <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+                                    <p class="mt-4 text-gray-600">Cargando clases...</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="tab-pane" id="faq">
+
+                        <!-- Tab FAQ -->
+                        <div class="tab-pane hidden" id="faq">
                             <div class="accordion">
                                 <h3 class="accordion-category"><span class="category-icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></span>Introducción y Planes</h3>
                                 <details class="accordion-item"><summary>¿Qué es IsaChat y qué planes ofrece?<svg class="chevron-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="accordion-content"><p>IsaChat es un agente social de inteligencia artificial que trabaja 24/7 en tu WhatsApp para automatizar ventas y atención al cliente. Al registrarte, puedes elegir entre tres planes según la cantidad de productos que necesites gestionar:</p><ul class="faq-list"><li>🟢 <strong>Iniciador:</strong> Hasta 10 productos.</li><li>🔵 <strong>Escalador:</strong> Hasta 25 productos.</li><li>🟣 <strong>Elite:</strong> Hasta 50 productos.</li></ul></div></details>
@@ -636,7 +1211,7 @@ si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda n
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
     </a>
 
-    <script src="isa.js" defer></script>
+    <script src="js/main.js" defer></script>
 
 
 </body>

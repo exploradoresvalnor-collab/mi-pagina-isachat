@@ -1,0 +1,76 @@
+{
+    "updates": [
+        {
+            "id": 1,
+            "title": "Integración con MasterShop",
+            "description": "Obtén información de productos y crea pedidos automáticamente en MasterShop.",
+            "date": "2025-09-15",
+            "status": "live",
+            "badge": "Nuevo",
+            "icon": "🛍️"
+        },
+        {
+            "id": 2,
+            "title": "Mejor seguimiento para campañas",
+            "description": "IsaChat ahora reconoce el primer mensaje de un nuevo chat, permitiéndote medir la efectividad de tus campañas.",
+            "date": "2025-09-15",
+            "status": "live",
+            "badge": "Nuevo",
+            "icon": "📊"
+        },
+        {
+            "id": 3,
+            "title": "Control total sobre tu bienvenida",
+            "description": "Activa, desactiva y personaliza tu mensaje de inicio con imágenes para hacerlo más atractivo.",
+            "date": "2025-09-15",
+            "status": "live",
+            "badge": "Mejorado",
+            "icon": "👋"
+        },
+        {
+            "id": 4,
+            "title": "Gestión de usuarios más sencilla",
+            "description": "Configura la desactivación automática tras una compra y usa comandos rápidos para desactivar usuarios al instante.",
+            "date": "2025-09-15",
+            "status": "live",
+            "badge": "Mejorado",
+            "icon": "👥"
+        },
+        {
+            "id": 5,
+            "title": "Comunicación más fluida",
+            "description": "Isa ahora entiende perfectamente los mensajes de texto e imágenes que han sido reenviados.",
+            "date": "2025-09-15",
+            "status": "live",
+            "badge": "Mejorado",
+            "icon": "💬"
+        },
+        {
+            "id": 6,
+            "title": "Conexión con Merkaweb7",
+            "description": "Estamos trabajando para integrar tus productos y pedidos directamente desde Merkaweb7.",
+            "date": "2025-10-01",
+            "status": "coming-soon",
+            "badge": "Próximamente",
+            "icon": "🔗"
+        },
+        {
+            "id": 7,
+            "title": "Conexión con Dropi",
+            "description": "Amplía tu catálogo de dropshipping con la futura integración nativa con Dropi.",
+            "date": "2025-10-15",
+            "status": "coming-soon",
+            "badge": "Próximamente",
+            "icon": "📦"
+        },
+        {
+            "id": 8,
+            "title": "Mejoras para Venta de Servicios",
+            "description": "Optimizando a ISA para la gestión de citas, reservas y venta de servicios profesionales.",
+            "date": "2025-11-01",
+            "status": "coming-soon",
+            "badge": "Próximamente",
+            "icon": "📅"
+        }
+    ]
+}

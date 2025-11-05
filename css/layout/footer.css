@@ -1,0 +1,133 @@
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.footer {
+    background-color: #1a0d2e;
+    color: rgba(240, 240, 240, 0.8);
+    padding: 3rem 0 2rem 0;
+    border-top: 3px solid;
+    border-image: linear-gradient(to right, var(--color-acento-purpura), var(--color-primario)) 1;
+    font-size: var(--fs-sm);
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.footer-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.25rem;
+    flex: 1;
+    width: 100%;
+}
+
+.footer-logo {
+    margin-bottom: 0;
+}
+
+.footer-logo img {
+    height: 60px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+.footer-main p {
+    max-width: 100%;
+    line-height: 1.7;
+    font-size: 0.9rem;
+}
+
+.footer-contact {
+    text-align: center;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.footer-contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.footer-contact-item:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.footer-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--color-primario);
+    flex-shrink: 0;
+}
+
+.footer-contact a {
+    color: var(--color-texto-light);
+    font-weight: 600;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 6px;
+    margin: -0.5rem;
+    display: inline-block;
+    font-size: 0.95rem;
+}
+
+.footer-contact a:hover {
+    color: var(--color-primario);
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+/* Responsive: Desktop */
+@media (min-width: 768px) {
+    .footer {
+        padding: 4rem 0;
+    }
+
+    .footer-main {
+        flex-direction: row;
+        align-items: flex-start;
+        text-align: left;
+        gap: 2rem;
+        width: auto;
+    }
+
+    .footer-logo img {
+        height: 50px;
+    }
+
+    .footer-main p {
+        max-width: 600px;
+        font-size: 1rem;
+    }
+
+    .footer-contact {
+        text-align: right;
+        width: auto;
+    }
+
+    .footer-contact-item {
+        justify-content: flex-end;
+    }
+
+    .footer-contact-item:not(:last-child) {
+        margin-bottom: 0.75rem;
+    }
+
+    .footer-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .footer-contact a {
+        font-size: 1rem;
+    }
+}

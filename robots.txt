@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Archivos que no queremos indexar
+Disallow: /scripts/
+Disallow: /data/
+Disallow: /css/
+Disallow: /js/
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://www.info.isachat.com/sitemap.xml

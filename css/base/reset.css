@@ -1,0 +1,75 @@
+/* ==========================================================================
+   RESET Y ESTILOS BASE
+   ========================================================================== */
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html { 
+    scroll-behavior: smooth; 
+    font-size: clamp(15px, 1vw + 12px, 18px);
+    scroll-padding-top: var(--header-height);
+}
+
+body { 
+    font-family: var(--fuente-principal); 
+    line-height: 1.7;
+    color: var(--color-texto-dark); 
+    background-color: var(--color-fondo-light); 
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+    flex-grow: 1;
+}
+
+img { 
+    max-width: 100%; 
+    height: auto; 
+    display: block; 
+}
+
+ul { 
+    list-style: none; 
+}
+
+a { 
+    text-decoration: none; 
+    color: var(--color-primario); 
+}
+
+/* Estilos de Foco para Accesibilidad */
+a:focus-visible,
+button:focus-visible,
+details > summary:focus-visible {
+    outline: 3px solid var(--color-primario);
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Scrollbar personalizado */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #a855f7, #ec4899);
+    border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #9333ea, #db2777);
+}
