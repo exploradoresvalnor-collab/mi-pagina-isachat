@@ -13,8 +13,8 @@ const qsa = (selector, ctx = document) => Array.from(ctx.querySelectorAll(select
 const on = (el, event, handler, opts = {}) => { if (!el) return; el.addEventListener(event, handler, opts); };
 
 document.addEventListener('DOMContentLoaded', () => {
-    const PRELOADER_MIN_MS = 600; // tiempo mínimo que el preloader debe mostrarse (configurable)
-    const PRELOADER_TRANSITION_MS = 900; // debe coincidir con la transición CSS
+    const PRELOADER_MIN_MS = 1500; // tiempo mínimo que el preloader debe mostrarse (máximo 2 segundos)
+    const PRELOADER_TRANSITION_MS = 400; // debe coincidir con la transición CSS
     const preloader = document.getElementById('preloader');
     const preloaderShownAt = preloader ? performance.now() : null;
 
@@ -915,6 +915,59 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // --- DETECCIÓN DE PAÍS DEL VISITANTE (EXPERIMENTAL) ---
+    const initCountryIndicator = async () => {
+        try {
+            const indicator = document.getElementById('country-indicator');
+            const flagEl = document.getElementById('country-flag');
+            const nameEl = document.getElementById('country-name');
+            
+            if (!indicator || !flagEl || !nameEl) {
+                console.log('❌ Elementos del indicador de país no encontrados');
+                return;
+            }
+            
+            console.log('🔍 Detectando país del visitante...');
+            
+            // Intentar obtener información del país
+            const response = await fetch('https://ipapi.co/json/', { 
+                timeout: 3000,
+                cache: 'default'
+            });
+            
+            if (!response.ok) throw new Error('API no disponible');
+            
+            const data = await response.json();
+            
+            if (data.country_code && data.country_name) {
+                // Convertir código de país a emoji de bandera
+                const countryCode = data.country_code.toUpperCase();
+                const flag = countryCode.replace(/./g, char => 
+                    String.fromCodePoint(127397 + char.charCodeAt())
+                );
+                
+                // Mostrar bandera y nombre
+                flagEl.textContent = flag;
+                nameEl.textContent = data.country_name;
+                indicator.style.display = 'flex';
+                
+                console.log('✅ País detectado:', data.country_name, flag);
+                
+                // Enviar evento a Google Analytics
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'country_detected', {
+                        'country': data.country_name,
+                        'country_code': data.country_code,
+                        'city': data.city || 'Unknown'
+                    });
+                }
+            }
+        } catch (error) {
+            // Si falla, simplemente no mostramos el indicador
+            console.log('Country detection skipped:', error.message);
+        }
+    };
+
     // --- INICIALIZACIÓN --- 
     loadClasses();
     loadUpdates();
@@ -927,4 +980,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollBehaviors();
     initMisc();
     initProductExpansion();
+    initCountryIndicator(); // Activar detección de país
 });

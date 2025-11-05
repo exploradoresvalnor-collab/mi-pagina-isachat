@@ -28,6 +28,11 @@
     <meta name="twitter:description" content="Mantente actualizado con IsaChat." />
     <meta name="twitter:image" content="https://www.info.isachat.com/isatw.png" />
     
+    <!-- Preconexiones para mejorar velocidad de carga -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://drive.google.com">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    
     <!-- Tailwind CSS via CDN (sin Node.js) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -103,7 +108,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Precarga de recursos críticos -->
-    <link rel="preload" as="image" href="redneu.png">
+    <link rel="preload" as="image" href="assets/images/redneu.png">
     <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" crossorigin>
 
     <script type="application/ld+json">
@@ -151,52 +156,86 @@
 <body>
 
     <!-- Preloader / Pantalla de Carga -->
-    <div id="preloader" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 transition-all duration-500">
-        <!-- Decoración de fondo -->
-        <div class="absolute inset-0 overflow-hidden opacity-30">
-            <div class="absolute top-10 left-10 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-purple-500/40 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-10 right-10 w-32 h-32 sm:w-48 sm:h-48 md:w-64 md:h-64 bg-pink-500/40 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 md:w-72 md:h-72 bg-cyan-500/30 rounded-full blur-3xl animate-pulse" style="animation-delay: 0.5s;"></div>
+    <div id="preloader" class="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-black overflow-hidden transition-all duration-400">
+        <!-- Grid tecnológico de fondo -->
+        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px); background-size: 50px 50px; animation: gridMove 20s linear infinite;">
         </div>
         
-        <!-- Contenido del preloader -->
+        <!-- Partículas flotantes -->
+        <div class="absolute inset-0 overflow-hidden">
+            <div class="absolute w-1 h-1 bg-cyan-400 rounded-full animate-ping" style="top: 20%; left: 15%; animation-duration: 2s;"></div>
+            <div class="absolute w-1 h-1 bg-purple-400 rounded-full animate-ping" style="top: 60%; left: 80%; animation-duration: 3s; animation-delay: 0.5s;"></div>
+            <div class="absolute w-1 h-1 bg-pink-400 rounded-full animate-ping" style="top: 40%; left: 70%; animation-duration: 2.5s; animation-delay: 1s;"></div>
+            <div class="absolute w-1 h-1 bg-cyan-400 rounded-full animate-ping" style="top: 80%; left: 30%; animation-duration: 3s; animation-delay: 1.5s;"></div>
+        </div>
+        
+        <!-- Resplandores de fondo -->
+        <div class="absolute inset-0 overflow-hidden opacity-40">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-cyan-500/30 rounded-full blur-[120px] animate-pulse" style="animation-duration: 3s;"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-[120px] animate-pulse" style="animation-duration: 4s; animation-delay: 1s;"></div>
+        </div>
+        
+        <!-- Contenido principal -->
         <div class="relative z-10 flex flex-col items-center space-y-6 sm:space-y-8 px-4">
-            <!-- Mascota con animación -->
+            <!-- Hexágono tecnológico con mascota -->
             <div class="relative">
-                <!-- Anillo animado alrededor de la mascota -->
+                <!-- Hexágono exterior giratorio -->
+                <svg class="absolute inset-0 w-40 h-40 sm:w-48 sm:h-48 animate-spin" style="animation-duration: 8s;" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="hexGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:rgb(6,182,212);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:rgb(168,85,247);stop-opacity:0.8" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,5 90,25 90,75 50,95 10,75 10,25" fill="none" stroke="url(#hexGrad1)" stroke-width="2" opacity="0.6"/>
+                </svg>
+                
+                <!-- Hexágono interior giratorio inverso -->
+                <svg class="absolute inset-0 w-40 h-40 sm:w-48 sm:h-48 animate-spin" style="animation-duration: 6s; animation-direction: reverse;" viewBox="0 0 100 100">
+                    <defs>
+                        <linearGradient id="hexGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:rgb(236,72,153);stop-opacity:0.8" />
+                            <stop offset="100%" style="stop-color:rgb(168,85,247);stop-opacity:0.8" />
+                        </linearGradient>
+                    </defs>
+                    <polygon points="50,15 80,30 80,70 50,85 20,70 20,30" fill="none" stroke="url(#hexGrad2)" stroke-width="2" opacity="0.4"/>
+                </svg>
+                
+                <!-- Círculo pulsante central -->
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 border-4 border-transparent border-t-cyan-400 border-r-purple-400 rounded-full animate-spin"></div>
-                </div>
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-36 h-36 sm:w-44 sm:h-44 md:w-52 md:h-52 border-4 border-transparent border-b-pink-400 border-l-purple-400 rounded-full animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                    <div class="w-32 h-32 sm:w-40 sm:h-40 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 rounded-full animate-pulse"></div>
                 </div>
                 
-                <!-- Imagen de la mascota -->
+                <!-- Mascota -->
                 <img src="assets/images/mascota-isa.png" 
                      alt="Cargando IsaChat..." 
-                     class="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 object-contain animate-float drop-shadow-[0_10px_30px_rgba(139,92,246,0.6)]">
+                     class="relative w-32 h-32 sm:w-40 sm:h-40 object-contain drop-shadow-[0_0_30px_rgba(6,182,212,0.8)] animate-float">
             </div>
             
-            <!-- Texto de carga -->
-            <div class="text-center space-y-2">
-                <h2 class="text-white text-xl sm:text-2xl md:text-3xl font-bold animate-pulse">
-                    IsaChat
+            <!-- Texto tecnológico -->
+            <div class="text-center space-y-3">
+                <h2 class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 text-2xl sm:text-3xl md:text-4xl font-bold tracking-wider" style="animation: textGlow 2s ease-in-out infinite;">
+                    ISACHAT
                 </h2>
-                <p class="text-cyan-300 text-sm sm:text-base md:text-lg font-medium">
-                    Cargando Centro de Recursos...
+                <p class="text-cyan-300/80 text-xs sm:text-sm md:text-base font-mono tracking-widest uppercase">
+                    [ INICIALIZANDO SISTEMA ]
                 </p>
             </div>
             
-            <!-- Puntos de carga mejorados -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-full animate-bounce shadow-lg shadow-cyan-500/50"></div>
-                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-purple-400 to-purple-500 rounded-full animate-bounce shadow-lg shadow-purple-500/50" style="animation-delay: 0.1s;"></div>
-                <div class="w-3 h-3 sm:w-4 sm:h-4 bg-gradient-to-r from-pink-400 to-pink-500 rounded-full animate-bounce shadow-lg shadow-pink-500/50" style="animation-delay: 0.2s;"></div>
+            <!-- Barra de progreso futurista -->
+            <div class="relative w-56 sm:w-72 md:w-96">
+                <!-- Barra contenedora -->
+                <div class="h-1 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm border border-cyan-500/30">
+                    <div class="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-progress shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+                </div>
+                <!-- Indicadores laterales -->
+                <div class="absolute -left-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse"></div>
+                <div class="absolute -right-2 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-pink-400 rounded-full animate-pulse" style="animation-delay: 0.5s;"></div>
             </div>
             
-            <!-- Barra de progreso -->
-            <div class="w-48 sm:w-64 md:w-80 h-1.5 sm:h-2 bg-gray-800/50 rounded-full overflow-hidden backdrop-blur-sm">
-                <div class="h-full bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 animate-progress shadow-lg"></div>
+            <!-- Porcentaje de carga (opcional) -->
+            <div class="text-cyan-400/60 text-xs sm:text-sm font-mono tracking-wider animate-pulse">
+                &gt; CARGANDO RECURSOS_
             </div>
         </div>
     </div>
@@ -212,6 +251,13 @@
                 <a href="#recursos" class="nav-item">FAQ</a>
                 <a href="#prompt-base" class="nav-item">Aprende Prompt</a>
             </nav>
+            
+            <!-- Indicador de país del visitante (EXPERIMENTAL - fácil de quitar) -->
+            <div id="country-indicator" style="display: none; align-items: center; gap: 0.25rem;" title="Tu ubicación">
+                <span id="country-flag" style="font-size: 1.1rem; line-height: 1;"></span>
+                <span id="country-name" style="font-size: 0.65rem; color: rgba(255, 255, 255, 0.8); font-weight: 600;"></span>
+            </div>
+            
             <a href="https://isachat.com/register" class="cta-btn" target="_blank">Registro</a>
             <button class="mobile-toggle" id="mobileToggle">
                 <span></span><span></span><span></span>

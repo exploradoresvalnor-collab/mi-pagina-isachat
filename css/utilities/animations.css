@@ -136,7 +136,11 @@ select {
     animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* Preloader / Loading Screen */
+/* Preloader / Loading Screen - optimizado para carga rápida */
+#preloader {
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
 #preloader.hidden {
     opacity: 0;
     visibility: hidden;
@@ -186,4 +190,27 @@ select {
 .animate-fade-in-up {
     animation: fade-in-up 0.8s ease-out forwards;
     opacity: 0;
+}
+
+/* Animaciones tecnológicas del preloader */
+@keyframes gridMove {
+    0% {
+        transform: translateY(0) translateX(0);
+    }
+    100% {
+        transform: translateY(50px) translateX(50px);
+    }
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(6, 182, 212, 0.5),
+                     0 0 20px rgba(6, 182, 212, 0.3),
+                     0 0 30px rgba(6, 182, 212, 0.2);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(6, 182, 212, 0.8),
+                     0 0 30px rgba(6, 182, 212, 0.6),
+                     0 0 40px rgba(6, 182, 212, 0.4);
+    }
 }
