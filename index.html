@@ -101,6 +101,14 @@
         .animation-delay-300 { animation-delay: 300ms; }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
+        /* Modal + backdrop animations for social banner */
+        .modal-animate{ transition: transform .42s cubic-bezier(.2,.9,.2,1), opacity .28s ease; transform: translateY(12px) scale(.98); opacity: 0; }
+        .modal-animate.show{ transform: translateY(0) scale(1); opacity: 1; }
+        .modal-animate.hide{ transform: translateY(12px) scale(.98); opacity: 0; }
+
+        .backdrop-animate{ transition: opacity .35s ease; opacity: 0; }
+        .backdrop-animate.show{ opacity: 1; }
+        .backdrop-animate.hide{ opacity: 0; }
     </style>
     
     <link rel="stylesheet" href="css/components/navigation.css">
@@ -114,6 +122,7 @@
 
     <!-- Precarga de recursos críticos -->
     <link rel="preload" as="image" href="assets/images/redneu.png">
+    <link rel="preload" as="image" href="assets/images/seguir.webp">
     <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/poppins/v20/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" crossorigin>
 
     <script type="application/ld+json">
@@ -280,10 +289,9 @@
         <!-- Hero Section con diseño limpio -->
         <section id="hero" class="relative min-h-[85vh] lg:min-h-[90vh] flex items-center pt-16 sm:pt-20 md:pt-24 lg:pt-28 pb-8 sm:pb-12 md:pb-16 overflow-hidden">
             
-            <!-- Imagen de fondo con overlay reducido -->
-            <div class="absolute inset-0 z-0">
-                <img src="assets/images/redneu.png" alt="Fondo" class="w-full h-full object-cover">
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/60 via-purple-900/60 to-pink-800/60"></div>
+            <!-- Imagen de fondo limpia: usamos directamente redneu.png sin overlays -->
+            <div class="absolute inset-0 z-0" aria-hidden="true">
+                <img src="assets/images/redneu.png" alt="" class="w-full h-full object-cover" loading="eager">
             </div>
 
             <div class="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative z-10">
@@ -293,27 +301,24 @@
                     <div class="space-y-3 sm:space-y-4 md:space-y-5 lg:space-y-6 text-center lg:text-left order-2 lg:order-1">
                         <!-- Título en 2 LÍNEAS -->
                         <h1 class="font-bold leading-tight">
-                            <span class="block text-white text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mb-2 animate-fade-in-up">
+                            <span class="block text-white text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl mb-2 animate-fade-in-up">
                                 Centro de Recursos
                             </span>
-                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-pink-400 text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl animate-fade-in-up" style="animation-delay: 0.2s;">
+                            <span class="block text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-pink-400 text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl animate-fade-in-up" style="animation-delay: 0.2s;">
                                 IsaChat
                             </span>
                         </h1>
                         
                         <!-- Subtítulo -->
-                        <p class="text-sm sm:text-base md:text-base lg:text-lg text-cyan-300 font-semibold px-4 lg:px-0 animate-fade-in-up" style="animation-delay: 0.4s;">
+                        <p id="hero-sub" class="text-base sm:text-lg md:text-lg lg:text-xl text-cyan-300 font-semibold px-4 lg:px-0 animate-fade-in-up" style="animation-delay: 0.4s;">
                             Tu espacio de aprendizaje y soporte.
                         </p>
                         
-                        <!-- Descripción -->
-                        <p class="text-xs sm:text-sm md:text-sm lg:text-base text-gray-300 leading-relaxed max-w-xl mx-auto lg:mx-0 px-4 lg:px-0 animate-fade-in-up" style="animation-delay: 0.6s;">
-                            Aquí encontrarás todas las clases grabadas, respuestas a preguntas frecuentes y la información que necesitas para dominar IsaChat.
-                        </p>
+                        <!-- Descripción (eliminada por solicitud del usuario) -->
                         
                         <!-- Botón CTA -->
                         <div class="flex justify-center lg:justify-start pt-1 sm:pt-2 animate-fade-in-up" style="animation-delay: 0.8s;">
-                            <a href="#recursos" 
+                            <a href="#recursos" role="button" aria-describedby="hero-sub"
                                class="group inline-flex flex-col items-center gap-0.5 px-6 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 text-sm sm:text-base md:text-base font-bold text-white bg-gradient-to-r from-cyan-500 via-blue-500 to-pink-500 rounded-xl sm:rounded-xl shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/60 hover:scale-105 transition-all duration-300 relative overflow-hidden">
                                 <!-- Efecto de brillo animado -->
                                 <span class="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
@@ -345,20 +350,26 @@
                                 
                                 <!-- Track -->
                                 <div class="carousel-track relative h-full w-full overflow-hidden rounded-full">
-                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                    <div class="carousel-slide absolute inset-0 opacity-100 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4" data-slide="0">
                                         <img src="assets/images/mascota-isa.png" 
+                                             srcset="assets/images/mascota-isa.png 400w, assets/images/mascota-isa.png 800w"
+                                             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 360px"
                                              alt="Mascota IsaChat" 
                                              class="w-full h-full object-contain drop-shadow-[0_10px_60px_rgba(6,182,212,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
                                              loading="lazy">
                                     </div>
-                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4" data-slide="1">
                                         <img src="assets/images/1.png" 
+                                             srcset="assets/images/1.png 400w, assets/images/1.png 800w"
+                                             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 360px"
                                              alt="Mascota IsaChat variante 1" 
                                              class="w-full h-full object-contain drop-shadow-[0_10px_60px_rgba(168,85,247,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
                                              loading="lazy">
                                     </div>
-                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4">
+                                    <div class="carousel-slide absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out flex items-center justify-center p-4" data-slide="2">
                                         <img src="assets/images/2.png" 
+                                             srcset="assets/images/2.png 400w, assets/images/2.png 800w"
+                                             sizes="(max-width: 640px) 60vw, (max-width: 1024px) 40vw, 360px"
                                              alt="Mascota IsaChat variante 2" 
                                              class="w-[85%] h-[85%] object-contain drop-shadow-[0_10px_60px_rgba(236,72,153,0.7)] filter brightness-110 transform hover:scale-110 transition-all duration-500"
                                              loading="lazy">
@@ -387,6 +398,8 @@
             </div>
         </section>
 
+        <!-- Instagram section and widgets removed as requested -->
+
         <!-- Sección: Inicio Rápido (video arriba, tarjetas mejoradas abajo) -->
         <section id="guia-visual" class="py-20 bg-gradient-to-b from-white to-purple-50">
             <div class="container mx-auto px-4 lg:px-8">
@@ -399,90 +412,87 @@
                     <p class="text-[1.15rem] md:text-lg text-gray-600 max-w-xl mx-auto" style="font-size:1.18rem;">Mira el video y sigue los 5 pasos esenciales para tener tu asistente funcionando. Todo lo vital, sin rodeos.</p>
                 </div>
 
-                <!-- Video principal arriba, más aire y proporción -->
-                <div class="w-full max-w-2xl mx-auto mb-12 flex flex-col items-center">
-                    <div class="w-full rounded-2xl overflow-hidden border-4 border-purple-200 shadow-2xl relative group" style="aspect-ratio: 16/9; min-height: 260px; background: #fff;">
-                        <iframe id="video-configuracion" src="https://drive.google.com/file/d/1g6oulP0yXNsc0YwvzMelBHXB5F9C9eWw/preview" title="Video de configuración inicial IsaChat" allowfullscreen loading="lazy" class="w-full h-full min-h-[260px]" style="border:0;"></iframe>
-                        <!-- Overlay decorativo -->
-                        <div id="video-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-purple-700/60 to-pink-400/40 backdrop-blur-sm cursor-pointer transition-opacity duration-300 z-10">
-                            <div class="rounded-full bg-white/80 shadow-lg p-4 hover:scale-110 transition-transform">
-                                <svg class="w-16 h-16 text-purple-600 animate-pulse" fill="currentColor" viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#fff" opacity="0.7"/><polygon points="26,20 48,32 26,44" fill="#a21caf"/></svg>
+                <!-- Video principal y explicación: ahora a ancho completo con layout responsivo -->
+                <div class="w-full mx-auto mb-8">
+                    <div class="max-w-7xl mx-auto px-4 lg:px-0">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                            <!-- Columna principal: explicación amplia (2/3 en pantallas grandes) -->
+                            <div class="lg:col-span-2">
+                                <div class="rounded-2xl p-6 bg-white/80 border border-white/10 shadow-sm">
+                                    <div class="prose prose-neutral text-gray-800 max-w-none">
+                                        <h3 class="text-xl font-semibold">Inicio rápido</h3>
+                                        <p>Estos son los pasos esenciales para poner Isa en marcha de forma rápida y ordenada. La información está distribuida para aprovechar las laterales en pantallas amplias y facilitar la lectura.</p>
+
+                                        <ol class="mt-3 space-y-3 list-decimal ml-6">
+                                            <li class="flex items-start gap-3">
+                                                <svg class="w-5 h-5 text-blue-600 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle>
+                                                    <path d="M8 12l2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                                                </svg>
+                                                <span><strong>Revisa tus ajustes</strong>: confirma lenguaje, número Admin y datos en <code>data/config.json</code>.</span>
+                                            </li>
+                                            <li class="flex items-start gap-3">
+                                                <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"></rect>
+                                                    <path d="M8 12h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                                </svg>
+                                                <span><strong>Conecta tu WhatsApp</strong>: sigue la sección de Conexión y escanea el QR cuando se requiera.</span>
+                                            </li>
+                                            <li class="flex items-start gap-3">
+                                                <svg class="w-5 h-5 text-yellow-600 flex-shrink-0 mt-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                    <path d="M12 2v20" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                                    <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+                                                </svg>
+                                                <span><strong>Prueba rápida</strong>: envía mensajes de prueba desde un número cliente y verifica respuestas.</span>
+                                            </li>
+                                        </ol>
+
+                                        <p class="mt-4">Si prefieres ver la guía en vídeo, tienes el enlace al tutorial en el panel lateral derecho. Abre en una nueva pestaña si tu navegador bloquea la reproducción embebida.</p>
+                                    </div>
+                                </div>
                             </div>
-                            <span class="mt-4 text-white text-lg font-semibold drop-shadow">Haz clic para reproducir</span>
+
+                            <!-- Columna derecha: enlace al tutorial (1/3) -->
+                            <div class="lg:col-span-1 flex items-start lg:items-center">
+                                <div class="w-full rounded-2xl p-6 bg-white/90 border border-gray-200 shadow-lg flex flex-col items-center text-center">
+                                    <div class="mb-3 text-sm text-gray-600">Guía en vídeo</div>
+                                    <div class="w-full bg-gradient-to-br from-white/60 to-white/30 rounded-xl p-4">
+                                        <a href="https://drive.google.com/file/d/1g6oulP0yXNsc0YwvzMelBHXB5F9C9eWw/view" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-3 px-4 py-3 rounded-md bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-shadow focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                                <path d="M5 3v18l15-9L5 3z" fill="currentColor"></path>
+                                            </svg>
+                                            Abrir tutorial (Drive)
+                                        </a>
+                                    </div>
+
+                                    <p class="mt-3 text-xs text-gray-500">Si no se reproduce, prueba en modo incógnito o desactiva bloqueadores.</p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-    <style>
-    #video-overlay { transition: opacity 0.3s; }
-    #video-overlay[hidden] { opacity: 0; pointer-events: none; }
-    </style>
-    <script>
-    // Overlay play para video de configuración
-    document.addEventListener('DOMContentLoaded', function() {
-        var overlay = document.getElementById('video-overlay');
-        var iframe = document.getElementById('video-configuracion');
-        if (overlay && iframe) {
-            overlay.addEventListener('click', function() {
-                overlay.setAttribute('hidden', 'true');
-                // Forzar reproducción: recargar el iframe con autoplay si es posible
-                var src = iframe.getAttribute('src');
-                if (!src.includes('autoplay=1')) {
-                    if (src.includes('preview')) {
-                        src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
-                    } else {
-                        src += '?autoplay=1';
-                    }
-                    iframe.setAttribute('src', src);
-                }
-            });
-        }
-    });
-    </script>
-                    <div class="mt-4 text-center">
-                        <h3 class="text-lg font-semibold text-gray-900">Video: Configuración inicial paso a paso</h3>
-                        <p class="text-gray-600 text-sm mt-1">Aprende a registrar tu número, configurar notificaciones y conectar IsaChat a WhatsApp.</p>
                     </div>
                 </div>
 
-                <!-- Tarjetas de pasos abajo, 2x2 + 1 centrada -->
-                <div class="max-w-5xl mx-auto flex flex-col gap-8">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Paso 1 -->
-                        <div class="bg-white border-2 border-purple-200 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300">
-                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white text-3xl font-bold mb-5 shadow-lg">1</div>
-                            <h4 class="font-semibold text-xl text-gray-900 mb-3">Configura tu número de administración</h4>
-                            <p class="text-gray-600 text-base text-justify">Ingresa el número exclusivo para administrar IsaChat. No es para atención al cliente; servirá como control y para notificaciones internas.</p>
-                        </div>
-
-                        <!-- Paso 2 -->
-                        <div class="bg-white border-2 border-cyan-200 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300">
-                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-emerald-400 text-white text-3xl font-bold mb-5 shadow-lg">2</div>
-                            <h4 class="font-semibold text-xl text-gray-900 mb-3">Mensaje de bienvenida</h4>
-                            <p class="text-gray-600 text-base text-justify">Redacta un saludo claro y una llamada a la acción. Usa texto corto y amigable; puedes activar la imagen de bienvenida desde ajustes.</p>
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <!-- Paso 3 -->
-                        <div class="bg-white border-2 border-emerald-200 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300">
-                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-cyan-400 text-white text-3xl font-bold mb-5 shadow-lg">3</div>
-                            <h4 class="font-semibold text-xl text-gray-900 mb-3">Entrena tu Isa</h4>
-                            <p class="text-gray-600 text-base text-justify">Agrega la personalidad y reglas del asistente en 'Entrena tu Isa'. Guarda y prueba cambios con conversaciones reales.</p>
-                        </div>
-
-                        <!-- Paso 4 -->
-                        <div class="bg-white border-2 border-pink-200 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300">
-                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-400 text-white text-3xl font-bold mb-5 shadow-lg">4</div>
-                            <h4 class="font-semibold text-xl text-gray-900 mb-3">Conecta con WhatsApp</h4>
-                            <p class="text-gray-600 text-base text-justify">Escanea el código QR en 'Conexión'. Mantén tu teléfono cerca y verifica la conexión en la plataforma.</p>
-                        </div>
-                    </div>
-                    <div class="flex justify-center">
-                        <!-- Paso 5 -->
-                        <div class="bg-white border-2 border-violet-200 rounded-2xl shadow-xl p-8 flex flex-col items-center text-center hover:shadow-2xl transition-all duration-300 w-full md:w-2/3 lg:w-1/2">
-                            <div class="w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-pink-400 text-white text-3xl font-bold mb-5 shadow-lg">5</div>
-                            <h4 class="font-semibold text-xl text-gray-900 mb-3">Crea y gestiona productos</h4>
-                            <p class="text-gray-600 text-base text-justify">Agrega productos desde el panel, completa nombre, descripción y precios. Usa nombres exactos en tus prompts para mejor reconocimiento.<br><span class='font-mono text-xs'>Ejemplo: Productos Disponibles: Shampoo Nutritivo, Jabón Natural</span></p>
-                        </div>
-                    </div>
+                <!-- Pasos esenciales (lista simplificada, sin tarjetas) -->
+                <div class="max-w-3xl mx-auto text-gray-800 prose lg:prose-lg px-4">
+                    <h3>Pasos esenciales para empezar</h3>
+                    <p>Accede a estos pasos para tener Isa funcionando rápidamente. Son sencillos y están pensados para leer de un vistazo.</p>
+                    <ol class="mt-4 space-y-4 list-decimal list-inside">
+                        <li>
+                            <strong>Configura tu número de administración:</strong> ingresa el número exclusivo de administración en el panel para recibir notificaciones y controlar tu agente.
+                        </li>
+                        <li>
+                            <strong>Mensaje de bienvenida:</strong> redacta un saludo breve y claro que active la conversación con tus clientes.
+                        </li>
+                        <li>
+                            <strong>Entrena tu Isa:</strong> añade la personalidad y reglas principales en 'Entrena tu Isa' y prueba las respuestas.
+                        </li>
+                        <li>
+                            <strong>Conecta con WhatsApp:</strong> escanea el QR en 'Conexión' y verifica que el canal esté activo desde tu teléfono.
+                        </li>
+                        <li>
+                            <strong>Crea y gestiona productos:</strong> agrega productos desde el panel con nombre, precio y descripción; revisa imágenes y variantes antes de sincronizar.
+                        </li>
+                    </ol>
                 </div>
             </div>
         </section>
@@ -504,8 +514,14 @@
 
             <!-- Grid decorativo de fondo -->
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff15_1px,transparent_1px),linear-gradient(to_bottom,#ffffff15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+            <!-- Arco decorativo superior (respetar espacio y bordes) -->
+            <div class="absolute inset-x-0 -top-24 pointer-events-none" aria-hidden="true">
+                <svg class="w-full h-28 text-white/10" viewBox="0 0 1440 120" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 80 C 200 0, 400 0, 720 60 C 1040 120, 1240 120, 1440 80 L1440 0 L0 0 Z" fill="currentColor" opacity="0.06"></path>
+                </svg>
+            </div>
 
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 relative z-20">
                 <!-- Encabezado mejorado -->
                 <div class="text-center max-w-5xl mx-auto mb-12 sm:mb-16 lg:mb-20">
                     <!-- Badge superior -->
@@ -610,134 +626,45 @@
                             </div>
                         </div>
 
-                        <!-- Lado derecho: Pasos de integración -->
-                        <div class="space-y-5 sm:space-y-6 order-1 lg:order-2">
-                            <!-- Paso 1 -->
-                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.6s;">
-                                <!-- Glow en hover -->
-                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
-                                
-                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-green-500 transition-all duration-300 shadow-lg hover:shadow-xl">
-                                    <div class="flex items-start gap-4">
-                                        <!-- Número con gradiente -->
-                                        <div class="flex-shrink-0 relative">
-                                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl blur-md opacity-50"></div>
-                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
-                                                1
-                                            </div>
-                                        </div>
+                        <!-- Lado derecho: explicación simplificada con vectores + texto -->
+                        <div class="space-y-6 order-1 lg:order-2">
+                            <article class="prose prose-sm sm:prose lg:prose-lg max-w-none text-gray-800 bg-white/80 p-6 rounded-2xl shadow-md">
+                                <h3 class="text-xl font-bold">Conexión con MasterShop</h3>
+                                <p>Si usas MasterShop puedes vincular tu cuenta con IsaChat para sincronizar tu catálogo y vender automáticamente. A continuación tienes los pasos principales de forma compacta.</p>
 
-                                        <div class="flex-1 min-w-0">
-                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
-                                                <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                </svg>
-                                                <span class="break-words">Obtén tu API Key en MasterShop</span>
-                                            </h3>
-                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
-                                                En MasterShop, ve al botón <span class="font-bold text-gray-900">Configuración</span> → <span class="font-bold text-gray-900">API Keys</span> → <span class="font-bold text-green-700">Nueva API Key</span>. Copia la clave generada.
-                                            </p>
+                                <div class="flex items-start gap-4 mt-4">
+                                    <svg class="w-8 h-8 text-green-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <div>
+                                        <h4 class="font-semibold">1. Obtener la API Key</h4>
+                                        <p class="text-sm text-gray-700">En MasterShop ve a <strong>Configuración → API Keys → Nueva API Key</strong>. Copia la clave y pégala en IsaChat en <strong>Proveedor de Productos → MasterShop</strong>.</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4 mt-3">
+                                    <svg class="w-8 h-8 text-cyan-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="7" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                    <div>
+                                        <h4 class="font-semibold">2. Configurar en IsaChat</h4>
+                                        <p class="text-sm text-gray-700">En IsaChat selecciona <strong>Proveedor de Productos → Productos → MasterShop</strong>, pega la API Key y guarda. Luego prueba la sincronización.</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-start gap-4 mt-3">
+                                    <svg class="w-8 h-8 text-emerald-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 8v8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                                    <div>
+                                        <h4 class="font-semibold">3. Sincronizar productos</h4>
+                                        <p class="text-sm text-gray-700">Haz clic en <strong>Obtener Productos</strong> y espera a que el catálogo se sincronice. Asegúrate de que los productos estén correctamente configurados en MasterShop antes de sincronizar.</p>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 p-4 bg-yellow-50 border border-yellow-300 rounded-lg">
+                                    <div class="flex items-start gap-3">
+                                        <div class="text-2xl">💡</div>
+                                        <div>
+                                            <p class="text-sm text-gray-800"><strong>Requisito:</strong> Ten tus productos cargados en MasterShop antes de sincronizar. Si hay variaciones o múltiples imágenes, revisa los datos antes de iniciar la sincronización.</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Paso 2 -->
-                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.7s;">
-                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
-                                
-                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-lime-500 transition-all duration-300 shadow-lg hover:shadow-xl">
-                                    <div class="flex items-start gap-4">
-                                        <div class="flex-shrink-0 relative">
-                                            <div class="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl blur-md opacity-50"></div>
-                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
-                                                2
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-1 min-w-0">
-                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
-                                                <svg class="w-5 h-5 text-lime-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                                </svg>
-                                                <span class="break-words">Configura en IsaChat</span>
-                                            </h3>
-                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed mb-3">
-                                                En IsaChat, ve a <span class="font-bold text-gray-900">Proveedor de Productos</span> → <span class="font-bold text-gray-900">Productos</span> → Elige <span class="font-bold text-green-700">MasterShop</span>.
-                                            </p>
-                                            <ul class="space-y-2">
-                                                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
-                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    <span>Haz clic en <strong class="text-gray-900">Configuración MasterShop</strong></span>
-                                                </li>
-                                                <li class="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700">
-                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    <span>Pega tu API Key y guarda</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Paso 3 -->
-                            <div class="group relative animate-fade-in-up" style="animation-delay: 0.8s;">
-                                <div class="absolute -inset-0.5 bg-gradient-to-r from-white to-gray-200 rounded-2xl opacity-0 group-hover:opacity-30 blur transition-all duration-300"></div>
-                                
-                                <div class="relative bg-white/95 backdrop-blur-xl border border-gray-300 rounded-2xl p-5 sm:p-6 hover:border-emerald-500 transition-all duration-300 shadow-lg hover:shadow-xl">
-                                    <div class="flex items-start gap-4">
-                                        <div class="flex-shrink-0 relative">
-                                            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl blur-md opacity-50"></div>
-                                            <div class="relative w-11 h-11 sm:w-12 sm:h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center text-white font-black text-lg sm:text-xl shadow-xl">
-                                                3
-                                            </div>
-                                        </div>
-
-                                        <div class="flex-1 min-w-0">
-                                            <h3 class="text-lg sm:text-xl font-bold text-gray-900 mb-2 sm:mb-3 flex items-center gap-2 flex-wrap">
-                                                <svg class="w-5 h-5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                                                </svg>
-                                                <span class="break-words">Sincroniza tus Productos</span>
-                                            </h3>
-                                            <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
-                                                Haz clic en el botón <span class="font-bold text-gray-900">Obtener Productos</span>. Asegúrate de tener los productos ya cargados en MasterShop. <span class="font-semibold text-green-700">La sincronización es automática.</span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Nota importante mejorada -->
-                            <div class="relative group animate-fade-in-up" style="animation-delay: 0.9s;">
-                                <div class="absolute -inset-0.5 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-2xl opacity-20 blur"></div>
-                                
-                                <div class="relative bg-yellow-50 border-2 border-yellow-400 rounded-2xl p-4 sm:p-5 shadow-lg">
-                                    <div class="flex items-start gap-3 sm:gap-4">
-                                        <div class="flex-shrink-0">
-                                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
-                                                <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                        <div class="flex-1">
-                                            <h4 class="text-base sm:text-lg font-bold text-gray-900 mb-1.5 sm:mb-2 flex items-center gap-2">
-                                                <span>💡</span>
-                                                <span>Requisito Previo</span>
-                                            </h4>
-                                            <p class="text-xs sm:text-sm text-gray-800 leading-relaxed">
-                                                Debes tener tus productos <strong class="text-orange-700">previamente cargados en MasterShop</strong> antes de realizar la sincronización con IsaChat.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </article>
                         </div>
                     </div>
                 </div>
@@ -979,7 +906,7 @@ si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda n
                 <a href="#hero" class="footer-logo">
                     <img src="assets/images/IsaChatlogo.svg" alt="IsaChat Logo">
                 </a>
-                <p>Optimiza la gestión de tu negocio con nuestra solución de automatización de ventas. Configuración sencilla, integración con plataformas de envíos y un asistente multitarea que gestiona citas, pedidos y consultas. Impulsa tus ventas online y personaliza la experiencia de tus clientes con ISA.</p>
+                <p>Automatiza tu negocio con IsaChat: configura rápido, sincroniza tu catálogo y gestiona pedidos automáticamente.</p>
             </div>
             <div class="footer-contact">
                 <div class="footer-contact-item">
@@ -991,6 +918,14 @@ si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda n
                     <a href="tel:+573143732283">3143732283</a>
                 </div>
             </div>
+            <div class="footer-social" aria-label="Redes sociales">
+                <a href="https://www.facebook.com/profile.php?id=61582946123070" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Facebook">
+                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="https://www.instagram.com/isachat_ia" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                    <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+            </div>
         </div>
     </footer>
     
@@ -1000,11 +935,334 @@ si el cliente pregunta si somos un robot o una ia indicale que somos la Tienda n
         <img src="assets/images/mascota-isa.png" alt="Asistente Isa" id="sticky-mascot-img">
     </div>
 
-    <a href="#hero" id="back-to-top" class="back-to-top" aria-label="Volver arriba">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
-    </a>
-
     <script src="js/main.js" defer></script>
+
+    <!-- Widget social sencillo con Isa: imagen, redes, botón 'Síguenos' y cerrar -->
+    <div id="social-mascot-widget" class="social-mascot-widget" role="dialog" aria-label="Síguenos en redes" aria-hidden="true">
+        <button id="sm-close" class="sm-close" aria-label="Cerrar">×</button>
+        <div class="sm-top">
+            <img src="assets/images/mascota-isa.png" alt="Isa" class="sm-isa" loading="lazy">
+        </div>
+        <div class="sm-body">
+            <div class="sm-title">Síguenos</div>
+            <div class="sm-links">
+                <a href="https://www.facebook.com/profile.php?id=61582946123070" target="_blank" rel="noopener noreferrer" class="sm-link" aria-label="Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="sm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+                <a href="https://www.instagram.com/isachat_ia" target="_blank" rel="noopener noreferrer" class="sm-link" aria-label="Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="sm-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+            </div>
+            <a href="https://www.instagram.com/isachat_ia" target="_blank" rel="noopener noreferrer" class="sm-follow-btn">Seguir</a>
+        </div>
+    </div>
+
+    <script>
+    // Small carousel initializer for hero (cambia slide cada 4s)
+    (function initHeroCarousel(){
+        try{
+            var track = document.querySelector('.carousel-track');
+            if(!track) return;
+            var slides = Array.from(track.querySelectorAll('.carousel-slide'));
+            var current = slides.findIndex(s => s.classList.contains('opacity-100'));
+            if(current < 0) current = 0;
+            slides.forEach(function(s, i){ s.dataset.index = i; });
+            var nextIndex = function(){ return (current + 1) % slides.length; };
+            function goTo(idx){
+                slides.forEach(function(s){ s.classList.remove('opacity-100'); s.classList.add('opacity-0'); });
+                slides[idx].classList.remove('opacity-0');
+                slides[idx].classList.add('opacity-100');
+                current = idx;
+            }
+            // auto play
+            var carouselTimer = setInterval(function(){ goTo(nextIndex()); }, 4000);
+            // pause on focus/hover
+            track.addEventListener('mouseenter', function(){ clearInterval(carouselTimer); });
+            track.addEventListener('mouseleave', function(){ carouselTimer = setInterval(function(){ goTo(nextIndex()); }, 4000); });
+        }catch(e){ console.error('carousel init', e); }
+    })();
+
+    (function(){
+        var smDebug = false; // poner true para ver logs
+
+        function attachClose(){
+            var sm = document.getElementById('social-mascot-widget');
+            var btn = document.getElementById('sm-close');
+            if (!sm || !btn) return;
+            btn.addEventListener('click', function() {
+                sm.classList.remove('visible');
+                setTimeout(function(){ sm.style.display = 'none'; sm.setAttribute('aria-hidden','true'); }, 420);
+            });
+        }
+
+        function showWidget(){
+            var sm = document.getElementById('social-mascot-widget');
+            if(!sm) return;
+            sm.style.zIndex = 10050;
+            sm.style.display = 'flex';
+            void sm.offsetWidth;
+            sm.classList.add('visible');
+            sm.setAttribute('aria-hidden','false');
+        }
+
+        // Small toast for confirmations (with icon)
+        function showToast(message, timeout){
+            timeout = timeout || 2500;
+            var t = document.getElementById('sb-toast');
+            if(!t) return;
+            var icon = '<svg class="w-5 h-5 inline-block mr-2 align-middle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"></path></svg>';
+            t.innerHTML = icon + '<span class="align-middle">' + message + '</span>';
+            t.classList.remove('hidden','opacity-0','translate-y-4');
+            t.classList.add('opacity-100','translate-y-0');
+            // reset
+            clearTimeout(t._hideTimer);
+            t._hideTimer = setTimeout(function(){
+                t.classList.remove('opacity-100','translate-y-0');
+                t.classList.add('opacity-0','translate-y-4');
+                setTimeout(function(){ t.classList.add('hidden'); }, 260);
+            }, timeout);
+        }
+
+        // BANNER GRANDE
+        function attachBannerClose(){
+            var closeBtn = document.getElementById('sb-close');
+            var backdrop = document.getElementById('social-banner-backdrop');
+            var banner = document.getElementById('social-banner');
+            if(!closeBtn || !banner || !backdrop) return;
+
+            var _tabTrap = null;
+
+            function doClose(){
+                // store preference if checkbox checked
+                try{
+                    var dont = document.getElementById('sb-dont-show');
+                    if(dont && dont.checked){ localStorage.setItem('sb_dont_show','1'); }
+                }catch(e){}
+
+                // graceful animate out using hide classes
+                try{
+                    // remove 'show' to trigger CSS transition
+                    banner.classList.remove('show');
+                    backdrop.classList.remove('show');
+                    // add hide state for clarity
+                    banner.classList.add('hide');
+                    backdrop.classList.add('hide');
+                }catch(e){}
+
+                setTimeout(function(){
+                    banner.style.display = 'none';
+                    backdrop.style.display = 'none';
+                    banner.setAttribute('aria-hidden','true');
+                    // cleanup animation classes
+                    banner.classList.remove('modal-animate','hide');
+                    backdrop.classList.remove('backdrop-animate','hide');
+                    // remove focus trap
+                    if(_tabTrap) document.removeEventListener('keydown', _tabTrap);
+                    // show confirmation toast if user opted not to see again
+                    try{
+                        if(dont && dont.checked){ showToast('Perfecto — no volveremos a mostrar este banner'); }
+                    }catch(e){}
+                }, 380);
+            }
+
+            closeBtn.addEventListener('click', function(){ doClose(); });
+            // tap on backdrop also closes
+            backdrop.addEventListener('click', function(e){ if(e.target===backdrop){ doClose(); } });
+
+            // close on Escape
+            document.addEventListener('keydown', function(e){ if(e.key === 'Escape'){ if(banner && banner.style.display !== 'none'){ doClose(); } } });
+
+            // si el usuario pulsa 'Seguir', abrimos la red y cerramos el banner
+            var followBtn = document.getElementById('sb-follow');
+            if(followBtn){
+                followBtn.addEventListener('click', function(){
+                    setTimeout(function(){ try{ closeBtn.click(); }catch(e){} }, 220);
+                });
+            }
+
+            // confirmation toast when user toggles 'No mostrar de nuevo'
+            try{
+                var dont = document.getElementById('sb-dont-show');
+                if(dont){
+                    dont.addEventListener('change', function(){
+                        if(dont.checked){
+                            showToast('Perfecto — no volveremos a mostrar este banner');
+                        } else {
+                            showToast('OK — volveremos a mostrar el banner');
+                        }
+                    });
+                }
+            }catch(e){}
+        }
+
+        function showBanner(){
+            var backdrop = document.getElementById('social-banner-backdrop');
+            var banner = document.getElementById('social-banner');
+            if(!banner || !backdrop) return;
+
+            // respect "no mostrar de nuevo"
+            try{ if(localStorage.getItem('sb_dont_show') === '1') return; }catch(e){}
+
+            backdrop.style.zIndex = 10990;
+            banner.style.zIndex = 11000;
+
+            // prepare initial state
+            backdrop.classList.remove('hidden');
+            banner.classList.remove('hidden');
+            backdrop.style.display = 'flex';
+            banner.style.display = 'flex';
+
+            // initial invisible state (use animation helper classes)
+            // attach animation classes
+            banner.classList.add('modal-animate');
+            backdrop.classList.add('backdrop-animate');
+
+            // force reflow then trigger show state
+            void banner.offsetWidth;
+            requestAnimationFrame(function(){
+                banner.classList.add('show');
+                backdrop.classList.add('show');
+            });
+
+            banner.setAttribute('aria-hidden','false');
+            // ensure close button gets focus for accessibility
+            setTimeout(function(){
+                var closeBtn = document.getElementById('sb-close');
+                if(closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+            }, 350);
+
+            // small focus-trap: keep Tab inside modal
+            try{
+                var focusablesSelector = 'a[href], button, input, textarea, select, [tabindex]:not([tabindex="-1"])';
+                var focusables = banner.querySelectorAll(focusablesSelector);
+                if(focusables && focusables.length){
+                    var first = focusables[0];
+                    var last = focusables[focusables.length-1];
+                    var trap = function(e){
+                        if(e.key === 'Tab'){
+                            if(e.shiftKey){ // shift+tab
+                                if(document.activeElement === first){ e.preventDefault(); last.focus(); }
+                            } else {
+                                if(document.activeElement === last){ e.preventDefault(); first.focus(); }
+                            }
+                        }
+                    };
+                    document.addEventListener('keydown', trap);
+                    // keep a reference to remove later
+                    // attach to banner element for closure access
+                    banner._tabTrap = trap;
+                }
+            }catch(e){}
+        }
+
+        function isPreloaderGone(pre){
+            if(!pre) return true;
+            try{ var style = window.getComputedStyle(pre); if(style.display==='none' || style.visibility==='hidden' || pre.offsetParent===null) return true; }catch(e){}
+            return false;
+        }
+
+        function whenPreloaderGone(cb){
+            var pre = document.getElementById('preloader');
+            if(!pre){ cb(); return; }
+            if(isPreloaderGone(pre)){ cb(); return; }
+            var done=false;
+            var obs = new MutationObserver(function(){ if(isPreloaderGone(pre) && !done){ done=true; cb(); obs.disconnect(); clearInterval(poll); } });
+            obs.observe(document.documentElement||document.body,{ childList:true, subtree:true });
+            var tries=0; var poll = setInterval(function(){ tries++; if(isPreloaderGone(pre) && !done){ done=true; cb(); obs.disconnect(); clearInterval(poll); } if(tries>80 && !done){ done=true; cb(); obs.disconnect(); clearInterval(poll); } },200);
+        }
+
+        window.addEventListener('load', function(){ attachClose(); attachBannerClose(); whenPreloaderGone(function(){ setTimeout(function(){ showBanner(); },350); }); // safety fallback: after 2.5s force banner
+            setTimeout(function(){ var b = document.getElementById('social-banner'); if(b && (!b.classList.contains('opacity-100') && b.style.display !== 'flex')) showBanner(); },2500);
+        });
+    })();
+    </script>
+
+    <!-- Markup del letrero grande (Tailwind) -->
+    <div id="social-banner-backdrop" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm hidden items-center justify-center" aria-hidden="true"></div>
+
+    <div id="social-banner" class="fixed inset-0 flex items-center justify-center p-4 hidden" role="dialog" aria-hidden="true">
+        <div class="relative w-[min(95vw,1100px)] max-h-[90vh] bg-gradient-to-br from-black/40 to-black/30 backdrop-blur-lg rounded-3xl shadow-2xl overflow-auto flex flex-col md:flex-row">
+            <!-- close button moved into aside header; removed duplicate absolute button -->
+
+            <!-- Media: imagen grande (izquierda) - ocultar en pantallas pequeñas para evitar que cubra el contenido -->
+            <div class="hidden md:flex md:w-1/2 w-full items-center justify-center p-6 z-10">
+                <div class="relative w-full h-full max-h-[70vh] rounded-2xl overflow-hidden p-4 bg-transparent z-10">
+                    <!-- usar object-contain para evitar cortar la mascota -->
+                    <img src="assets/images/seguir.webp" alt="Síguenos en IsaChat" class="w-full h-full object-contain rounded-2xl brightness-95" loading="lazy">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none"></div>
+                    <div class="absolute left-6 bottom-6 text-white z-20">
+                        <div class="bg-black/40 backdrop-blur-sm px-3 py-1 rounded-md text-sm font-semibold">IsaChat — Novedades y tips</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Side: título, redes y botón (derecha) - más equilibrado y accesible -->
+            <aside class="md:w-1/2 w-full bg-gradient-to-b from-white/5 to-white/3 p-6 flex flex-col justify-between z-30">
+                <div class="flex-1">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-2">Síguenos</h3>
+                            <p class="text-sm text-gray-200 mb-4">Conecta con Isa para novedades, tips y ofertas exclusivas.</p>
+                        </div>
+                        <!-- Close moved into header corner (small) -->
+                        <div class="ml-4">
+                            <button id="sb-close" class="w-9 h-9 bg-white/90 text-gray-800 rounded-md flex items-center justify-center font-bold shadow-sm" aria-label="Cerrar">×</button>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 mb-4">
+                        <a href="https://www.instagram.com/isachat_ia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-lg" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="m16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                        </a>
+                        <a href="https://www.facebook.com/profile.php?id=61582946123070" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-12 h-12 bg-white/10 hover:bg-white/20 text-white rounded-lg" aria-label="Facebook">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-5 h-5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                        </a>
+                    </div>
+
+                    <!-- Bloque promocional Yumai (debajo de las redes) - responsive mejorado -->
+                    <div class="mt-3 mb-4 w-full bg-white/6 border border-white/8 rounded-lg p-3 flex flex-col sm:flex-row items-center sm:items-start gap-3">
+                        <div class="flex items-center justify-center bg-gradient-to-br from-blue-600 to-cyan-400 rounded-lg p-2 shadow-md">
+                            <img src="assets/images/yumailogo.png" alt="Yumai" class="w-20 h-20 sm:w-16 sm:h-16 md:w-14 md:h-14 object-contain rounded-md" loading="lazy">
+                        </div>
+                        <div class="flex-1 text-center sm:text-left">
+                            <h4 class="text-lg sm:text-base font-bold text-white">Yumai — Optimiza tu negocio</h4>
+                            <p class="text-sm sm:text-xs text-gray-300 mt-1">Monitorea recursos en tiempo real y gestiona operaciones mediante APIs con WhatsApp e inteligencia artificial. Automatiza pedidos, pagos y comunicaciones para reducir tiempos y costos.</p>
+                            <div class="mt-3">
+                                <a href="https://yumai.com.co/home" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-3 py-2 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold shadow-lg">
+                                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                        <path d="M12 7v10m5-5H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    Conoce Yumai
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2">
+                        <a id="sb-follow" href="https://www.instagram.com/isachat_ia" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-isa-purple to-isa-pink text-white font-bold rounded-xl shadow-lg hover:scale-[1.01] transition-transform"> 
+                            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+                                <path d="M12 7v10m5-5H7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Seguir en Instagram
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-4 flex items-center justify-between text-sm text-gray-300">
+                    <label class="inline-flex items-center gap-3">
+                        <input id="sb-dont-show" type="checkbox" class="w-4 h-4 rounded bg-white/5 border-gray-600" />
+                        <span>No mostrar de nuevo</span>
+                    </label>
+                    <div class="text-xs text-gray-400">Abrir en nueva pestaña si hay bloqueo</div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Instagram embeds removed -->
+
+    <!-- Toast: confirmation pequeño -->
+    <div id="sb-toast" class="hidden fixed bottom-6 right-6 z-50 bg-isa-purple text-white px-4 py-2 rounded-lg shadow-lg opacity-0 transform translate-y-4 transition-all duration-200 pointer-events-none"></div>
 
 
 </body>
